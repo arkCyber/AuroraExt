@@ -1,7 +1,7 @@
 {
     "heading": "Chrome AIの設定",
     "status": {
-        "label": "Page AssistでChrome AIサポートを有効または無効にする"
+        "label": "AuroraでChrome AIサポートを有効または無効にする"
     },
     "error": {
         "browser_not_supported": "このバージョンのChromeはGemini Nanoモデルに対応していません。バージョン127以降に更新してください。",

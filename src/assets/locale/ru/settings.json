@@ -299,9 +299,9 @@
   "about": {
     "title": "О программе",
     "heading": "О программе",
-    "chromeVersion": "Версия Page Assist",
+    "chromeVersion": "Версия Aurora",
     "ollamaVersion": "Версия Ollama",
-    "support": "Вы можете поддержать проект Page Assist, сделав пожертвование или спонсорирование через следующие платформы:",
+    "support": "Вы можете поддержать проект Aurora, сделав пожертвование или спонсорирование через следующие платформы:",
     "koFi": "Поддержать на Ko-fi",
     "githubSponsor": "Стать спонсором на GitHub",
     "githubRepo": "Репозиторий GitHub"

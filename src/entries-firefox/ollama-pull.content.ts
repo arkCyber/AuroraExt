@@ -2,11 +2,11 @@ export default defineContentScript({
   main(ctx) {
     const downloadModel = async (modelName: string) => {
       const ok = confirm(
-        `[Page Assist Extension] Do you want to pull ${modelName} model? This has nothing to do with Ollama.com website. The model will be pulled locally once you confirm.`
+        `[Aurora Extension] Do you want to pull ${modelName} model? This has nothing to do with Ollama.com website. The model will be pulled locally once you confirm.`
       )
       if (ok) {
         alert(
-          `[Page Assist Extension] Pulling ${modelName} model. For more details, check the extension icon.`
+          `[Aurora Extension] Pulling ${modelName} model. For more details, check the extension icon.`
         )
 
         await browser.runtime.sendMessage({
@@ -41,7 +41,7 @@ export default defineContentScript({
         })
 
         const span = document.createElement("span")
-        span.title = "Download model via Page Assist"
+        span.title = "Download model via Aurora"
         span.appendChild(newButton)
 
         if (button.parentNode) {

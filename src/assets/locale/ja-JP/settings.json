@@ -300,9 +300,9 @@
   "about": {
     "title": "About",
     "heading": "About",
-    "chromeVersion": "Page Assistのバージョン",
+    "chromeVersion": "Auroraのバージョン",
     "ollamaVersion": "Ollamaのバージョン",
-    "support": "Page Assistプロジェクトは、以下のプラットフォームで寄付やスポンサーシップをすることで支援できます:",
+    "support": "Auroraプロジェクトは、以下のプラットフォームで寄付やスポンサーシップをすることで支援できます:",
     "koFi": "Ko-fiで支援する",
     "githubSponsor": "GitHubでスポンサーする",
     "githubRepo": "GitHubリポジトリ"
