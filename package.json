@@ -1,8 +1,8 @@
 {
   "name": "Aurora",
-  "displayName": "Aurora - A Web UI for Local AI Models",
+  "displayName": "Aurora - AI Mouse Office Agengt",
   "version": "1.0.9",
-  "description": "Use your locally running AI models to assist you in your web browsing.",
+  "description": "Use AI models to assist your work and web browsing.",
   "author": "arkSong",
   "scripts": {
     "dev": "cross-env TARGET=chrome wxt",

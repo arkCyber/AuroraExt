@@ -169,7 +169,7 @@ export const useMessageOption = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: [image]
@@ -532,7 +532,7 @@ export const useMessageOption = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: [image]
@@ -818,7 +818,7 @@ export const useMessageOption = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: []

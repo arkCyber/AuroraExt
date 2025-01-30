@@ -178,7 +178,7 @@ export const useMessage = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: []
@@ -582,7 +582,7 @@ export const useMessage = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: []
@@ -618,7 +618,7 @@ export const useMessage = () => {
       const applicationChatHistory = []
 
       const data = await getScreenshotFromCurrentTab()
-     
+
       const visionImage = data?.screenshot || ""
 
       if (visionImage === "") {
@@ -850,7 +850,7 @@ export const useMessage = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: [image]
@@ -1118,7 +1118,7 @@ export const useMessage = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: [image]
@@ -1448,7 +1448,7 @@ export const useMessage = () => {
         ...messages,
         {
           isBot: false,
-          name: "You",
+          name: "Me:",
           message,
           sources: [],
           images: [image],

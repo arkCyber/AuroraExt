@@ -59,7 +59,7 @@ export default defineConfig({
     description: "__MSG_extDescription__",
     default_locale: "en",
     action: {},
-    author: "n4ze3m",
+    author: "arkSong",
     browser_specific_settings:
       process.env.TARGET === "firefox"
         ? {
@@ -91,7 +91,7 @@ export default defineConfig({
         {
           extension_pages:
             "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
-        } :  "script-src 'self' 'wasm-unsafe-eval' blob:; object-src 'self'; worker-src 'self' blob:;",
+        } : "script-src 'self' 'wasm-unsafe-eval' blob:; object-src 'self'; worker-src 'self' blob:;",
     permissions:
       process.env.TARGET === "firefox"
         ? firefoxMV2Permissions
