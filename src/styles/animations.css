@@ -1,0 +1,46 @@
+/* Wave animation keyframes for the welcome emoji
+ * Creates a natural waving motion by rotating the element
+ * The rotation values create a smooth, friendly waving effect
+ */
+@keyframes wave {
+    0% {
+        transform: rotate(0deg);
+        /* Starting position */
+    }
+
+    20% {
+        transform: rotate(14deg);
+        /* First wave to the right */
+    }
+
+    40% {
+        transform: rotate(-8deg);
+        /* Wave back to the left */
+    }
+
+    60% {
+        transform: rotate(14deg);
+        /* Second wave to the right */
+    }
+
+    80% {
+        transform: rotate(-4deg);
+        /* Gentle wave back to the left */
+    }
+
+    100% {
+        transform: rotate(0deg);
+        /* Return to starting position */
+    }
+}
+
+/* Animation class for the waving emoji
+ * Applies the wave animation with a 2.5s duration
+ * Transform origin set to 70% 70% to create a natural waving motion
+ * Animation repeats infinitely for continuous waving effect
+ */
+.animate-wave {
+    display: inline-block;
+    animation: wave 2.5s infinite;
+    transform-origin: 70% 70%;
+}

@@ -1,0 +1,26 @@
+﻿{
+    "extName": {
+        "message": "Aurora -AI鼠标智能办公助手"
+    },
+    "extDescription": {
+        "message": "使用云服务与本地运行的 AI模型来辅助办公的与网络浏览。"
+    },
+    "openSidePanelToChat": {
+        "message": "打开Aurora进行聊天"
+    },
+    "contextSummarize": {
+        "message": "总结"
+    },
+    "contextExplain": {
+        "message": "解释"
+    },
+    "contextRephrase": {
+        "message": "改述"
+    },
+    "contextTranslate": {
+        "message": "翻译"
+    },
+    "contextCustom": {
+        "message": "自定义"
+    }
+}
