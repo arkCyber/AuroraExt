@@ -283,7 +283,7 @@
       },
       "globalEnable": {
         "label": "启用或禁用全局 Ollama 集成",
-        "warning": "通过全局禁用 Ollama 集成，Page Assist 将不会从 Ollama 获取模型。您仍然可以从<anchor>OpenAI 兼容 API</anchor>部分添加 Ollama 实例，这将正常工作。"
+        "warning": "通过全局禁用 Ollama 集成，Aurora 将不会从 Ollama 获取模型。您仍然可以从<anchor>OpenAI 兼容 API</anchor>部分添加 Ollama 实例，这将正常工作。"
       },
       "advanced": {
         "label": "Ollama URL 高级配置",
@@ -309,7 +309,7 @@
             "placeholder": "承载令牌"
           }
         },
-        "help": "如果您在 Page Assist 上与 Ollama 有连接问题,您可以配置自定义来源 URL。要了解更多关于配置的信息,<anchor>点击此处</anchor>。"
+        "help": "如果您在 Aurora 上与 Ollama 有连接问题,您可以配置自定义来源 URL。要了解更多关于配置的信息,<anchor>点击此处</anchor>。"
       }
     }
   },
@@ -320,9 +320,9 @@
   "about": {
     "title": "关于",
     "heading": "关于",
-    "chromeVersion": "Page Assist版本",
+    "chromeVersion": "Aurora版本",
     "ollamaVersion": "Ollama版本",
-    "support": "您可以通过以下平台捐赠或赞助Page Assist项目:",
+    "support": "您可以通过以下平台捐赠或赞助Aurora项目:",
     "koFi": "在Ko-fi上支持",
     "githubSponsor": "在GitHub上赞助",
     "githubRepo": "GitHub仓库"

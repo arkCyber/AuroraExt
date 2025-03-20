@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Page Assist",
-  description: "Page Assist is an open-source Chrome Extension that provides a Sidebar and Web UI for your Local AI model. It allows you to interact with your model from any webpage.",
+  title: "Aurora",
+  description: "Aurora is an open-source Chrome Extension that provides a Sidebar and Web UI for your Local AI model. It allows you to interact with your model from any webpage.",
   lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -22,7 +22,7 @@ export default defineConfig({
       {
         text: 'Guide',
         items: [
-          { text: 'Welcome to Page Assist', link: '/' },
+          { text: 'Welcome to Aurora', link: '/' },
           {
             text: "Browser Support",
             link: "/browser-support"
@@ -122,7 +122,7 @@ export default defineConfig({
     ],
     footer: {
       message: "MIT Licensed Open Source Project",
-      copyright: "Copyright © 2025 Muhammed Nazeem  & Page Assist Contributors",
+      copyright: "Copyright © 2025 Muhammed Nazeem  & Aurora Contributors",
     },
   },
   ignoreDeadLinks: true

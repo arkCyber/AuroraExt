@@ -1,6 +1,6 @@
 # Extensions Causing Issue with Other Websites
 
-Since Page Assist rewrites the Origin header to avoid CORS issues on the Ollama API, this feature causes issues for some users or websites.
+Since Aurora rewrites the Origin header to avoid CORS issues on the Ollama API, this feature causes issues for some users or websites.
 
 Current known issues:
 
@@ -11,7 +11,7 @@ For this reason, we have added a setting to disable the feature.
 
 ## How to disable the feature
 
-1. Click on the Page Assist icon in the browser toolbar.
+1. Click on the Aurora icon in the browser toolbar.
 2. Click on the settings icon.
 3. Click on the "Ollama Settings" tab.
 4. Expand the "Advanced Ollama URL Configuration"
@@ -20,7 +20,7 @@ For this reason, we have added a setting to disable the feature.
 
 ![image](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/Screenshot%202025-02-17%20185214.png)
 
-This will disable the feature and prevent Page Assist from rewriting the Origin header.
+This will disable the feature and prevent Aurora from rewriting the Origin header.
 
 However, your Ollama may start throwing 403 errors. To fix that, you need to add the following line to your Ollama config file.
 

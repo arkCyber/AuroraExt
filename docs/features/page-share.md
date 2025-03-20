@@ -1,6 +1,6 @@
 # Page Share 
 
-Page Share is a feature that allows you to share your chat with others like the share feature of ChatGPT. This feature interacts with the internet by default, and you can use the page assist server to share your chat.
+Page Share is a feature that allows you to share your chat with others like the share feature of ChatGPT. This feature interacts with the internet by default, and you can use the Aurora server to share your chat.
 
 But for privacy, it's better to self-host the page share server. You can do this by following the steps below.
 

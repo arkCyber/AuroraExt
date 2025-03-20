@@ -285,7 +285,7 @@
       },
       "globalEnable": {
         "label": "全域啟用或停用 Ollama 整合功能",
-        "warning": "透過全域停用 Ollama 整合功能後，Page Assist 將不會從 Ollama 取得模型，您仍然可以從 <anchor>OpenAI 相容 API</anchor> 的部分新增 Ollama 實例，一樣可以正常運作。"
+        "warning": "透過全域停用 Ollama 整合功能後，Aurora 將不會從 Ollama 取得模型，您仍然可以從 <anchor>OpenAI 相容 API</anchor> 的部分新增 Ollama 實例，一樣可以正常運作。"
       },
       "advanced": {
         "label": "進階 Ollama URL 配置",
@@ -311,7 +311,7 @@
             "placeholder": "Bearer token"
           }
         },
-        "help": "如果您在 Page Assist 上遇到與 Ollama 的連線問題，您可以設定自訂來源 URL，要了解有關配置的更多資訊，請<anchor>點擊此處</anchor>。"
+        "help": "如果您在 Aurora 上遇到與 Ollama 的連線問題，您可以設定自訂來源 URL，要了解有關配置的更多資訊，請<anchor>點擊此處</anchor>。"
       }
     }
   },
@@ -322,9 +322,9 @@
   "about": {
     "title": "關於",
     "heading": "關於",
-    "chromeVersion": "Page Assist 版本",
+    "chromeVersion": "Aurora 版本",
     "ollamaVersion": "Ollama 版本",
-    "support": "您可以透過以下平台捐款或贊助來支持 Page Assist 計畫：",
+    "support": "您可以透過以下平台捐款或贊助來支持 Aurora 計畫：",
     "koFi": "在 Ko-fi 上支持",
     "githubSponsor": "在 GitHub 上支持",
     "githubRepo": "GitHub Repository"

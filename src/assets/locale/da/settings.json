@@ -276,7 +276,7 @@
       },
       "globalEnable": {
         "label": "Aktiver eller Deaktiver Ollama Integration Globalt",
-        "warning": "Ved at deaktivere Ollama-integration globalt vil Page Assist ikke hente modeller fra Ollama. Du kan stadig tilføje Ollama-instans fra <anchor>OpenAI-kompatibel API</anchor> sektionen, som vil fungere fint."
+        "warning": "Ved at deaktivere Ollama-integration globalt vil Aurora ikke hente modeller fra Ollama. Du kan stadig tilføje Ollama-instans fra <anchor>OpenAI-kompatibel API</anchor> sektionen, som vil fungere fint."
       },
       "advanced": {
         "label": "Avanceret Ollama URL Konfiguration",
@@ -302,7 +302,7 @@
             "placeholder": "Bearer token"
           }
         },
-        "help": "Hvis du har forbindelsesproblemer med Ollama på Page Assist, kan du konfigurere en brugerdefineret oprindelses-URL. For mere information om konfigurationen, <anchor>klik her</anchor>."
+        "help": "Hvis du har forbindelsesproblemer med Ollama på Aurora, kan du konfigurere en brugerdefineret oprindelses-URL. For mere information om konfigurationen, <anchor>klik her</anchor>."
       }
     }
   },
@@ -313,9 +313,9 @@
   "about": {
     "title": "Om",
     "heading": "Om",
-    "chromeVersion": "Page Assist Version",
+    "chromeVersion": "Aurora Version",
     "ollamaVersion": "Ollama Version",
-    "support": "Du kan støtte Page Assist-projektet ved at donere eller sponsorere via følgende platforme:",
+    "support": "Du kan støtte Aurora-projektet ved at donere eller sponsorere via følgende platforme:",
     "koFi": "Støt på Ko-fi",
     "githubSponsor": "Sponsor på GitHub",
     "githubRepo": "GitHub Repository"

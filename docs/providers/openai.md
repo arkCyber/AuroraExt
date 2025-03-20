@@ -1,8 +1,8 @@
 # OpenAI Compatible API
 
-Page Assist supports OpenAI Compatible API endpoints. You can use any OpenAI Compatible API endpoint with Page Assist.
+Aurora supports OpenAI Compatible API endpoints. You can use any OpenAI Compatible API endpoint with Aurora.
 
-By default, Page Assist supports the following OpenAI Compatible API endpoints:
+By default, Aurora supports the following OpenAI Compatible API endpoints:
 
 - OpenAI
 - LLaMA.cpp
@@ -27,7 +27,7 @@ By default, Page Assist supports the following OpenAI Compatible API endpoints:
 ## Adding OpenAI Compatible API
 
 
-1. Click on the Page Assist icon on the browser toolbar.
+1. Click on the Aurora icon on the browser toolbar.
 
 2. Click on the `Settings` icon.
 
@@ -43,5 +43,5 @@ By default, Page Assist supports the following OpenAI Compatible API endpoints:
 
 
 ::: info
-For Ollama, LM Studio, and Llamafile, you don't need to add any models since Page Assist will automatically fetch them from the API.
+For Ollama, LM Studio, and Llamafile, you don't need to add any models since Aurora will automatically fetch them from the API.
 :::

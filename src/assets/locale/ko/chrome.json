@@ -1,7 +1,7 @@
 {
     "heading": "Chrome AI 설정",
     "status": {
-        "label": "Page Assist에서 Chrome AI 지원을 활성화하거나 비활성화하기"
+        "label": "Aurora에서 Chrome AI 지원을 활성화하거나 비활성화하기"
     },
     "error": {
         "browser_not_supported": "이 Chrome 버전은 Gemini Nano 모델을 지원하지 않습니다. 버전을 127 이상으로 업데이트해 주세요.",

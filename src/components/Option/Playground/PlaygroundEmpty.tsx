@@ -62,7 +62,7 @@ export const PlaygroundEmpty = () => {
   }
   return (
     <div className="px-4 mx-auto mt-10 sm:max-w-xl">
-      <div className="rounded-lg justify-center items-center flex flex-col border p-8 bg-gray-50 dark:bg-[#262626]  dark:border-gray-500 border-gray-500 shadow-lg">
+      <div className="rounded-lg justify-center items-center flex flex-col border p-8 bg-gray-50 dark:bg-[#262626]  dark:border-gray-500 border-gray-500 shadow-lg drop-shadow-[6px_6px_6px_rgba(0,0,0,0.1)] dark:drop-shadow-[8px_8px_8px_rgba(100,149,237,0.4)]">
         {(ollamaStatus === "pending" || isRefetching) && (
           <div className="inline-flex items-center space-x-2">
             <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
@@ -76,19 +76,23 @@ export const PlaygroundEmpty = () => {
           ollamaInfo.isOk ? (
             <div className="flex flex-col items-center justify-center mt-4">
               <div className="inline-flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full opacity-75 animate-ping"></div>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                 <p className="text-sm text-gray-900 dark:text-gray-400">
                   Ollama is running ……
                 </p>
               </div>
 
-              <div className="py-3 text-lg text-gray-700 dark:text-gray-300">
-                <span className="inline-block animate-wave">👋</span> Welcome to Aurora Agent World!
+              <div className="flex items-center py-2 text-lg text-gray-700 dark:text-gray-300">
+                <span className="inline-block animate-wave">👋</span>
+                <div className="relative inline-block ml-1 min-w-[300px] flex items-center">
+                  <span className="inline-block overflow-hidden whitespace-nowrap animate-typewriter">Welcome to Aurora Agent World!</span>
+                  <span className="inline-block w-[2px] h-[1em] bg-current ml-1 animate-blink"></span>
+                </div>
               </div>
-              <div className="mt-2 text-base text-gray-500 text-bold:normal dark:text-gray-400">Aurora will bring you into AI+ Web3 next-generation network!</div>
-              <div className="text-base text-gray-500 text-bold:normal dark:text-gray-400">Aurora启蒙老师将引领你迈入AI+ Web3网络时代，放飞梦想!</div>
-              <div className="mt-2 text-base animate-pulse">🌟🌟🌟🌟🌟🌟</div>
+              <div className="mt-2 text-base leading-relaxed text-gray-600 font-extralight dark:text-gray-400">Aurora will bring you into AI+ Web3 next-generation network!</div>
+              <div className="text-base leading-relaxed text-gray-600 dark:text-gray-400 dark:font-extralight">Aurora启蒙老师引领你迈入AI+ Web3网络时代，放飞人生的梦想!</div>
+              <div className="mt-2 text-base leading-relaxed tracking-wider text-gray-600 font-extralight animate-pulse dark:text-gray-300">✨✨✨✨⭐️⭐️⭐️💫💫💫</div>
 
             </div>
           ) : (

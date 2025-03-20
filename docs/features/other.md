@@ -1,6 +1,6 @@
 # Other Features
 
-These are small utility features that Page Assist has.
+These are small utility features that Aurora has.
 
 ## Wide Mode
 

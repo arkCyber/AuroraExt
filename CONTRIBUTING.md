@@ -1,12 +1,12 @@
-# Contributing to Page Assist
+# Contributing to Aurora
 
-Thank you for your interest in contributing to Page Assist! We welcome contributions from anyone, whether it's reporting bugs, suggesting improvements, or submitting code changes.
+Thank you for your interest in contributing to Aurora! We welcome contributions from anyone, whether it's reporting bugs, suggesting improvements, or submitting code changes.
 
 ## Getting Started
 
 1. **Fork the repository**
 
-   To start contributing, you'll need to fork the [Page Assist repository](https://github.com/n4ze3m/page-assist) by clicking the "Fork" button at the top right of the page.
+   To start contributing, you'll need to fork the [Aurora repository](https://github.com/n4ze3m/page-assist) by clicking the "Fork" button at the top right of the page.
 
 2. **Clone your forked repository**
 
@@ -18,7 +18,7 @@ Thank you for your interest in contributing to Page Assist! We welcome contribut
 
 3. **Install dependencies**
 
-   Page Assist uses [Bun](https://bun.sh/) for dependency management. Install the required dependencies by running the following command in the project root directory:
+   Aurora uses [Bun](https://bun.sh/) for dependency management. Install the required dependencies by running the following command in the project root directory:
 
    ```
    bun install
@@ -44,7 +44,7 @@ Thank you for your interest in contributing to Page Assist! We welcome contribut
 
 5. **Install Ollama locally**
 
-   Page Assist requires [Ollama](https://ollama.ai) to be installed locally. Follow the installation instructions provided in the Ollama repository.
+   Aurora requires [Ollama](https://ollama.ai) to be installed locally. Follow the installation instructions provided in the Ollama repository.
 
 ## Making Changes
 

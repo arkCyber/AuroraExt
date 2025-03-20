@@ -1,8 +1,8 @@
 # LM Studio
 
-You can add LMStudio's API to Page Assist. Here's how you can do it:
+You can add LMStudio's API to Aurora. Here's how you can do it:
 
-1. Click on the Page Assist icon on the browser toolbar.
+1. Click on the Aurora icon on the browser toolbar.
 
 2. Click on the `Settings` icon.
 
@@ -18,7 +18,7 @@ You can add LMStudio's API to Page Assist. Here's how you can do it:
 
 
 ::: info
-You don't need to add any models since Page Assist will automatically fetch them from the LMStudio instance you have configured.
+You don't need to add any models since Aurora will automatically fetch them from the LMStudio instance you have configured.
 
-The model must be loaded in LMStudio before Page Assist can fetch it.
+The model must be loaded in LMStudio before Aurora can fetch it.
 :::

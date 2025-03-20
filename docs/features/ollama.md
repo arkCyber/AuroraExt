@@ -1,6 +1,6 @@
 # Ollama
 
-Page Assist is designed to work with Ollama. Following are a few things you can do with Page Assist for your Ollama instance.
+Aurora is designed to work with Ollama. Following are a few things you can do with Aurora for your Ollama instance.
 
 ## Manage Ollama Models
 
@@ -34,7 +34,7 @@ When you are browsing Ollama.com, you can pull models directly from the website.
 2. Go to any model page
 3. There will be a Pull icon beside the copy icon
 4. Once you click on it, it will ask for confirmation
-5. Download progress can be seen in the Page Assist icon
+5. Download progress can be seen in the Aurora icon
 
 ![Pull Model](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/brave_vczba7pnUo.gif)
 
@@ -46,6 +46,6 @@ You can pull `gguf` models from huggingface.com.
 2. Go to any model page
 3. On the right side there will be `Use this model` and select `Ollama`
 ![Pull Model](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/Screenshot%202025-02-19%20225915.png)
-4. In the Huggingface popup there will be a button `Pull from Page Assist`, click on it
+4. In the Huggingface popup there will be a button `Pull from Aurora`, click on it
 ![Pull Model](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/Screenshot%202025-02-19%20230049.png)
 5. Rest of the process is same as Method 2

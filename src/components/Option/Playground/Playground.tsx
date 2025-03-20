@@ -16,6 +16,23 @@ import { useStoreChatModelSettings } from "@/store/model";
 import { useSmartScroll } from "@/hooks/useSmartScroll";
 import { ChevronDown } from "lucide-react";
 
+const borderBreathKeyframes = `
+@keyframes borderBreath {
+  0% {
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+  }
+  50% {
+    border-color: rgba(239, 68, 68, 0.8);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+  }
+  100% {
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+  }
+}
+`;
+
 export const Playground = () => {
   const drop = useRef<HTMLDivElement>(null);
   const [dropedFile, setDropedFile] = useState<File | undefined>();
@@ -46,7 +63,15 @@ export const Playground = () => {
       attributeFilter: ['class'],
     });
 
-    return () => observer.disconnect();
+    // Add animation style
+    const style = document.createElement('style');
+    style.textContent = borderBreathKeyframes;
+    document.head.appendChild(style);
+
+    return () => {
+      observer.disconnect();
+      document.head.removeChild(style);
+    };
   }, []);
 
   const darkModeBackground = {
@@ -59,8 +84,8 @@ export const Playground = () => {
 
   const lightModeBackground = {
     backgroundImage: `url('${lightBackground}')`,
-    backgroundSize: 'contain',
-    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundPosition: 'normal',
     backgroundRepeat: 'no-repeat',
     backgroundBlendMode: 'overlay',
   };
@@ -88,8 +113,11 @@ export const Playground = () => {
     >
       <div
         ref={containerRef}
-        className="flex flex-col items-center w-full h-full px-5 overflow-x-hidden overflow-y-auto border-4 border-red-500 custom-scrollbar bg-bottom-mask-light dark:bg-bottom-mask-dark mask-bottom-fade will-change-mask"
-        style={containerStyle}
+        className="flex flex-col items-center w-full h-full px-5 overflow-x-hidden overflow-y-auto border-4 border-red-500 custom-scrollbar bg-bottom-mask-light dark:bg-bottom-mask-dark mask-bottom-fade will-change-mask animate-border-breath"
+        style={{
+          ...containerStyle,
+          animation: 'borderBreath 3s ease-in-out infinite',
+        }}
       >
         <PlaygroundChat />
       </div>

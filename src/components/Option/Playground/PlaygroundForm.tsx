@@ -85,7 +85,9 @@ import {
   ImageIcon,
   MicIcon,
   StopCircleIcon,
-  X
+  X,
+  Mail,
+  HelpCircle
 } from "lucide-react"
 
 import { getVariable } from "@/utils/select-variable"
@@ -360,13 +362,35 @@ export const PlaygroundForm = ({ dropedFile }: Props) => {
 
       {/* Help Message - positioned outside input field container */}
       <div className="fixed bottom-0 w-full p-2 mt-3 text-xs text-center text-gray-500 dark:text-stone-400 shadow-lg bg-white dark:bg-[#262626]">
-        <span>{t("Aurora AI can make mistakes. Check important info. before you use")}</span> {/* Or directly use "Help Message" */}
+        <div className="flex items-center justify-center gap-4">
+          <span>{t("@Aurora: AI can make mistakes,check before you use.")}</span>
+          <div className="flex items-center gap-4">
+            <Tooltip title="Any Suggestion can send back to author">
+              <a
+                href="mailto:feedback@aurora.com"
+                className="flex items-center gap-1 transition-colors duration-200 hover:text-violet-500 dark:hover:text-violet-400"
+              >
+                <Mail className="w-4 h-4" />
+                MessageFeedback
+              </a>
+            </Tooltip>
+            <Tooltip title="Frequently Asked Questions">
+              <a
+                href="#"
+                className="flex items-center gap-1 transition-colors duration-200 hover:text-violet-500 dark:hover:text-violet-400"
+              >
+                <HelpCircle className="w-4 h-4" />
+                QA
+              </a>
+            </Tooltip>
+          </div>
+        </div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center w-full gap-2 text-base font-light dark:focus:!border-violet-400">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full gap-0.5 text-base font-light dark:focus:!border-violet-400">
 
-        <div className="flex items-start justify-start mt-1 text-sm italic text-gray-500 dark:text-stone-400" style={{ fontStyle: 'italic' }} >
-          <span>{t("Ask me anything and Ctrl+ Enter key to submit. ctrl+ h for help")}</span> {/* 或者直接使用 "Top Help Message" */}
+        <div className="flex items-start justify-start mt-0.5 text-sm text-gray-500 dark:text-stone-400" style={{ fontStyle: 'italic' }} >
+          <span>{t("Ask me anything: Ctrl+ Enter -- submit.  Ctrl+ H -- for help")}</span> {/* 或者直接使用 "Top Help Message" */}
         </div>
 
 

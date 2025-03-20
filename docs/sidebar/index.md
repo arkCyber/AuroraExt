@@ -1,4 +1,4 @@
-# Page Assist Sidebar 
+# Aurora Sidebar 
 
 Sidebar is a really good feature of the extension. It allows you to chat with your AI model from any webpage. Rather than opening a new tab and navigating to the website, you can simply open the sidebar and chat with your AI model or ask any question about the current page.
 
@@ -14,15 +14,15 @@ There are 3 ways to open the sidebar:
 
 ### From the browser toolbar
 
-1. Right-click on the Page Assist icon in the browser toolbar and select `Open Sidebar`.
-2. Click on the Page Assist icon in the browser toolbar and select `Open Sidebar`.
+1. Right-click on the Aurora icon in the browser toolbar and select `Open Sidebar`.
+2. Click on the Aurora icon in the browser toolbar and select `Open Sidebar`.
 
 ![Open Sidebar](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/Screenshot%202025-02-15%20115612.png)
 
 
 ### From the context menu
 
-1. Right-click on any webpage and select `Open Page Assist Sidebar`.
+1. Right-click on any webpage and select `Open Aurora Sidebar`.
 ![Open Sidebar](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/Screenshot%202025-02-15%20115734.png)
 
 

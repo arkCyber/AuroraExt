@@ -1,6 +1,6 @@
 # Ollama Connection Issues
 
-Connection issues can be caused by a number of reasons. Here are some common issues and how to resolve them on Page Assist. You will see the following error message if there is a connection issue:
+Connection issues can be caused by a number of reasons. Here are some common issues and how to resolve them on Aurora. You will see the following error message if there is a connection issue:
 
 ### 1. Direct Connection Error
 ![Direct connection error](https://image.pageassist.xyz/Screenshot%202024-05-13%20001742.png)
@@ -8,13 +8,13 @@ Connection issues can be caused by a number of reasons. Here are some common iss
 ### 2. `403` Error When Sending a Message
 ![403 error when sending a message](https://image.pageassist.xyz/Screenshot%202024-05-13%20001940.png)
 
-This issue because of CORS (Cross-Origin Resource Sharing) issues. Since Page Assist is a browser extension, it needs to communicate with the server through the browser. However, the browser restricts communication between different origins. To resolve this issue, you can try the following solutions:   
+This issue because of CORS (Cross-Origin Resource Sharing) issues. Since Aurora is a browser extension, it needs to communicate with the server through the browser. However, the browser restricts communication between different origins. To resolve this issue, you can try the following solutions:   
 
 ## 1. Solutions 
 
-Since Ollama has connection issues when directly accessed from the browser extension, Page Assist rewrites the request headers to make it work. However, automatic rewriting of headers only works on `http://127.0.0.1:*` and `http://localhost:*` URLs. To resolve the connection issue, you can try the following solutions:
+Since Ollama has connection issues when directly accessed from the browser extension, Aurora rewrites the request headers to make it work. However, automatic rewriting of headers only works on `http://127.0.0.1:*` and `http://localhost:*` URLs. To resolve the connection issue, you can try the following solutions:
 
-1. Go to Page Assist and click on the `Settings` icon.
+1. Go to Aurora and click on the `Settings` icon.
 
 2. Click on the `Ollama Settings` tab.
 
@@ -32,7 +32,7 @@ If Ollama is running on a different port, then change the URL in the `Custom Ori
 
 5. Make sure click on the `Save` button to save the changes.
 
-_This will resolve the connection issue, and you will be able to use Ollama without any issues on Page Assist_
+_This will resolve the connection issue, and you will be able to use Ollama without any issues on Aurora_
 
 ## 2. Solution
 
