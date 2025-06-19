@@ -1,5 +1,16 @@
+/**
+ * ShareModal Component
+ * 
+ * A modal component that enables users to share their chat conversations.
+ * Features include:
+ * - Custom title and username for shared content
+ * - Preview of chat messages
+ * - Generation of shareable links
+ * - Clipboard integration for easy sharing
+ */
+
 import { Form, Image, Input, Modal, Tooltip, message } from "antd"
-import { Share } from "lucide-react"
+import { Share, BrainCog } from "lucide-react"
 import { useState } from "react"
 import type { Message } from "~/store/option"
 import Markdown from "./Markdown"
@@ -11,13 +22,22 @@ import { getTitleById, getUserId, saveWebshare } from "@/db"
 import { useTranslation } from "react-i18next"
 import fetcher from "@/libs/fetcher"
 
+/**
+ * Props interface for ShareModal component
+ */
 type Props = {
-  messages: Message[]
-  historyId: string
-  open: boolean
-  setOpen: (state: boolean) => void
+  messages: Message[]              // Array of chat messages to be shared
+  historyId: string               // Unique identifier for the chat history
+  open: boolean                   // Controls modal visibility
+  setOpen: (state: boolean) => void // Function to toggle modal visibility
 }
 
+/**
+ * Reformats messages for sharing by adding username and restructuring the data
+ * @param messages Array of messages to be reformatted
+ * @param username Username to be displayed for user messages
+ * @returns Reformatted messages array
+ */
 const reformatMessages = (messages: Message[], username: string) => {
   return messages.map((message, idx) => {
     return {
@@ -30,35 +50,47 @@ const reformatMessages = (messages: Message[], username: string) => {
   })
 }
 
+/**
+ * PlaygroundMessage Component
+ * 
+ * Renders a single message in the share preview with user/bot styling
+ */
 export const PlaygroundMessage = (
   props: Message & {
-    username: string
+    username: string  // Username to display for user messages
   }
 ) => {
   return (
-    <div className="group w-full text-gray-800 dark:text-gray-100">
-      <div className="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl flex lg:px-0 m-auto w-full">
-        <div className="flex flex-row gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl m-auto w-full">
-          <div className="w-8 flex flex-col relative items-end">
-            <div className="relative h-7 w-7 p-1 rounded-sm text-white flex items-center justify-center  text-opacity-100r">
+    <div className="w-full text-gray-800 group dark:text-gray-100">
+      <div className="flex w-full gap-4 m-auto text-base md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl lg:px-0">
+        <div className="flex flex-row w-full gap-4 m-auto md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl">
+          {/* Avatar section */}
+          <div className="relative flex flex-col items-end w-8">
+            <div className="relative flex items-center justify-center text-white rounded-sm h-7 w-7">
               {props.isBot ? (
-                <div className="absolute h-8 w-8 rounded-full bg-gradient-to-r from-green-300 to-purple-400"></div>
-              ) : (
-                <div className="absolute h-8 w-8 rounded-full from-blue-400 to-blue-600 bg-gradient-to-r"></div>
-              )}
+                // Bot avatar with BrainCog icon
+                <div className="flex items-center justify-center w-8 h-8 text-gray-600 transition-colors bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
+                  <BrainCog className="w-5 h-5" />
+                </div>
+              ) : null}
             </div>
           </div>
+
+          {/* Message content section */}
           <div className="flex w-[calc(100%-50px)] flex-col gap-3 lg:w-[calc(100%-115px)]">
+            {/* Sender name */}
             <span className="text-xs font-bold text-gray-800 dark:text-white">
               {props.isBot ? props.name : props.username}
             </span>
 
-            <div className="flex flex-grow flex-col">
+            {/* Message content */}
+            <div className="flex flex-col flex-grow">
               <Markdown message={props.message} />
             </div>
-            {/* source if aviable */}
+
+            {/* Image attachments */}
             {props.images && props.images.length > 0 && (
-              <div className="flex md:max-w-2xl lg:max-w-xl xl:max-w-3xl mt-4 m-auto w-full">
+              <div className="flex w-full m-auto mt-4 md:max-w-2xl lg:max-w-xl xl:max-w-3xl">
                 {props.images
                   .filter((image) => image.length > 0)
                   .map((image, index) => (
@@ -67,7 +99,7 @@ export const PlaygroundMessage = (
                       src={image}
                       alt="Uploaded Image"
                       width={180}
-                      className="rounded-md relative"
+                      className="relative rounded-md"
                     />
                   ))}
               </div>
@@ -79,6 +111,21 @@ export const PlaygroundMessage = (
   )
 }
 
+/**
+ * Generates a default share title using the format "Aurora + username + time"
+ * @param username The current user's name
+ * @returns A formatted title string
+ */
+const generateDefaultTitle = (username: string): string => {
+  const now = new Date()
+  const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  const formattedTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+  return `Aurora Chat - ${username} - ${formattedDate} ${formattedTime}`
+}
+
+/**
+ * ShareModal Component Implementation
+ */
 export const ShareModal: React.FC<Props> = ({
   messages,
   historyId,
@@ -89,21 +136,40 @@ export const ShareModal: React.FC<Props> = ({
   const [form] = Form.useForm()
   const name = Form.useWatch("name", form)
 
+  // Load chat title when messages change or when name changes
   React.useEffect(() => {
     if (messages.length > 0) {
       getTitleById(historyId).then((title) => {
+        // If no existing title is found, generate a default one
+        const defaultTitle = generateDefaultTitle(name || t("share.form.defaultValue.name"))
         form.setFieldsValue({
-          title
+          title: title || defaultTitle
         })
       })
     }
-  }, [messages, historyId])
+  }, [messages, historyId, name]) // Added name as dependency
 
+  // Update title when name changes
+  React.useEffect(() => {
+    if (name && !form.getFieldValue("title")) {
+      form.setFieldsValue({
+        title: generateDefaultTitle(name)
+      })
+    }
+  }, [name])
+
+  /**
+   * Handles form submission and share link generation
+   * @param values Form values containing title and username
+   * @returns Share data including URL and API information
+   */
   const onSubmit = async (values: { title: string; name: string }) => {
     const owner_id = await getUserId()
     const chat = reformatMessages(messages, values.name)
     const title = values.title
     const url = await getPageShareUrl()
+
+    // Create share link through API
     const res = await fetcher(`${cleanUrl(url)}/api/v1/share/create`, {
       method: "POST",
       headers: {
@@ -128,9 +194,11 @@ export const ShareModal: React.FC<Props> = ({
     }
   }
 
+  // Mutation hook for share link creation
   const { mutate: createShareLink, isPending } = useMutation({
     mutationFn: onSubmit,
     onSuccess: async (data) => {
+      // Copy URL to clipboard and save share data
       const url = data.url
       navigator.clipboard.writeText(url)
       message.success(t("share.notification.successGenerate"))
@@ -159,15 +227,18 @@ export const ShareModal: React.FC<Props> = ({
         layout="vertical"
         onFinish={createShareLink}
         initialValues={{
-          title: t("share.form.defaultValue.title"),
+          title: generateDefaultTitle(t("share.form.defaultValue.name")),
           name: t("share.form.defaultValue.name")
         }}>
+        {/* Title input field */}
         <Form.Item
           name="title"
           label={t("share.form.title.label")}
           rules={[{ required: true, message: t("share.form.title.required") }]}>
           <Input size="large" placeholder={t("share.form.title.placeholder")} />
         </Form.Item>
+
+        {/* Username input field */}
         <Form.Item
           name="name"
           label={t("share.form.name.label")}
@@ -175,6 +246,7 @@ export const ShareModal: React.FC<Props> = ({
           <Input size="large" placeholder={t("share.form.name.placeholder")} />
         </Form.Item>
 
+        {/* Messages preview section */}
         <Form.Item>
           <div className="max-h-[180px] overflow-x-auto border dark:border-gray-700 rounded-md p-2">
             <div className="flex flex-col p-3">
@@ -185,6 +257,7 @@ export const ShareModal: React.FC<Props> = ({
           </div>
         </Form.Item>
 
+        {/* Submit button */}
         <Form.Item>
           <div className="flex justify-end">
             <button

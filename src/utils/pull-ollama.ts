@@ -6,8 +6,8 @@ export const progressHuman = (completed: number, total: number) => {
 }
 
 export const clearBadge = () => {
-    setBadgeText({ text: "" })
-    setTitle({ title: "" })
+    setBadgeText({ text: "" } as any)
+    setTitle({ title: "" } as any)
 }
 export const streamDownload = async (url: string, model: string) => {
     url += "/api/pull"
@@ -44,14 +44,14 @@ export const streamDownload = async (url: string, model: string) => {
             if (json.total && json.completed) {
                 setBadgeText({
                     text: progressHuman(json.completed, json.total)
-                })
-                setBadgeBackgroundColor({ color: "#0000FF" })
+                } as any)
+                setBadgeBackgroundColor({ color: "#0000FF" } as any)
             } else {
-                setBadgeText({ text: "🏋️‍♂️" })
-                setBadgeBackgroundColor({ color: "#FFFFFF" })
+                setBadgeText({ text: "🏋️‍♂️" } as any)
+                setBadgeBackgroundColor({ color: "#FFFFFF" } as any)
             }
 
-            setTitle({ title: json.status })
+            setTitle({ title: json.status } as any)
 
             if (json.status === "success") {
                 isSuccess = true
@@ -62,13 +62,13 @@ export const streamDownload = async (url: string, model: string) => {
     }
 
     if (isSuccess) {
-        setBadgeText({ text: "✅" })
-        setBadgeBackgroundColor({ color: "#00FF00" })
-        setTitle({ title: "Model pulled successfully" })
+        setBadgeText({ text: "✅" } as any)
+        setBadgeBackgroundColor({ color: "#00FF00" } as any)
+        setTitle({ title: "Model pulled successfully" } as any)
     } else {
-        setBadgeText({ text: "❌" })
-        setBadgeBackgroundColor({ color: "#FF0000" })
-        setTitle({ title: "Model pull failed" })
+        setBadgeText({ text: "❌" } as any)
+        setBadgeBackgroundColor({ color: "#FF0000" } as any)
+        setTitle({ title: "Model pull failed" } as any)
     }
 
     setTimeout(() => {

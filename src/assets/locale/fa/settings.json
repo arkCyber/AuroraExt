@@ -175,7 +175,7 @@
     "option2": "RAG",
     "questionPrompt": "سوال پرامپت",
     "columns": {
-      "title": "عنولن",
+      "title": "عنوان نقش",
       "prompt": "پرامپت",
       "type": "نوع پرامپت",
       "actions": "اقدامات"
@@ -381,5 +381,8 @@
   },
   "chromeAiSettings": {
     "title": "تنظیمات هوش مصنوعی کروم"
+  },
+  "personalSettings": {
+    "title": "تنظیمات شخصی"
   }
 }

@@ -185,7 +185,7 @@
       "copilot": "إرشادات كوبيلوت"
     },
     "columns": {
-      "title": "العنوان",
+      "title": "عنوان الدور",
       "prompt": "الإرشاد",
       "type": "نوع الإرشاد",
       "actions": "الإجراءات"
@@ -388,5 +388,8 @@
   },
   "chromeAiSettings": {
     "title": "إعدادات Chrome AI"
+  },
+  "personalSettings": {
+    "title": "الإعدادات الشخصية"
   }
 }

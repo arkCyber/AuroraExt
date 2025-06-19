@@ -1,0 +1,70 @@
+{
+    "settings": {
+        "profile": {
+            "title": "프로필 설정",
+            "nickname": "닉네임",
+            "avatar": "아바타 URL",
+            "save": "프로필 저장",
+            "saving": "저장 중...",
+            "created": "프로필이 성공적으로 생성되었습니다",
+            "saved": "프로필이 성공적으로 업데이트되었습니다",
+            "errors": {
+                "nicknameRequired": "닉네임은 필수입니다",
+                "avatarRequired": "아바타 URL은 필수입니다"
+            }
+        },
+        "blockchain": {
+            "title": "블록체인 지갑",
+            "deviceId": "기기 ID",
+            "mnemonic": "니모닉",
+            "address": "지갑 주소",
+            "chainType": "체인 유형"
+        },
+        "personal": {
+            "personalSettings": "개인 설정",
+            "saveProfile": "저장",
+            "nickname": "닉네임",
+            "email": "이메일",
+            "bio": "자기소개",
+            "uploadAvatar": "아바타 업로드",
+            "deviceId": "기기 ID",
+            "regenerateWallet": "지갑 재생성",
+            "showDetails": "상세 정보 표시",
+            "hideDetails": "상세 정보 숨기기",
+            "blockchainInfo": "블록체인 정보",
+            "address": "주소",
+            "publicKey": "공개 키",
+            "mnemonic": "니모닉",
+            "aiMouse": "AI 마우스",
+            "connect": "연결",
+            "mouseConnected": "마우스가 연결되었습니다",
+            "mouseNotConnected": "마우스가 연결되지 않았습니다",
+            "confirmSaveTitle": "저장 확인",
+            "confirmSaveMessage": "이러한 변경사항을 저장하시겠습니까?",
+            "cancel": "취소",
+            "confirm": "확인",
+            "saving": "저장 중...",
+            "unsavedChanges": "저장되지 않은 변경사항",
+            "autoSaveSuccess": "변경사항이 성공적으로 저장되었습니다",
+            "autoSaveError": "변경사항 저장에 실패했습니다",
+            "deviceIdError": "기기 ID 초기화에 실패했습니다",
+            "wallet": {
+                "generateSuccess": "지갑이 성공적으로 생성되었습니다",
+                "generateError": "지갑 생성에 실패했습니다",
+                "loadError": "지갑 정보 로드에 실패했습니다",
+                "regenerateSuccess": "지갑이 성공적으로 재생성되었습니다",
+                "regenerateError": "지갑 재생성에 실패했습니다",
+                "generating": "지갑 생성 중...",
+                "generatingSubtitle": "지갑을 생성하고 있습니다. 잠시만 기다려주세요",
+                "testSuccess": "지갑 생성 테스트가 성공했습니다",
+                "testError": "지갑 생성 테스트가 실패했습니다"
+            }
+        }
+    },
+    "common": {
+        "copy": "복사",
+        "copied": "클립보드에 복사되었습니다",
+        "copyFailed": "클립보드에 복사하는 데 실패했습니다",
+        "settings": "설정"
+    }
+}

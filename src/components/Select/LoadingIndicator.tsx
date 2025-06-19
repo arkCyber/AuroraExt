@@ -3,6 +3,12 @@ import React from "react"
 export const LoadingIndicator: React.FC<{ className?: string }> = ({
   className = ""
 }) => (
+  // Loading spinner component with smooth rotation animation
+  // Uses Tailwind's animate-spin class for continuous rotation
+  // The SVG contains:
+  // 1. A background circle with 25% opacity for the track
+  // 2. A spinning path with 75% opacity for the indicator
+  // The animation creates a smooth, professional loading effect
   <div className={`animate-spin ${className}`}>
     <svg
       className="w-4 h-4"

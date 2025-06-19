@@ -138,6 +138,7 @@
     "title": "모델 관리",
     "addBtn": "새 모델 추가",
     "columns": {
+      "index": "번호",
       "name": "이름",
       "digest": "다이제스트",
       "modifiedAt": "수정 일시",
@@ -181,10 +182,12 @@
     "option2": "RAG",
     "questionPrompt": "질문 프롬프트",
     "columns": {
-      "title": "제목",
+      "index": "번호",
+      "title": "역할 제목",
       "prompt": "프롬프트",
       "type": "프롬프트 유형",
-      "actions": "동작"
+      "actions": "동작",
+      "icon": "아이콘"
     },
     "systemPrompt": "시스템 프롬프트",
     "quickPrompt": "퀵 프롬프트",
@@ -204,11 +207,9 @@
       "copilot": "Copilot 프롬프트"
     },
     "form": {
-      "title": {
-        "label": "제목",
-        "placeholder": "훌륭한 프롬프트",
-        "required": "제목을 입력하세요"
-      },
+      "roleTitle": "역할 제목",
+      "roleTitle.placeholder": "역할 제목 입력",
+      "roleTitle.required": "역할 제목을 입력하세요",
       "prompt": {
         "label": "프롬프트",
         "placeholder": "프롬프트 입력",
@@ -388,5 +389,8 @@
   },
   "chromeAiSettings": {
     "title": "Chrome AI 설정"
+  },
+  "personalSettings": {
+    "title": "개인 설정"
   }
 }

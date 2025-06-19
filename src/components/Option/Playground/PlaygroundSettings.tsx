@@ -4,11 +4,11 @@ import { useState } from "react"
 export const PlaygroundSettings = () => {
   const [open, setOpen] = useState(false)
   return (
-    <div className="flex-shrink-0 flex flex-col items-center justify-center py-1 ">
+    <div className="flex flex-col items-center justify-center flex-shrink-0 py-1 ">
       <div className="flex items-center justify-center space-x-2">
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-200 focus:outline-none">
+          className="flex items-center justify-center w-8 h-8 transition-colors duration-200 rounded-full focus:outline-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -35,7 +35,7 @@ export const PlaygroundSettings = () => {
         title="Playground Settings"
         open={open}
         onCancel={() => setOpen(false)}>
-            Nothing to see here
+        Nothing to see here
       </Modal>
     </div>
   )

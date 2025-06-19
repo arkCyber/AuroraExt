@@ -14,20 +14,35 @@ import {
   updateOpenAIConfig
 } from "@/db/openai"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import {
-  Pencil,
-  Trash2,
-  RotateCwIcon,
-  DownloadIcon,
-  AlertTriangle
-} from "lucide-react"
+import { Pencil, Trash2, DownloadIcon, Trash2Icon } from "lucide-react"
 import { OpenAIFetchModel } from "./openai-fetch-model"
 import { OAI_API_PROVIDERS } from "@/utils/oai-api-providers"
 import { ProviderIcons } from "@/components/Common/ProviderIcon"
 const noPopupProvider = ["lmstudio", "llamafile", "ollama2", "llamacpp"]
 
+/**
+ * Clean and validate baseUrl to ensure it doesn't contain chat/completions or other endpoints
+ * @param baseUrl - The input baseUrl
+ * @returns Cleaned baseUrl
+ */
+const cleanBaseUrl = (baseUrl: string): string => {
+  if (!baseUrl) return baseUrl
+  
+  // Remove trailing slash
+  let cleaned = baseUrl.replace(/\/+$/, '')
+  
+  // Remove common endpoint paths that shouldn't be in baseUrl
+  cleaned = cleaned
+    .replace(/\/chat\/completions$/, '')
+    .replace(/\/models$/, '')
+    .replace(/\/completions$/, '')
+    .replace(/\/embeddings$/, '')
+  
+  return cleaned
+}
+
 export const OpenAIApp = () => {
-  const { t } = useTranslation("openai")
+  const { t } = useTranslation(["openai", "settings"])
   const [open, setOpen] = useState(false)
   const [editingConfig, setEditingConfig] = useState(null)
   const queryClient = useQueryClient()
@@ -41,6 +56,7 @@ export const OpenAIApp = () => {
     queryFn: getAllOpenAIConfig
   })
 
+
   const addMutation = useMutation({
     mutationFn: addOpenAICofig,
     onSuccess: (data) => {
@@ -53,6 +69,7 @@ export const OpenAIApp = () => {
         setOpenaiId(data)
         setOpenModelModal(true)
       }
+      form.resetFields()
       setProvider("custom")
     }
   })
@@ -64,6 +81,8 @@ export const OpenAIApp = () => {
         queryKey: ["openAIConfigs"]
       })
       setOpen(false)
+      form.resetFields()
+      setEditingConfig(null)
       message.success(t("updateSuccess"))
     }
   })
@@ -83,21 +102,37 @@ export const OpenAIApp = () => {
     name: string
     baseUrl: string
     apiKey: string
+    headers?: { key: string; value: string }[]
   }) => {
+    // Clean the baseUrl to remove any unwanted endpoint paths
+    const cleanedValues = {
+      ...values,
+      baseUrl: cleanBaseUrl(values.baseUrl)
+    }
+    
     if (editingConfig) {
-      updateMutation.mutate({ id: editingConfig.id, ...values })
+      updateMutation.mutate({
+        id: editingConfig.id,
+        ...cleanedValues
+      })
     } else {
       addMutation.mutate({
-        ...values,
+        ...cleanedValues,
         provider
       })
     }
   }
 
   const handleEdit = (record: any) => {
-    setEditingConfig(record)
+    setEditingConfig({
+      ...record,
+      headers: record?.headers || []
+    })
+    form.setFieldsValue({
+      ...record,
+      headers: record?.headers || []
+    })
     setOpen(true)
-    form.setFieldsValue(record)
   }
 
   const handleDelete = (id: string) => {
@@ -201,6 +236,7 @@ export const OpenAIApp = () => {
           dataSource={configs}
           loading={isLoading}
           rowKey="id"
+          bordered
         />
 
         <Modal
@@ -287,6 +323,69 @@ export const OpenAIApp = () => {
                 placeholder={t("modal.apiKey.placeholder")}
               />
             </Form.Item>
+            <Form.List name="headers">
+              {(fields, { add, remove }) => (
+                <div className="flex flex-col ">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-md font-semibold">
+                      {t(
+                        "settings:ollamaSettings.settings.advanced.headers.label"
+                      )}
+                    </h3>
+                    <button
+                      type="button"
+                      className="dark:bg-white dark:text-black text-white bg-black p-1.5 text-xs rounded-md"
+                      onClick={() => {
+                        add()
+                      }}>
+                      {t(
+                        "settings:ollamaSettings.settings.advanced.headers.add"
+                      )}
+                    </button>
+                  </div>
+                  {fields.map((field, index) => (
+                    <div key={field.key} className="flex items-center   w-full">
+                      <div className="flex-grow flex mt-3 space-x-4">
+                        <Form.Item
+                          label={t(
+                            "settings:ollamaSettings.settings.advanced.headers.key.label"
+                          )}
+                          name={[field.name, "key"]}
+                          className="flex-1 mb-0">
+                          <Input
+                            className="w-full"
+                            placeholder={t(
+                              "settings:ollamaSettings.settings.advanced.headers.key.placeholder"
+                            )}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          label={t(
+                            "settings:ollamaSettings.settings.advanced.headers.value.label"
+                          )}
+                          name={[field.name, "value"]}
+                          className="flex-1 mb-0">
+                          <Input
+                            className="w-full"
+                            placeholder={t(
+                              "settings:ollamaSettings.settings.advanced.headers.value.placeholder"
+                            )}
+                          />
+                        </Form.Item>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          remove(field.name)
+                        }}
+                        className="shrink-0 ml-2 text-red-500 dark:text-red-400">
+                        <Trash2Icon className="w-5 h-5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Form.List>
             {provider === "lmstudio" && (
               <div className="text-xs text-gray-600 dark:text-gray-400 mb-4">
                 {t("modal.tipLMStudio")}

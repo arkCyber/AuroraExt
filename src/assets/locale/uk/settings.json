@@ -182,7 +182,7 @@
       "copilot": "Запити Copilot"
     },
     "columns": {
-      "title": "Назва",
+      "title": "Назва ролі",
       "prompt": "Запит",
       "type": "Тип запиту",
       "actions": "Дії"
@@ -385,5 +385,8 @@
   },
   "chromeAiSettings": {
     "title": "Налаштування Chrome AI"
+  },
+  "personalSettings": {
+    "title": "Особисті налаштування"
   }
 }

@@ -181,10 +181,12 @@
     "option2": "RAG",
     "questionPrompt": "質問プロンプト",
     "columns": {
-      "title": "タイトル",
+      "index": "番号",
+      "title": "役割タイトル",
       "prompt": "プロンプト",
       "type": "プロンプトタイプ",
-      "actions": "アクション"
+      "actions": "操作",
+      "icon": "アイコン"
     },
     "systemPrompt": "システムプロンプト",
     "quickPrompt": "クイックプロンプト",
@@ -208,6 +210,11 @@
         "label": "タイトル",
         "placeholder": "素晴らしいプロンプト",
         "required": "タイトルを入力してください"
+      },
+      "roleTitle": {
+        "label": "役割タイトル",
+        "placeholder": "役割タイトルを入力",
+        "required": "役割タイトルを入力してください"
       },
       "prompt": {
         "label": "プロンプト",
@@ -388,5 +395,8 @@
   },
   "chromeAiSettings": {
     "title": "Chrome AI設定"
+  },
+  "personalSettings": {
+    "title": "個人設定"
   }
 }

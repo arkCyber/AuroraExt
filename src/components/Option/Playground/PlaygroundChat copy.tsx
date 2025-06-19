@@ -1,7 +1,7 @@
 import React from "react"
 import { useMessageOption } from "~/hooks/useMessageOption"
 import { PlaygroundEmpty } from "./PlaygroundEmpty"
-import { PlaygroundMessage } from "@/components/Common/Playground/Message2"
+import { PlaygroundMessage } from "@/components/Common/Playground/Message"
 import { MessageSourcePopup } from "@/components/Common/Playground/MessageSourcePopup"
 
 export const PlaygroundChat = () => {

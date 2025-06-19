@@ -1,3 +1,13 @@
+/**
+ * RAG (Retrieval-Augmented Generation) Settings Component
+ * This component provides a user interface for configuring RAG-related settings including:
+ * - Embedding model selection
+ * - Text splitting strategy and parameters
+ * - Chunk size and overlap settings
+ * - Document retrieval settings
+ * - File size limits
+ */
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Avatar, Form, Input, InputNumber, Select, Skeleton } from "antd"
 import { SaveButton } from "@/components/Common/SaveButton2"
@@ -19,9 +29,11 @@ import { ProviderIcons } from "@/components/Common/ProviderIcon"
 export const RagSettings = () => {
   const { t } = useTranslation("settings")
   const [form] = Form.useForm()
+  // Watch splitting strategy changes to conditionally render separator input
   const splittingStrategy = Form.useWatch("splittingStrategy", form)
   const queryClient = useQueryClient()
 
+  // Fetch all RAG-related settings from the backend
   const { data: ollamaInfo, status } = useQuery({
     queryKey: ["fetchRAGSettings"],
     queryFn: async () => {
@@ -57,6 +69,7 @@ export const RagSettings = () => {
     }
   })
 
+  // Mutation to save RAG settings
   const { mutate: saveRAG, isPending: isSaveRAGPending } = useMutation({
     mutationFn: async (data: {
       model: string
@@ -79,6 +92,7 @@ export const RagSettings = () => {
       return true
     },
     onSuccess: () => {
+      // Invalidate and refetch settings after successful save
       queryClient.invalidateQueries({
         queryKey: ["fetchRAGSettings"]
       })
@@ -86,17 +100,20 @@ export const RagSettings = () => {
   })
 
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex flex-col space-y-2">
+      {/* Show loading skeleton while fetching settings */}
       {status === "pending" && <Skeleton paragraph={{ rows: 4 }} active />}
       {status === "success" && (
-        <div className="flex flex-col space-y-6">
+        <div className="flex flex-col space-y-4">
+          {/* Main RAG Settings Section */}
           <div>
             <div>
               <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
                 {t("rag.ragSettings.label")}
               </h2>
-              <div className="border border-b border-gray-200 dark:border-gray-600 mt-3 mb-6"></div>
+              <div className="mt-2 mb-4 border border-b border-gray-200 dark:border-gray-600"></div>
             </div>
+            {/* Settings Form */}
             <Form
               form={form}
               layout="vertical"
@@ -120,6 +137,7 @@ export const RagSettings = () => {
                 splittingStrategy: ollamaInfo?.splittingStrategy,
                 splittingSeparator: ollamaInfo?.splittingSeparator
               }}>
+              {/* Embedding Model Selection */}
               <Form.Item
                 name="defaultEM"
                 label={t("rag.ragSettings.model.label")}
@@ -135,7 +153,7 @@ export const RagSettings = () => {
                   showSearch
                   placeholder={t("rag.ragSettings.model.placeholder")}
                   style={{ width: "100%" }}
-                  className="mt-4"
+                  className="mt-4 [&_.ant-select-selection-placeholder]:text-[15px]"
                   filterOption={(input, option) =>
                     option.label.key
                       .toLowerCase()
@@ -145,7 +163,7 @@ export const RagSettings = () => {
                     label: (
                       <span
                         key={model.model}
-                        className="flex flex-row gap-3 items-center truncate">
+                        className="flex flex-row items-center gap-3 truncate">
                         {model?.avatar ? (
                           <Avatar
                             src={model.avatar}
@@ -168,6 +186,7 @@ export const RagSettings = () => {
                 />
               </Form.Item>
 
+              {/* Text Splitting Strategy Selection */}
               <Form.Item
                 name="splittingStrategy"
                 label={t("rag.ragSettings.splittingStrategy.label")}
@@ -181,7 +200,7 @@ export const RagSettings = () => {
                   size="large"
                   showSearch
                   style={{ width: "100%" }}
-                  className="mt-4"
+                  className="mt-4 [&_.ant-select-selection-placeholder]:text-[15px]"
                   options={[
                     "RecursiveCharacterTextSplitter",
                     "CharacterTextSplitter"
@@ -192,6 +211,7 @@ export const RagSettings = () => {
                 />
               </Form.Item>
 
+              {/* Conditional Separator Input for CharacterTextSplitter */}
               {splittingStrategy !== "RecursiveCharacterTextSplitter" && (
                 <Form.Item
                   name="splittingSeparator"
@@ -212,6 +232,7 @@ export const RagSettings = () => {
                 </Form.Item>
               )}
 
+              {/* Chunk Size Configuration */}
               <Form.Item
                 name="chunkSize"
                 label={t("rag.ragSettings.chunkSize.label")}
@@ -226,6 +247,8 @@ export const RagSettings = () => {
                   placeholder={t("rag.ragSettings.chunkSize.placeholder")}
                 />
               </Form.Item>
+
+              {/* Chunk Overlap Configuration */}
               <Form.Item
                 name="chunkOverlap"
                 label={t("rag.ragSettings.chunkOverlap.label")}
@@ -241,6 +264,7 @@ export const RagSettings = () => {
                 />
               </Form.Item>
 
+              {/* Number of Retrieved Documents Configuration */}
               <Form.Item
                 name="noOfRetrievedDocs"
                 label={t("rag.ragSettings.noOfRetrievedDocs.label")}
@@ -258,6 +282,7 @@ export const RagSettings = () => {
                 />
               </Form.Item>
 
+              {/* Total File Size Limit Configuration */}
               <Form.Item
                 name="totalFilePerKB"
                 label={t("rag.ragSettings.totalFilePerKB.label")}
@@ -274,20 +299,23 @@ export const RagSettings = () => {
                 />
               </Form.Item>
 
+              {/* Save Button */}
               <div className="flex justify-end">
                 <SaveButton disabled={isSaveRAGPending} btnType="submit" />
               </div>
             </Form>
           </div>
 
+          {/* RAG Sidepanel Component */}
           <SidepanelRag />
 
+          {/* Prompt Settings Section */}
           <div>
             <div>
               <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
                 {t("rag.prompt.label")}
               </h2>
-              <div className="border border-b border-gray-200 dark:border-gray-600 mt-3 mb-6"></div>
+              <div className="mt-2 mb-4 border border-b border-gray-200 dark:border-gray-600"></div>
             </div>
             <SettingPrompt />
           </div>

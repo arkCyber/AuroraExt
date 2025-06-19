@@ -1,30 +1,23 @@
 import "katex/dist/katex.min.css"
-
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import ReactMarkdown from "react-markdown"
 import rehypeKatex from "rehype-katex"
-
 import "property-information"
 import React from "react"
 import { CodeBlock } from "./CodeBlock"
 import { preprocessLaTeX } from "@/utils/latex"
-import { useStorage } from "@plasmohq/storage/hook"
 
 function Markdown({
   message,
-  className = "prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 dark:prose-dark"
+  className = "prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 dark:prose-dark",
 }: {
   message: string
   className?: string
 }) {
-  const [checkWideMode] = useStorage("checkWideMode", false)
-  if (checkWideMode) {
-    className += " max-w-none"
-  }
   message = preprocessLaTeX(message)
   return (
-    <React.Fragment>
+    <div style={{ maxWidth: "160ch", width: "100%" }}> {/* 确保容器宽度为 100ch */}
       <ReactMarkdown
         className={className}
         remarkPlugins={[remarkGfm, remarkMath]}
@@ -51,19 +44,25 @@ function Markdown({
               <a
                 target="_blank"
                 rel="noreferrer"
-                className="text-blue-500 text-sm hover:underline"
-                {...props}>
+                className="text-sm text-blue-500 break-all hover:underline" // 确保长 URL 强制换行
+                {...props}
+              >
                 {props.children}
               </a>
             )
           },
           p({ children }) {
-            return <p className="mb-2 last:mb-0">{children}</p>
-          }
-        }}>
+            return (
+              <p className="mb-2 break-words whitespace-normal last:mb-0"> {/* 确保文本不强制换行 */}
+                {children}
+              </p>
+            )
+          },
+        }}
+      >
         {message}
       </ReactMarkdown>
-    </React.Fragment>
+    </div>
   )
 }
 

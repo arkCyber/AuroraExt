@@ -4,6 +4,7 @@ import {
   getOpenAIConfigById as providerInfo
 } from "./openai"
 import { getAllModelNicknames } from "./nickname"
+import { OAI_API_PROVIDERS } from "@/utils/oai-api-providers"
 
 type Model = {
   id: string
@@ -390,7 +391,7 @@ export const dynamicFetchLMStudio = async ({
   baseUrl: string
   providerId: string
 }) => {
-  const models = await getAllOpenAIModels(baseUrl)
+  const models = await getAllOpenAIModels(baseUrl, undefined, undefined)
   const lmstudioModels = models.map((e) => {
     return {
       name: e?.name || e?.id,
@@ -411,7 +412,7 @@ export const dynamicFetchLLamaCpp = async ({
   baseUrl: string
   providerId: string
 }) => {
-  const models = await getAllOpenAIModels(baseUrl)
+  const models = await getAllOpenAIModels(baseUrl, undefined, undefined)
   const llamaCppModels = models.map((e) => {
     return {
       name: e?.name || e?.id,
@@ -432,7 +433,7 @@ export const dynamicFetchOllama2 = async ({
   baseUrl: string
   providerId: string
 }) => {
-  const models = await getAllOpenAIModels(baseUrl)
+  const models = await getAllOpenAIModels(baseUrl, undefined, undefined)
   const ollama2Models = models.map((e) => {
     return {
       name: e?.name || e?.id,
@@ -453,7 +454,7 @@ export const dynamicFetchLlamafile = async ({
   baseUrl: string
   providerId: string
 }) => {
-  const models = await getAllOpenAIModels(baseUrl)
+  const models = await getAllOpenAIModels(baseUrl, undefined, undefined)
   const llamafileModels = models.map((e) => {
     return {
       name: e?.name || e?.id,
@@ -467,6 +468,52 @@ export const dynamicFetchLlamafile = async ({
   return llamafileModels
 }
 
+/**
+ * Get provider display name by provider type
+ * @param provider Provider type (e.g., "openai", "deepseek", "lmstudio", etc.)
+ * @param customName Custom provider name if available
+ * @returns Provider display name
+ */
+const getProviderDisplayName = (provider: string, customName?: string): string => {
+  console.log('🔍 [DEBUG] getProviderDisplayName called:', { provider, customName });
+  
+  // If provider is empty or undefined, use custom name or fallback
+  if (!provider || provider.trim() === '') {
+    const result = (customName && customName.trim() !== '') ? customName : 'Custom';
+    console.log('📝 [DEBUG] Empty provider, returning:', result);
+    return result;
+  }
+  
+  // For 'custom' provider type, always prefer custom name if available
+  if (provider === 'custom' && customName && customName.trim() !== '') {
+    console.log('📋 [DEBUG] Custom provider with custom name, returning:', customName);
+    return customName;
+  }
+  
+  // Find provider in predefined list
+  const predefinedProvider = OAI_API_PROVIDERS.find(p => p.value === provider);
+  if (predefinedProvider) {
+    // For non-custom providers, prefer custom name over predefined label if available
+    if (customName && customName.trim() !== '' && provider !== 'custom') {
+      console.log('✅ [DEBUG] Predefined provider with custom name, returning:', customName);
+      return customName;
+    }
+    console.log('✅ [DEBUG] Predefined provider, returning label:', predefinedProvider.label);
+    return predefinedProvider.label;
+  }
+  
+  // If not in predefined list and custom name is provided, use custom name
+  if (customName && customName.trim() !== '') {
+    console.log('📋 [DEBUG] Unknown provider with custom name, returning:', customName);
+    return customName;
+  }
+  
+  // Fallback to provider type with first letter capitalized
+  const fallback = provider.charAt(0).toUpperCase() + provider.slice(1);
+  console.log('🔄 [DEBUG] Using fallback:', fallback);
+  return fallback;
+};
+
 export const ollamaFormatAllCustomModels = async (
   modelType: "all" | "chat" | "embedding" = "all"
 ) => {
@@ -476,6 +523,19 @@ export const ollamaFormatAllCustomModels = async (
       getAllOpenAIConfig()
     ])
     const modelNicknames = await getAllModelNicknames()
+    
+    console.log('🔍 [DEBUG] ollamaFormatAllCustomModels data:', {
+      allModelsCount: allModles.length,
+      allProvidersCount: allProviders.length,
+      modelType,
+      providers: allProviders.map(p => ({ 
+        id: p.id, 
+        name: p.name, 
+        provider: p.provider, 
+        baseUrl: p.baseUrl 
+      }))
+    });
+    
     const lmstudioProviders = allProviders.filter(
       (provider) => provider.provider === "lmstudio"
     )
@@ -545,14 +605,43 @@ export const ollamaFormatAllCustomModels = async (
       ...llamacppModels
     ]
 
-    const ollamaModels = allModlesWithLMStudio.map((model) => {
+    console.log('🔍 [DEBUG] Merged models count:', allModlesWithLMStudio.length);
+
+    const ollamaModels = allModlesWithLMStudio.map((model, index) => {
+      const provider = allProviders.find((provider) => provider.id === model.provider_id);
+      
+      console.log(`🔍 [DEBUG] Processing model ${index + 1}:`, {
+        modelId: model.id,
+        modelName: model.name,
+        providerId: model.provider_id,
+        foundProvider: provider ? {
+          id: provider.id,
+          name: provider.name,
+          provider: provider.provider
+        } : null
+      });
+      
+      const providerDisplayName = getProviderDisplayName(
+        provider?.provider || "custom",
+        provider?.name
+      );
+      
+      console.log('📝 [DEBUG] Provider display name result:', providerDisplayName);
+      
+      // Format model name with provider name for external models
+      // Only apply formatting if we have a valid provider display name
+      const formattedName = provider?.provider && provider.provider !== "ollama" && providerDisplayName && providerDisplayName.trim() !== ''
+        ? `${providerDisplayName}@${model.name}`
+        : model.name;
+
+      console.log('✨ [DEBUG] Final formatted name:', formattedName);
+
       return {
-        name: model.name,
+        name: formattedName,
         model: model.id,
         modified_at: "",
         provider:
-          allProviders.find((provider) => provider.id === model.provider_id)
-            ?.provider || "custom",
+          provider?.provider || "custom",
         size: 0,
         digest: "",
         details: {
@@ -566,15 +655,23 @@ export const ollamaFormatAllCustomModels = async (
       }
     })
 
-    return ollamaModels.map((model) => {
+    const finalModels = ollamaModels.map((model) => {
       return {
         ...model,
         nickname: modelNicknames[model.model]?.model_name || model.name,
         avatar: modelNicknames[model.model]?.model_avatar || undefined
       }
-    })
+    });
+
+    console.log('🎯 [DEBUG] Final models output:', finalModels.map(m => ({ 
+      model: m.model, 
+      name: m.name, 
+      nickname: m.nickname 
+    })));
+
+    return finalModels;
   } catch (e) {
-    console.error(e)
+    console.error('[ERROR] ollamaFormatAllCustomModels:', e)
     return []
   }
 }

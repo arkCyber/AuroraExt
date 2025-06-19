@@ -7,7 +7,8 @@ import {
   BrainCog,
   CogIcon,
   EraserIcon,
-  HistoryIcon
+  HistoryIcon,
+  XCircle
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { CurrentChatModelSettings } from "@/components/Common/Settings/CurrentChatModelSettings"
@@ -40,10 +41,10 @@ export const SidepanelHeader = () => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false)
 
   return (
-    <div className=" px-3 justify-between bg-white dark:bg-[#171717] border-b border-gray-300 dark:border-gray-700 py-4 items-center absolute top-0 z-10 flex h-14 w-full">
-      <div className="focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-700 flex items-center dark:text-white">
+    <div className=" px-3 justify-between bg-white dark:bg-[#171717] border-b border-gray-300 dark:border-gray-700 py-4 items-center absolute top-0 z-10 flex h-14 w-full shadow-md">
+      <div className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-700 dark:text-white">
         <img
-          className="h-6 w-auto"
+          className="w-auto h-6"
           src={logoImage}
           alt={t("common:pageAssist")}
         />
@@ -53,7 +54,7 @@ export const SidepanelHeader = () => {
       <div className="flex items-center space-x-3">
         {isEmbedding ? (
           <Tooltip title={t("tooltip.embed")}>
-            <BoxesIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 animate-bounce animate-infinite" />
+            <BoxesIcon className="w-5 h-5 text-gray-500 dark:text-gray-400 animate-bounce animate-infinite" />
           </Tooltip>
         ) : null}
         {messages.length > 0 && !streaming && (
@@ -63,35 +64,43 @@ export const SidepanelHeader = () => {
               clearChat()
             }}
             className="flex items-center space-x-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-700">
-            <EraserIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+            <EraserIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         )}
+        <button
+          title={t("tooltip.close")}
+          onClick={() => {
+            setSidebarOpen(false)
+          }}
+          className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-700">
+          <XCircle className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+        </button>
         <Tooltip title={t("tooltip.history")}>
           <button
             onClick={() => {
               setSidebarOpen(true)
             }}
             className="flex items-center space-x-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-700">
-            <HistoryIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+            <HistoryIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </Tooltip>
         <PromptSelect
           selectedSystemPrompt={selectedSystemPrompt}
           setSelectedSystemPrompt={setSelectedSystemPrompt}
           setSelectedQuickPrompt={setSelectedQuickPrompt}
-          className="text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+          className="text-gray-500 transition-colors dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
         />
         {!hideCurrentChatModelSettings && (
           <Tooltip title={t("common:currentChatModelSettings")}>
             <button
               onClick={() => setOpenModelSettings(true)}
-              className="text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+              className="text-gray-500 transition-colors dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
               <BrainCog className="w-5 h-5" />
             </button>
           </Tooltip>
         )}
         <Link to="/settings">
-          <CogIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+          <CogIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
         </Link>
       </div>
       <CurrentChatModelSettings
@@ -118,7 +127,7 @@ export const SidepanelHeader = () => {
           setSelectedSystemPrompt={setSelectedSystemPrompt}
           clearChat={clearChat}
           historyId={historyId}
-          setSystemPrompt={(e) => {}}
+          setSystemPrompt={(e) => { }}
           temporaryChat={false}
           history={history}
         />

@@ -178,10 +178,12 @@
     "option2": "RAG",
     "questionPrompt": "Prompt de Pregunta",
     "columns": {
-      "title": "Título",
+      "index": "N°",
+      "title": "Título del rol",
       "prompt": "Prompt",
-      "type": "Tipo de Prompt",
-      "actions": "Acciones"
+      "type": "Tipo de prompt",
+      "actions": "Acciones",
+      "icon": "Icono"
     },
     "segmented": {
       "custom": "Invites personnalisées",
@@ -201,11 +203,9 @@
       "editTitle": "Editar Prompt"
     },
     "form": {
-      "title": {
-        "label": "Título",
-        "placeholder": "Mi Prompt genial",
-        "required": "Por favor, ingrese un título"
-      },
+      "roleTitle": "Título del rol",
+      "roleTitle.placeholder": "Mi título del rol",
+      "roleTitle.required": "Por favor, ingrese un título del rol",
       "prompt": {
         "label": "Prompt",
         "placeholder": "Ingrese un prompt",
@@ -385,5 +385,8 @@
   },
   "chromeAiSettings": {
     "title": "Configuración de IA de Chrome"
+  },
+  "personalSettings": {
+    "title": "Configuración personal"
   }
 }

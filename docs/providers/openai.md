@@ -22,6 +22,7 @@ By default, Aurora supports the following OpenAI Compatible API endpoints:
 - AlibabaCloud
 - Infinigence AI
 - Novita AI
+- 01.AI (零一万物)
 
 
 ## Adding OpenAI Compatible API
@@ -43,5 +44,5 @@ By default, Aurora supports the following OpenAI Compatible API endpoints:
 
 
 ::: info
-For Ollama, LM Studio, and Llamafile, you don't need to add any models since Aurora will automatically fetch them from the API.
+For Ollama, LM Studio, Llamafile, and 01.AI, you don't need to add any models since Aurora will automatically fetch them from the API.
 :::

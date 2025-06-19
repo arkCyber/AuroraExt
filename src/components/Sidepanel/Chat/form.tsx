@@ -13,7 +13,9 @@ import {
   StopCircleIcon,
   X,
   EyeIcon,
-  EyeOffIcon
+  EyeOffIcon,
+  HelpCircle,
+  Mail
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { ModelSelect } from "@/components/Common/ModelSelect"
@@ -32,6 +34,7 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
   const inputRef = React.useRef<HTMLInputElement>(null)
   const { sendWhenEnter, setSendWhenEnter } = useWebUI()
   const [typing, setTyping] = React.useState<boolean>(false)
+  const [hasInput, setHasInput] = React.useState<boolean>(false)
   const { t } = useTranslation(["playground", "common"])
   const [chatWithWebsiteEmbedding] = useStorage(
     "chatWithWebsiteEmbedding",
@@ -76,7 +79,37 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
       textareaRef.current.focus()
     }
   }
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Add CTRL+Shift+3 shortcut to start voice command
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "3") {
+      e.preventDefault()
+      if (!isListening) {
+        resetTranscript()
+        startListening({
+          continuous: true,
+          lang: speechToTextLanguage
+        })
+      }
+    }
+
+    // Add CTRL+Shift+4 shortcut to stop voice command
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "4") {
+      e.preventDefault()
+      stopListening()
+    }
+
+    // Add CTRL+C shortcut to stop streaming
+    if (e.ctrlKey && (e.key === "c" || e.key === "C")) {
+      stopStreamingRequest()
+    }
+
+    // Add CTRL+H shortcut for help
+    if (e.ctrlKey && (e.key === "h" || e.key === "H")) {
+      e.preventDefault()
+      // Show help modal or tooltip
+    }
+
     if (e.key === "Process" || e.key === "229") return
     if (
       handleChatInputKeyDown({
@@ -175,6 +208,7 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
       }
     }
   }, [selectedQuickPrompt])
+
   const { mutateAsync: sendMessage, isPending: isSending } = useMutation({
     mutationFn: onSubmit,
     onSuccess: () => {
@@ -184,6 +218,12 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
       textAreaFocus()
     }
   })
+
+  // Handle textarea content changes
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    form.getInputProps("message").onChange(e)
+    setHasInput(e.target.value.trim().length > 0)
+  }
 
   React.useEffect(() => {
     const handleDrop = (e: DragEvent) => {
@@ -224,30 +264,32 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
     }
   }, [defaultInternetSearchOn])
 
-  React.useEffect(() => {
-    if (defaultChatWithWebsite) {
-      setChatMode("rag")
-    }
-  }, [defaultChatWithWebsite])
-
   return (
-    <div className="flex w-full flex-col items-center px-2">
-      <div className="relative z-10 flex w-full flex-col items-center justify-center gap-2 text-base">
-        <div className="relative flex w-full flex-row justify-center gap-2 lg:w-4/5">
+    <div className="flex flex-col items-center w-full p-2 pt-1 pb-7 dark:hover:!border-indigo-400 text-thin dark:drop-shadow-[12px_12px_16px_rgba(100,149,237,0.5)] drop-shadow-[6px_4px_4px_rgba(0,0,0,0.1)]">
+      {/* Main chat interface container */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-full gap-0.5 text-base font-light dark:focus:!border-violet-400">
+        {/* Help text for keyboard shortcuts */}
+        <div className="flex items-start justify-start mt-0.5 text-sm text-gray-500 dark:text-stone-400" style={{ fontStyle: 'italic' }}>
+          <span>{t("Ctrl+ Enter --Submit.  Ctrl+ H --Help")}</span>
+        </div>
+
+        <div className="relative flex flex-row justify-center w-full gap-2 lg:w-4/5">
           <div
-            className={` bg-neutral-50  dark:bg-[#262626] relative w-full max-w-[48rem] p-1 backdrop-blur-lg duration-100 border border-gray-300 rounded-t-xl  dark:border-gray-600
-          `}>
+            className={`bg-neutral-100 dark:bg-[#262626] relative w-full max-w-[48rem] p-1 backdrop-blur-lg 
+              duration-100 border border-gray-600 rounded-xl  
+              dark:border-gray-600 active:border-violet-300 dark:active:border-violet-400 
+              hover:border-violet-300 dark:hover:border-violet-400
+              ${hasInput ? "dark:border-violet-400" : ""}`}>
             <div
-              className={`border-b border-gray-200 dark:border-gray-600 relative ${
-                form.values.image.length === 0 ? "hidden" : "block"
-              }`}>
+              className={`border-b border-gray-200 dark:border-gray-600 relative ${form.values.image.length === 0 ? "hidden" : "block"
+                }`}>
               <button
                 type="button"
                 onClick={() => {
                   form.setFieldValue("image", "")
                 }}
                 className="absolute top-1 left-1 flex items-center justify-center z-10 bg-white dark:bg-[#262626] p-0.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 text-black dark:text-gray-100">
-                <X className="h-4 w-4" />
+                <X className="w-4 h-4" />
               </button>{" "}
               <Image
                 src={form.values.image}
@@ -264,16 +306,6 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                       form.setFieldError("message", t("formError.noModel"))
                       return
                     }
-                    if (chatMode === "rag") {
-                      const defaultEM = await defaultEmbeddingModelForRag()
-                      if (!defaultEM && chatWithWebsiteEmbedding) {
-                        form.setFieldError(
-                          "message",
-                          t("formError.noEmbeddingModel")
-                        )
-                        return
-                      }
-                    }
                     if (webSearch) {
                       const defaultEM = await defaultEmbeddingModelForRag()
                       const simpleSearch = await getIsSimpleInternetSearch()
@@ -285,7 +317,6 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                         return
                       }
                     }
-                    await stopListening()
                     if (
                       value.message.trim().length === 0 &&
                       value.image.length === 0
@@ -299,7 +330,7 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                       message: value.message.trim()
                     })
                   })}
-                  className="shrink-0 flex-grow  flex flex-col items-center ">
+                  className="flex flex-col items-center flex-grow shrink-0 ">
                   <input
                     id="file-upload"
                     name="file-upload"
@@ -310,11 +341,12 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                     multiple={false}
                     onChange={onInputChange}
                   />
-                  <div className="w-full  flex flex-col px-1">
+                  <div className="flex flex-col w-full px-1">
                     <textarea
                       onKeyDown={(e) => handleKeyDown(e)}
                       ref={textareaRef}
-                      className="px-2 py-2 w-full resize-none bg-transparent focus-within:outline-none focus:ring-0 focus-visible:ring-0 ring-0 dark:ring-0 border-0 dark:text-gray-100"
+                      className={`w-full px-2 py-2 bg-transparent border-0 resize-none focus-within:outline-none focus:ring-0 focus-visible:ring-0 ring-0 dark:ring-0 dark:text-gray-100 text-[15px] font-normal
+                        ${isSending ? "placeholder-violet-950 dark:placeholder-orange-400 placeholder-opacity-80" : "placeholder-gray-600 dark:placeholder-stone-300"}`}
                       onPaste={handlePaste}
                       rows={1}
                       style={{ minHeight: "60px" }}
@@ -329,22 +361,36 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                           setTyping(false)
                         }
                       }}
-                      placeholder={t("form.textarea.placeholder")}
-                      {...form.getInputProps("message")}
+                      placeholder={
+                        isSending
+                          ? [
+                            "CTRL+ C : Stop Streaming ...",
+                            "Click Red Button to Stop",
+                            "Press CTRL+C to Stop ...",
+                            "AI Streaming in progress ..."
+                          ][Math.floor((Date.now() / 1000) % 4)]
+                          : hasInput ? t("form.textarea.placeholder") : [
+                            "Ask me anything ...",
+                            "I'm here to help ...",
+                            "What's on your mind?",
+                            "How can I assist you?"
+                          ][Math.floor((Date.now() / 1000) % 4)]
+                      }
+                      onChange={handleTextareaChange}
+                      value={form.values.message}
                     />
-                    <div className="flex mt-4 justify-end gap-3">
+                    <div className="flex justify-end gap-3 mt-4">
                       {chatMode !== "vision" && (
                         <Tooltip title={t("tooltip.searchInternet")}>
                           <button
                             type="button"
                             onClick={() => setWebSearch(!webSearch)}
-                            className={`inline-flex items-center gap-2   ${
-                              chatMode === "rag" ? "hidden" : "block"
-                            }`}>
+                            className={`inline-flex items-center gap-2 ${chatMode === "rag" ? "hidden" : "block"
+                              }`}>
                             {webSearch ? (
-                              <PiGlobe className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                              <PiGlobe className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                             ) : (
-                              <PiGlobeX className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                              <PiGlobeX className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                             )}
                           </button>
                         </Tooltip>
@@ -367,11 +413,11 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                             }}
                             className={`flex items-center justify-center dark:text-gray-300`}>
                             {!isListening ? (
-                              <MicIcon className="h-5 w-5" />
+                              <MicIcon className="w-5 h-5" />
                             ) : (
                               <div className="relative">
-                                <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
-                                <MicIcon className="h-5 w-5" />
+                                <span className="absolute inline-flex w-3 h-3 bg-red-400 rounded-full opacity-75 animate-ping"></span>
+                                <MicIcon className="w-5 h-5" />
                               </div>
                             )}
                           </button>
@@ -388,13 +434,12 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                             }
                           }}
                           disabled={chatMode === "rag"}
-                          className={`flex items-center justify-center dark:text-gray-300 ${
-                            chatMode === "rag" ? "hidden" : "block"
-                          } disabled:opacity-50`}>
+                          className={`flex items-center justify-center dark:text-gray-300 ${chatMode === "rag" ? "hidden" : "block"
+                            } disabled:opacity-50`}>
                           {chatMode === "vision" ? (
-                            <EyeIcon className="h-5 w-5" />
+                            <EyeIcon className="w-5 h-5" />
                           ) : (
-                            <EyeOffIcon className="h-5 w-5" />
+                            <EyeOffIcon className="w-5 h-5" />
                           )}
                         </button>
                       </Tooltip>
@@ -405,10 +450,9 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                             inputRef.current?.click()
                           }}
                           disabled={chatMode === "vision"}
-                          className={`flex items-center justify-center disabled:opacity-50 dark:text-gray-300 ${
-                            chatMode === "rag" ? "hidden" : "block"
-                          }`}>
-                          <ImageIcon className="h-5 w-5" />
+                          className={`flex items-center justify-center disabled:opacity-50 dark:text-gray-300 ${chatMode === "rag" ? "hidden" : "block"
+                            }`}>
+                          <ImageIcon className="w-5 h-5" />
                         </button>
                       </Tooltip>
                       {!streaming ? (
@@ -482,7 +526,7 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
-                                className="h-5 w-5"
+                                className="w-5 h-5"
                                 viewBox="0 0 24 24">
                                 <path d="M9 10L4 15 9 20"></path>
                                 <path d="M20 4v7a4 4 0 01-4 4H4"></path>
@@ -496,8 +540,10 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                           <button
                             type="button"
                             onClick={stopStreamingRequest}
-                            className="text-gray-800 dark:text-gray-300">
-                            <StopCircleIcon className="h-6 w-6" />
+                            className="flex items-center space-x-2">
+                            <div className="text-red-700 dark:text-red-400 dark:bg-gray-600 animate-pulse">
+                              <StopCircleIcon className="w-6 h-6" />
+                            </div>
                           </button>
                         </Tooltip>
                       )}
@@ -506,11 +552,38 @@ export const SidepanelForm = ({ dropedFile }: Props) => {
                 </form>
               </div>
               {form.errors.message && (
-                <div className="text-red-500 text-center text-sm mt-1">
+                <div className="mt-1 text-[15px] text-center text-red-500">
                   {form.errors.message}
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Help Message - Fixed position footer */}
+      <div className="fixed bottom-0 w-full p-2 mt-3 text-xs text-center text-gray-500 dark:text-stone-400 shadow-lg bg-white dark:bg-[#262626]">
+        <div className="flex items-center justify-center gap-4">
+          <span>{t("@Aurora")}</span>
+          <div className="flex items-center gap-4">
+            <Tooltip title="Any Suggestion can send back to author">
+              <a
+                href="mailto:feedback@aurora.com"
+                className="flex items-center gap-1 transition-colors duration-200 hover:text-violet-500 dark:hover:text-violet-400"
+              >
+                <Mail className="w-4 h-4 text-gray-600 dark:text-indigo-400" />
+                MessageFeedback
+              </a>
+            </Tooltip>
+            <Tooltip title="Frequently Asked Questions">
+              <a
+                href="#"
+                className="flex items-center gap-1 transition-colors duration-200 hover:text-violet-500 dark:hover:text-violet-400"
+              >
+                <HelpCircle className="w-4 h-4 text-gray-600 dark:text-indigo-400" />
+                QA
+              </a>
+            </Tooltip>
           </div>
         </div>
       </div>

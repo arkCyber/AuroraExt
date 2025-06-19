@@ -2,7 +2,7 @@ import { getAllCustomModels, deleteModel } from "@/db/models"
 import { useStorage } from "@plasmohq/storage/hook"
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query"
 import { Avatar, Skeleton, Table, Tag, Tooltip } from "antd"
-import { Pencil, Trash2 } from "lucide-react"
+import { Trash2, FilePenLine } from "lucide-react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { ModelNickModelNicknameModal } from "./ModelNicknameModal"
@@ -69,7 +69,7 @@ export const CustomModelsTable = () => {
                           })
                           setOpenNicknameModal(true)
                         }}>
-                        <Pencil className="size-3" />
+                        <FilePenLine className="size-5" />
                       </button>
                     </div>
                   )

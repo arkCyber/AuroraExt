@@ -1,0 +1,69 @@
+{
+    "settings": {
+        "profile": {
+            "title": "プロフィール設定",
+            "nickname": "ニックネーム",
+            "avatar": "アバターURL",
+            "save": "プロフィールを保存",
+            "saving": "保存中...",
+            "created": "プロフィールが正常に作成されました",
+            "saved": "プロフィールが正常に更新されました",
+            "errors": {
+                "nicknameRequired": "ニックネームは必須です",
+                "avatarRequired": "アバターURLは必須です"
+            }
+        },
+        "blockchain": {
+            "title": "ブロックチェーンウォレット",
+            "deviceId": "デバイスID",
+            "mnemonic": "ニーモニック",
+            "address": "ウォレットアドレス",
+            "chainType": "チェーンタイプ"
+        },
+        "personal": {
+            "personalSettings": "個人設定",
+            "saveProfile": "保存",
+            "nickname": "ニックネーム",
+            "email": "メールアドレス",
+            "bio": "自己紹介",
+            "uploadAvatar": "アバターをアップロード",
+            "deviceId": "デバイスID",
+            "regenerateWallet": "ウォレットを再生成",
+            "showDetails": "詳細を表示",
+            "hideDetails": "詳細を隠す",
+            "blockchainInfo": "ブロックチェーン情報",
+            "address": "アドレス",
+            "publicKey": "公開鍵",
+            "mnemonic": "ニーモニック",
+            "aiMouse": "AIマウス",
+            "connect": "接続",
+            "mouseConnected": "マウスが接続されています",
+            "mouseNotConnected": "マウスが接続されていません",
+            "confirmSaveTitle": "保存の確認",
+            "confirmSaveMessage": "これらの変更を保存してもよろしいですか？",
+            "cancel": "キャンセル",
+            "confirm": "確認",
+            "saving": "保存中...",
+            "unsavedChanges": "未保存の変更",
+            "autoSaveSuccess": "変更が正常に保存されました",
+            "autoSaveError": "変更の保存に失敗しました",
+            "deviceIdError": "デバイスIDの初期化に失敗しました",
+            "wallet": {
+                "generateSuccess": "ウォレットが正常に生成されました",
+                "generateError": "ウォレットの生成に失敗しました",
+                "loadError": "ウォレット情報の読み込みに失敗しました",
+                "regenerateSuccess": "ウォレットが正常に再生成されました",
+                "regenerateError": "ウォレットの再生成に失敗しました",
+                "generating": "ウォレットを生成中...",
+                "generatingSubtitle": "ウォレットを生成しています。しばらくお待ちください",
+                "testSuccess": "ウォレット生成テストが成功しました",
+                "testError": "ウォレット生成テストが失敗しました"
+            }
+        }
+    },
+    "common": {
+        "copy": "コピー",
+        "copied": "クリップボードにコピーしました",
+        "copyFailed": "クリップボードへのコピーに失敗しました"
+    }
+}

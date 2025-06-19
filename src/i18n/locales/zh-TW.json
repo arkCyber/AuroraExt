@@ -1,0 +1,69 @@
+{
+    "settings": {
+        "profile": {
+            "title": "個人資料設定",
+            "nickname": "暱稱",
+            "avatar": "頭像連結",
+            "save": "儲存個人資料",
+            "saving": "儲存中...",
+            "created": "個人資料建立成功",
+            "saved": "個人資料更新成功",
+            "errors": {
+                "nicknameRequired": "暱稱為必填項",
+                "avatarRequired": "頭像連結為必填項"
+            }
+        },
+        "blockchain": {
+            "title": "區塊鏈錢包",
+            "deviceId": "設備ID",
+            "mnemonic": "助記詞",
+            "address": "錢包地址",
+            "chainType": "鏈類型"
+        },
+        "personal": {
+            "personalSettings": "個人設定",
+            "saveProfile": "儲存",
+            "nickname": "暱稱",
+            "email": "電子郵件",
+            "bio": "個人簡介",
+            "uploadAvatar": "上傳頭像",
+            "deviceId": "設備ID",
+            "regenerateWallet": "重新產生錢包",
+            "showDetails": "顯示詳情",
+            "hideDetails": "隱藏詳情",
+            "blockchainInfo": "區塊鏈資訊",
+            "address": "地址",
+            "publicKey": "公鑰",
+            "mnemonic": "助記詞",
+            "aiMouse": "AI滑鼠",
+            "connect": "連接",
+            "mouseConnected": "滑鼠已連接",
+            "mouseNotConnected": "滑鼠未連接",
+            "confirmSaveTitle": "確認儲存",
+            "confirmSaveMessage": "確定要儲存這些更改嗎？",
+            "cancel": "取消",
+            "confirm": "確認",
+            "saving": "儲存中...",
+            "unsavedChanges": "未儲存的更改",
+            "autoSaveSuccess": "更改儲存成功",
+            "autoSaveError": "儲存更改失敗",
+            "deviceIdError": "初始化設備ID失敗",
+            "wallet": {
+                "generateSuccess": "錢包產生成功",
+                "generateError": "產生錢包失敗",
+                "loadError": "載入錢包資訊失敗",
+                "regenerateSuccess": "錢包重新產生成功",
+                "regenerateError": "重新產生錢包失敗",
+                "generating": "正在產生錢包...",
+                "generatingSubtitle": "請稍候，正在產生您的錢包",
+                "testSuccess": "錢包產生測試成功",
+                "testError": "錢包產生測試失敗"
+            }
+        }
+    },
+    "common": {
+        "copy": "複製",
+        "copied": "已複製到剪貼簿",
+        "copyFailed": "複製到剪貼簿失敗"
+    }
+}

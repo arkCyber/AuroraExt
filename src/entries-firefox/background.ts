@@ -1,9 +1,24 @@
 import { getOllamaURL, isOllamaRunning } from "../services/ollama"
 import { browser } from "wxt/browser"
 import { clearBadge, streamDownload } from "@/utils/pull-ollama"
+import { autoInitializeDefaultPrompts } from "@/services/prompt-initialization"
 
 export default defineBackground({
-  main() {
+  async main() {
+    // Auto-initialize default prompts on startup
+    console.log(`[${new Date().toISOString()}] Background script starting...`)
+    
+    try {
+      const initResult = await autoInitializeDefaultPrompts()
+      if (initResult) {
+        console.log(`[${new Date().toISOString()}] Default prompts auto-initialization completed`)
+      } else {
+        console.log(`[${new Date().toISOString()}] Default prompts auto-initialization skipped or failed`)
+      }
+    } catch (error) {
+      console.error(`[${new Date().toISOString()}] Error during prompts auto-initialization:`, error)
+    }
+
     let isCopilotRunning: boolean = false
     browser.runtime.onMessage.addListener(async (message) => {
       if (message.type === "sidepanel") {
@@ -14,9 +29,9 @@ export default defineBackground({
         const isRunning = await isOllamaRunning()
 
         if (!isRunning) {
-          setBadgeText({ text: "E" })
-          setBadgeBackgroundColor({ color: "#FF0000" })
-          setTitle({ title: "Ollama is not running" })
+          setBadgeText({ text: "E" } as any)
+          setBadgeBackgroundColor({ color: "#FF0000" } as any)
+          setTitle({ title: "Ollama is not running" } as any)
           setTimeout(() => {
             clearBadge()
           }, 5000)

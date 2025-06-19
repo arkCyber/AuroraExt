@@ -190,10 +190,12 @@
       "copilot": "Prompts Copilot"
     },
     "columns": {
-      "title": "Titre",
+      "index": "N°",
+      "title": "Titre du rôle",
       "prompt": "Prompt",
       "type": "Type de prompt",
-      "actions": "Actions"
+      "actions": "Actions",
+      "icon": "Icône"
     },
     "systemPrompt": "Prompt système",
     "quickPrompt": "Prompt rapide",
@@ -213,6 +215,11 @@
         "label": "Titre",
         "placeholder": "Mon super prompt",
         "required": "Veuillez entrer un titre"
+      },
+      "roleTitle": {
+        "label": "Titre du rôle",
+        "placeholder": "Mon titre de rôle",
+        "required": "Veuillez saisir un titre de rôle"
       },
       "prompt": {
         "label": "Prompt",
@@ -394,5 +401,8 @@
   "chromeAiSettings": {
     "title": "Paramètres Chrome AI"
   },
-  "mermaid": "Mermaid"
+  "mermaid": "Mermaid",
+  "personalSettings": {
+    "title": "Paramètres personnels"
+  }
 }

@@ -62,7 +62,6 @@
         "placeholder": "Размер содержимого (по умолчанию 4028)"
       }
     },
-
     "webSearch": {
       "heading": "Управление веб-поиском",
       "searchMode": {
@@ -179,7 +178,7 @@
     "option2": "RAG",
     "questionPrompt": "Вопросная подсказка",
     "columns": {
-      "title": "Название",
+      "title": "Название роли",
       "prompt": "Подсказка",
       "type": "Тип подсказки",
       "actions": "Действия"
@@ -386,5 +385,8 @@
   },
   "chromeAiSettings": {
     "title": "Настройки ИИ Chrome"
+  },
+  "personalSettings": {
+    "title": "Личные настройки"
   }
 }

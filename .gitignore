@@ -1,51 +1,89 @@
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-# settings
-.vscode
 
-# dependencies
-/node_modules
+# Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Dependencies
+/node_modules/
 /.pnp
 .pnp.js
+package-lock.json
+pnpm-lock.yaml
 
-# testing
-/coverage
+# Testing
+/coverage/
+*.test.js
+*.test.ts
 
-#cache
-.turbo
-.next
-.vercel
+# Cache
+.turbo/
+.next/
+.vercel/
+/docs/.vitepress/cache/
 
-# misc
+# Misc
 .DS_Store
 *.pem
+Thumbs.db
 
-# debug
+# Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+lerna-debug.log*
 
-
-# local env files
+# Local env files
 .env*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
+# Build outputs
 out/
 build/
 dist/
+target/
 
-# plasmo - https://www.plasmo.com
-.plasmo
-
-# bpp - http://bpp.browser.market/
+# Extension specific
+.plasmo/
+.wxt/
 keys.json
 
-# typescript
+# TypeScript
 .tsbuildinfo
-# WXT
-.wxt
-# WebStorm
-.idea 
+*.tsbuildinfo
 
-/docs/.vitepress/cache/
-package-lock.json
+# Rust/WASM build artifacts
+src/Wasm-Blockchain/target/
+src/Wasm-Blockchain/pkg/
+*.wasm
+Cargo.lock
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Local test files
+test.html
+*.test.html
+
+# Browser extension build files
+manifest.json
+public/

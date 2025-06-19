@@ -38,7 +38,7 @@ export const ModelSelect: React.FC = () => {
                         />
                       )}
                     </div>
-                    {d?.nickname || d.model}
+                    {d?.nickname || d.name}
                   </div>
                 ),
                 onClick: () => {

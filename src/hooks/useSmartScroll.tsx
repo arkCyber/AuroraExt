@@ -10,7 +10,10 @@ export const useSmartScroll = (messages: any[], streaming: boolean) => {
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = container
-      setIsAtBottom(scrollHeight - scrollTop - clientHeight < 50)
+      setTimeout(() => {
+        const isBottom = scrollHeight - scrollTop - clientHeight < 100
+        setIsAtBottom(isBottom)
+      }, 100)
     }
 
     container.addEventListener("scroll", handleScroll)
@@ -32,10 +35,12 @@ export const useSmartScroll = (messages: any[], streaming: boolean) => {
   }, [messages, streaming, isAtBottom])
 
   const scrollToBottom = () => {
-    containerRef.current?.lastElementChild?.scrollIntoView({
-      behavior: "smooth",
-      block: "end"
-    })
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: "smooth"
+      })
+    }
   }
 
   return { containerRef, isAtBottom, scrollToBottom }

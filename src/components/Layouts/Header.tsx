@@ -1,3 +1,16 @@
+/**
+ * Header Component
+ * 
+ * This component serves as the main navigation and control bar for the application.
+ * It includes:
+ * - Model selection for AI models
+ * - Prompt selection and management
+ * - Language switching capabilities
+ * - Theme toggling
+ * - User profile and settings
+ * - Various utility functions for chat management
+ */
+
 import { useStorage } from "@plasmohq/storage/hook";
 import {
   BrainCog,
@@ -7,56 +20,74 @@ import {
   ComputerIcon,
   ZapIcon,
   AtSign,
-  CircleUserRound,
-  Globe, // Import the Globe icon
+  Globe,
+  PanelLeftIcon
 } from "lucide-react";
 
+// Import assets and images
 import logoImage from "~/assets/icon.png";
 import UserImage from "~/assets/arkSong.png";
+import defaultAvatar from "~/assets/default_avatar.png";
 
-
+// Import necessary hooks and components
 import { useTranslation } from "react-i18next";
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { SelectedKnowledge } from "../Option/Knowledge/SelectedKnowledge";
 import { ModelSelect } from "../Common/ModelSelect";
 import { PromptSelect } from "../Common/PromptSelect";
 import { useQuery } from "@tanstack/react-query";
 
+// Import services and utilities
 import { fetchChatModels } from "~/services/ollama";
 import { useMessageOption } from "~/hooks/useMessageOption";
-import { Tooltip, Dropdown, Menu, Select } from "antd"; // Ensure Select is imported
+import { Tooltip, Dropdown, Menu, Select } from "antd";
 import { getAllPrompts } from "@/db";
 import { ProviderIcons } from "../Common/ProviderIcon";
 import { NewChat } from "./NewChat";
 import { PageAssistSelect } from "../Select";
-import { MoreOptions } from "./MoreOptions";
 
-import { useState, useEffect } from "react"; // Ensure useEffect is imported
+import { useState, useEffect } from "react";
 import ThemeToggle from "./ThemeToggle";
+import { UserProfileDropdown } from './UserProfileDropdown';
+import { Avatar, Button } from 'antd';
+import { UserOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { DatabaseService, UserProfile } from '../../services/database';
 
-// Default Avatar for user profile
-const defaultAvatar =
-  "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png";
-
-
-// const [isLoggedIn, setIsLoggedIn] = useState(false);
-// const [userAvatar, setUserAvatar] = useState("");
-
-
+/**
+ * Props interface for the Header component
+ */
 type Props = {
-  setSidebarOpen: (open: boolean) => void;
-  setOpenModelSettings: (open: boolean) => void;
+  setSidebarOpen: (open: boolean) => void;      // Function to control sidebar visibility
+  setOpenModelSettings: (open: boolean) => void; // Function to control model settings modal
 };
 
 export const Header: React.FC<Props> = ({
   setOpenModelSettings,
   setSidebarOpen,
 }) => {
+  // Initialize translation and RTL support
   const { t, i18n } = useTranslation(["option", "common"]);
   const isRTL = i18n.dir() === "rtl";
+  const [currentLang, setCurrentLang] = useState(i18n.language);
 
+  // Add effect to listen for language changes
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      console.log('Language changed to:', i18n.language);
+      setCurrentLang(i18n.language);
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, [i18n]);
+
+  // Storage hooks for application state
   const [shareModeEnabled] = useStorage("shareMode", false);
   const [hideCurrentChatModelSettings] = useStorage("hideCurrentChatModelSettings", false);
+
+  // Message options and chat state management
   const {
     selectedModel,
     setSelectedModel,
@@ -70,7 +101,7 @@ export const Header: React.FC<Props> = ({
     temporaryChat,
   } = useMessageOption();
 
-  // 获取聊天模型数据
+  // Fetch available chat models using React Query
   const {
     data: models,
     isLoading: isModelsLoading,
@@ -82,20 +113,28 @@ export const Header: React.FC<Props> = ({
     placeholderData: (prev) => prev,
   });
 
-  // 获取所有提示词数据
+  // Fetch all available prompts using React Query
   const { data: prompts, isLoading: isPromptLoading } = useQuery({
     queryKey: ["fetchAllPromptsLayout"],
     queryFn: getAllPrompts,
   });
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  // 根据 ID 获取提示词信息
+  /**
+   * Get prompt information by ID
+   * @param id Prompt ID
+   * @returns Prompt object if found
+   */
   const getPromptInfoById = (id: string) => {
     return prompts?.find((prompt) => prompt.id === id);
   };
 
-  // 处理提示词选择变化
+  /**
+   * Handle prompt selection changes
+   * @param value Selected prompt ID
+   */
   const handlePromptChange = (value?: string) => {
     if (!value) {
       setSelectedSystemPrompt(undefined);
@@ -111,12 +150,15 @@ export const Header: React.FC<Props> = ({
     }
   };
 
-  // 处理语言切换
+  /**
+   * Handle language change
+   * @param language Language code to switch to
+   */
   const handleLanguageChange = (language: string) => {
     i18n.changeLanguage(language);
   };
 
-  // Dropdown menu for language selection
+  // Language selection dropdown menu configuration
   const languageMenu = (
     <Menu className="bg-white rounded-md shadow-lg dark:bg-neutral-900">
       <Menu.Item
@@ -133,14 +175,133 @@ export const Header: React.FC<Props> = ({
       >
         中文
       </Menu.Item>
+      <Menu.Item
+        key="zh-TW"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("zh-TW")}
+      >
+        繁體中文
+      </Menu.Item>
+      <Menu.Item
+        key="de"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("de")}
+      >
+        Deutsch
+      </Menu.Item>
+      <Menu.Item
+        key="fr"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("fr")}
+      >
+        Français
+      </Menu.Item>
+      <Menu.Item
+        key="uk"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("uk")}
+      >
+        Українська
+      </Menu.Item>
+      <Menu.Item
+        key="ja"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("ja")}
+      >
+        日本語
+      </Menu.Item>
+      <Menu.Item
+        key="ko"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("ko")}
+      >
+        한국어
+      </Menu.Item>
+      <Menu.Item
+        key="ar"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("ar")}
+      >
+        العربية
+      </Menu.Item>
+      <Menu.Item
+        key="ru"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("ru")}
+      >
+        Русский
+      </Menu.Item>
+      <Menu.Item
+        key="es"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("es")}
+      >
+        Español
+      </Menu.Item>
+      <Menu.Item
+        key="it"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("it")}
+      >
+        Italiano
+      </Menu.Item>
+      <Menu.Item
+        key="pt-BR"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("pt-BR")}
+      >
+        Português (Brasil)
+      </Menu.Item>
+      <Menu.Item
+        key="ml"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("ml")}
+      >
+        മലയാളം
+      </Menu.Item>
+      <Menu.Item
+        key="fa"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("fa")}
+      >
+        فارسی
+      </Menu.Item>
+      <Menu.Item
+        key="da"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("da")}
+      >
+        Dansk
+      </Menu.Item>
+      <Menu.Item
+        key="no"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("no")}
+      >
+        Norsk
+      </Menu.Item>
+      <Menu.Item
+        key="sv"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("sv")}
+      >
+        Svenska
+      </Menu.Item>
+      <Menu.Item
+        key="th"
+        className="text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={() => handleLanguageChange("th")}
+      >
+        ไทย
+      </Menu.Item>
     </Menu>
   );
 
-  // 修复 sidePanel.setOptions 错误
+  // Initialize Chrome side panel options
   useEffect(() => {
     if (chrome?.sidePanel?.setOptions) {
       chrome.sidePanel.setOptions({
-        path: "sidePanel.html", // 确保 path 属性正确
+        path: "sidePanel.html",
         enabled: true,
       });
     }
@@ -148,12 +309,13 @@ export const Header: React.FC<Props> = ({
 
   return (
     <div
-      className={`absolute top-0 z-10 flex w-full flex-row overflow-x-auto lg:overflow-x-visible h-14 p-3 bg-stone-200 border-gray-500 border-b shadow-lg text-gray-600 dark:bg-[#1a1717] dark:drop-shadow-[8px_12px_16px_rgba(100,149,237,0.3)]
+      className={`absolute top-0 z-10 flex w-full flex-row overflow-x-auto lg:overflow-x-visible h-14 p-3 bg-stone-200 border-gray-500 border-b shadow-lg text-gray-600 dark:bg-gray-900 dark:drop-shadow-[8px_12px_16px_rgba(100,149,237,0.3)]
   dark:border-stone-600 border-opacity-50 ${temporaryChat && "!bg-gray-100 dark:!bg-black"
         }`}
     >
-      {/* Header 左侧内容 */}
+      {/* Left Section: Navigation and Model Selection */}
       <div className="flex items-center gap-2">
+        {/* Back Navigation Button */}
         {pathname !== "/" && (
           <div>
             <NavLink
@@ -172,6 +334,8 @@ export const Header: React.FC<Props> = ({
             </NavLink>
           </div>
         )}
+
+        {/* Logo and Title */}
         <div className="flex">
           <div className="flex items-center gap-6">
             <img
@@ -180,13 +344,18 @@ export const Header: React.FC<Props> = ({
               alt={t("common:pageAssist")}
             />
           </div>
-          <p className="flex items-center ml-2 mr-6 text-base text-zinc-800 dark:text-gray-200">{"Aurora"}</p>
+          <Tooltip title="Aurora Enlightenment Teacher">
+            <p className="flex items-center ml-2 mr-6 text-base text-zinc-800 dark:text-gray-200">{"Aurora"}</p>
+          </Tooltip>
         </div>
-        <NewChat clearChat={clearChat} />
+
+        <NewChat clearChat={clearChat} setSidebarOpen={setSidebarOpen} />
+
+        {/* Model Selection Section */}
         <span className="text-base font-normal text-zinc-600 dark:text-zinc-400">{"/ Model "}</span>
         <div className="hidden lg:block">
           <Select
-            className="border-gray-300 w-54"
+            className="border-gray-300 w-66"
             placeholder={t("common:selectAModel")}
             value={selectedModel}
             onChange={(e) => {
@@ -207,16 +376,20 @@ export const Header: React.FC<Props> = ({
               ),
               value: model.model,
             }))}
-            size="base"
+            size="middle"
           />
         </div>
+
+        {/* Mobile Model Selection */}
         <div className="lg:hidden">
           <ModelSelect />
         </div>
+
+        {/* Prompt Selection Section */}
         <span className="text-base font-normal text-zinc-600 dark:text-zinc-400">{"/ Prompt "}</span>
         <div className="hidden lg:block text-zinc-600 dark:text-zinc-350">
           <Select
-            size="base"
+            size="middle"
             loading={isPromptLoading}
             showSearch
             placeholder={t("selectAPrompt")}
@@ -238,6 +411,8 @@ export const Header: React.FC<Props> = ({
             }))}
           />
         </div>
+
+        {/* Mobile Prompt Selection */}
         <div className="lg:hidden">
           <PromptSelect
             selectedSystemPrompt={selectedSystemPrompt}
@@ -245,40 +420,39 @@ export const Header: React.FC<Props> = ({
             setSelectedQuickPrompt={setSelectedQuickPrompt}
           />
         </div>
+
+        {/* Knowledge Selection */}
         <SelectedKnowledge />
       </div>
 
-      {/* Header 右侧内容 */}
+      {/* Right Section: User Controls and Settings */}
       <div className="flex justify-end flex-1 px-4">
+        {/* Theme Toggle */}
         <div className="flex items-center ml-4 md:ml-6">
           <div className="flex items-center gap-4">
             <ThemeToggle />
           </div>
         </div>
 
-        {/* MoreOptions moving ????  */}
+        {/* Additional Options and Settings */}
         <div className="flex items-center gap-4">
-          {messages.length > 0 && !streaming && (
-            <MoreOptions
-              shareModeEnabled={shareModeEnabled}
-              historyId={historyId}
-              messages={messages}
-            />
-          )}
-
-          {/* currentChatModelSettings*/}
+          {/* Current Chat Model Settings */}
           {!hideCurrentChatModelSettings && (
-            < Tooltip title={t("common:currentChatModelSettings")}>
+            <Tooltip title={t("common:currentChatModelSettings")}>
               <button
                 onClick={() => setOpenModelSettings(true)}
-                className="text-gray-600 transition-colors dark:text-gray-300 hover:text-indigo-500 dark:hover:text-gray-200 "
+                className="text-gray-600 transition-colors dark:text-gray-300 hover:text-indigo-500 dark:hover:text-gray-200"
               >
                 <BrainCog className="w-5 h-5 dark:hover:text-gray-100" />
               </button>
             </Tooltip>
           )}
 
-          {/* ????? */}
+          {/* GitHub Repository Link */}
+
+          {
+            /*
+          
           <Tooltip title={t("githubRepository")}>
             <a
               href="https://github.com/arkCyber/AuroraExt"
@@ -289,46 +463,51 @@ export const Header: React.FC<Props> = ({
             </a>
           </Tooltip>
 
+          // Email contact link
+          [
+            {
+              key: 4,
+              label: t("about.contactEmail"),
+              icon: <Mail className="w-4 h-4" />,
+              onClick: () => window.open("mailto:contact@example.com")
+            }
+          ]
+            */
+          }
 
-          <Tooltip title={t("Settings")}>
-            <NavLink
-              to="/settings"
-              className="mx-2 text-gray-600 transition-colors dark:text-gray-300 hover:text-indigo-500 dark:hover:text-gray-100"
-            >
-              <CogIcon className="w-6 h-6 dark:hover:text-gray-100" />
-            </NavLink>
-          </Tooltip>
-
-
-          {/* 新增语言选择器 */}
+          {/* Language Selection Dropdown */}
           <Dropdown overlay={languageMenu} trigger={["hover", "click"]}>
             <Tooltip>
               <button aria-label="Toggle language" className="text-gray-600 transition-colors dark:text-gray-300 hover:text-indigo-500 dark:hover:text-gray-200">
                 <Globe className="w-5 h-5 dark:hover:text-gray-100" />
               </button>
-
-
             </Tooltip>
           </Dropdown>
-
-
-          {/* login ....... */}
-          <Tooltip title={t("login/Register")}>
-            <button className="text-gray-600 transition-colors dark:border-none dark:text-gray-300 hover:text-indigo-500 dark:hover:text-gray-200">
-
-              <img
-                src={UserImage}
-                className="w-6 h-6 border border-gray-600 -ml-4rounded-full dark:border-gray-600"
-                alt={t("login/Register")}
-              />
-
-            </button>
+          {/* Settings Link */}
+          <Tooltip title={t("settings")}>
+            <NavLink
+              to="/settings"
+              className="text-gray-600 transition-colors dark:text-gray-300 hover:text-indigo-500 dark:hover:text-gray-100"
+            >
+              <CogIcon className="w-5 h-5 dark:hover:text-gray-100" />
+            </NavLink>
           </Tooltip>
 
+
+          {/* User Profile Dropdown */}
+          <UserProfileDropdown />
         </div>
       </div>
 
-      {/* 嵌入 CSS 动画 */}
+      {/* CSS Animation for Navigation Arrows
+       * Creates a smooth sliding motion for the back/forward navigation arrows
+       * The animation:
+       * 1. Starts at -10px (left)
+       * 2. Moves to +10px (right) at 50%
+       * 3. Returns to -10px (left) at 100%
+       * 4. Repeats infinitely with ease-in-out timing
+       * This creates a subtle "beckoning" effect to indicate navigation
+       */}
       <style>
         {`
         @keyframes slideLeftRight{
@@ -338,6 +517,6 @@ export const Header: React.FC<Props> = ({
           }
         `}
       </style>
-    </div >
+    </div>
   );
 };

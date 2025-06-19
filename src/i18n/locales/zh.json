@@ -1,0 +1,76 @@
+{
+    "common": {
+        "copy": "复制",
+        "copied": "已复制到剪贴板",
+        "copyFailed": "复制到剪贴板失败",
+        "settings": "设置",
+        "notLoggedIn": "未登录",
+        "logout": "退出登录"
+    },
+    "auth": {
+        "auth": "认证",
+        "login": "登录"
+    },
+    "settings": {
+        "profile": {
+            "title": "个人资料设置",
+            "nickname": "昵称",
+            "avatar": "头像URL",
+            "save": "保存资料",
+            "saving": "保存中...",
+            "created": "个人资料创建成功",
+            "saved": "个人资料更新成功",
+            "errors": {
+                "nicknameRequired": "昵称为必填项",
+                "avatarRequired": "头像URL为必填项"
+            }
+        },
+        "blockchain": {
+            "title": "区块链钱包",
+            "deviceId": "设备ID",
+            "mnemonic": "助记词",
+            "address": "钱包地址",
+            "chainType": "链类型"
+        },
+        "personal": {
+            "personalSettings": "个人设置",
+            "saveProfile": "保存",
+            "nickname": "昵称",
+            "email": "邮箱",
+            "bio": "个人简介",
+            "uploadAvatar": "上传头像",
+            "deviceId": "设备ID",
+            "regenerateWallet": "重新生成钱包",
+            "showDetails": "显示详情",
+            "hideDetails": "隐藏详情",
+            "blockchainInfo": "区块链信息",
+            "address": "地址",
+            "publicKey": "公钥",
+            "mnemonic": "助记词",
+            "aiMouse": "AI鼠标",
+            "connect": "连接",
+            "mouseConnected": "鼠标已连接",
+            "mouseNotConnected": "鼠标未连接",
+            "confirmSaveTitle": "确认保存",
+            "confirmSaveMessage": "确定要保存这些更改吗？",
+            "cancel": "取消",
+            "confirm": "确认",
+            "saving": "保存中...",
+            "unsavedChanges": "未保存的更改",
+            "autoSaveSuccess": "更改保存成功",
+            "autoSaveError": "保存更改失败",
+            "deviceIdError": "初始化设备ID失败",
+            "wallet": {
+                "generateSuccess": "钱包生成成功",
+                "generateError": "钱包生成失败",
+                "loadError": "加载钱包信息失败",
+                "regenerateSuccess": "钱包重新生成成功",
+                "regenerateError": "钱包重新生成失败",
+                "generating": "正在生成钱包...",
+                "generatingSubtitle": "请稍等，我们正在生成您的钱包",
+                "testSuccess": "钱包生成测试成功",
+                "testError": "钱包生成测试失败"
+            }
+        }
+    }
+}

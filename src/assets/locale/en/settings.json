@@ -1,4 +1,55 @@
 {
+  "personalSettings": {
+    "title": "Personal Settings",
+    "back": "Back",
+    "confirmLeave": {
+      "title": "Confirm Leave",
+      "content": "You have unsaved changes. Are you sure you want to leave?",
+      "ok": "Confirm",
+      "cancel": "Cancel"
+    },
+    "loadError": "Failed to load user information, please try again!",
+    "uploadError": {
+      "format": "Only JPG/PNG format images are allowed!",
+      "size": "Image size cannot exceed 2MB!"
+    },
+    "saveSuccess": "Saved successfully!",
+    "saveError": "Failed to save, please try again!",
+    "form": {
+      "nickname": {
+        "label": "Nickname",
+        "required": "Please enter your nickname",
+        "placeholder": "Enter your nickname"
+      },
+      "email": {
+        "label": "Email",
+        "invalid": "Please enter a valid email address",
+        "placeholder": "Email (optional)"
+      },
+      "ethereum_address": {
+        "label": "Ethereum Address",
+        "invalid": "Please enter a valid Ethereum address",
+        "placeholder": "Ethereum address (optional)"
+      },
+      "ethereum_public_key": {
+        "label": "Public Key",
+        "placeholder": "Public key (optional)"
+      },
+      "ethereum_private_key": {
+        "label": "Private Key",
+        "placeholder": "Private key (optional)"
+      },
+      "bio": {
+        "label": "Bio",
+        "placeholder": "Bio (optional)"
+      },
+      "save": "Save",
+      "saveChanged": "Save Changes",
+      "roleTitle": "Role Title",
+      "roleTitle.placeholder": "My Role Title",
+      "roleTitle.required": "Please enter a role title"
+    }
+  },
   "generalSettings": {
     "title": "General Settings",
     "settings": {
@@ -181,7 +232,9 @@
   },
   "managePrompts": {
     "title": "Manage Prompts",
-    "addBtn": "Add New Prompt",
+    "defaultBtn": "Default Prompts",
+    "hubBtn": "Prompts Hub",
+    "addBtn": "Add New",
     "option1": "Normal",
     "option2": "RAG",
     "questionPrompt": "Question Prompt",
@@ -190,10 +243,12 @@
       "copilot": "Copilot Prompts"
     },
     "columns": {
-      "title": "Title",
+      "index": "No.",
+      "title": "Role Title",
       "prompt": "Prompt",
       "type": "Prompt Type",
-      "actions": "Actions"
+      "actions": "Actions",
+      "icon": "Icon"
     },
     "systemPrompt": "System Prompt",
     "quickPrompt": "Quick Prompt",
@@ -202,7 +257,11 @@
       "edit": "Edit Prompt"
     },
     "confirm": {
-      "delete": "Are you sure you want to delete this prompt? This action cannot be undone."
+      "delete": "Are you sure you want to delete this prompt?",
+      "importTitle": "Import Default Prompts",
+      "importContent": "This will replace all existing prompts with the default set of 16 prompts. Are you sure you want to continue?",
+      "ok": "Yes",
+      "cancel": "No"
     },
     "modal": {
       "addTitle": "Add New Prompt",
@@ -234,14 +293,16 @@
       }
     },
     "notification": {
-      "addSuccess": "Prompt Added",
-      "addSuccessDesc": "Prompt has been added successfully",
+      "defaultSuccess": "Default Prompts Imported",
+      "defaultSuccessDesc": "Successfully imported 16 default prompts",
+      "addSuccess": "Added Successfully",
+      "addSuccessDesc": "The prompt has been added successfully",
+      "updatedSuccess": "Updated Successfully",
+      "updatedSuccessDesc": "The prompt has been updated successfully",
+      "deletedSuccess": "Deleted Successfully",
+      "deletedSuccessDesc": "The prompt has been deleted successfully",
       "error": "Error",
-      "someError": "Something went wrong. Please try again later",
-      "updatedSuccess": "Prompt Updated",
-      "updatedSuccessDesc": "Prompt has been updated successfully",
-      "deletedSuccess": "Prompt Deleted",
-      "deletedSuccessDesc": "Prompt has been deleted successfully"
+      "someError": "An error occurred. Please try again."
     }
   },
   "manageShare": {
@@ -326,10 +387,13 @@
     "heading": "About",
     "chromeVersion": "Aurora Version",
     "ollamaVersion": "Ollama Version",
-    "support": "You can support the Aurora project by donating or sponsoring through the following platforms:",
-    "koFi": "Support on Ko-fi",
-    "githubSponsor": "Sponsor on GitHub",
-    "githubRepo": "GitHub Repository"
+    "vision": "Vision",
+    "vision.en": "Aurora is the dawn's light, a guiding beacon leading everyone into the world of AI!",
+    "vision.en.description": "We hope Aurora will be like an enlightening teacher, illuminating our path towards AI and Web3 blockchain future networks! AI and Web3 blockchain core technologies will drive the fourth industrial revolution, Let's explore the infinite possibilities of the future network together!",
+    "vision.zh": "Aurora是黎明的曙光，是引领大家迈向AI世界指路明灯！",
+    "vision.zh.description": "期望Aurora如同启蒙老师一样，点亮我们走向AI、Web3区块链未来网络的道路！ AI人工智能、Web3区块链核心技术将驱动第四次工业革命的浪潮，让我们一起探索未来网络的无限可能！",
+    "twitter": "X (formerly Twitter)",
+    "contactEmail": "Contact Email"
   },
   "manageKnowledge": {
     "title": "Manage Knowledge",

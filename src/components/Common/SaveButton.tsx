@@ -36,7 +36,7 @@ export const SaveButton = ({
       }}
       disabled={disabled}
       // import logoImage from "~/assets/icon.png"
-      className={`inline-flex mt-4 items-center rounded-md border border-transparent bg-black px-2 py-1 text-sm font-medium leading-4 text-white shadow-sm dark:bg-white dark:text-gray-800 disabled:opacity-50 ${className}`}>
+      className={`inline-flex mt-4 items-center rounded-md border border-transparent bg-black px-2 py-1 text-sm font-medium leading-4 text-white shadow-sm dark:!bg-indigo-300 dark:text-gray-800 disabled:opacity-50 ${className}`}>
       {clickedSave ? <CheckIcon className="w-4 h-4 mr-2" /> : null}
       {clickedSave ? t(textOnSave) : t(text)}
     </button>

@@ -82,7 +82,7 @@ export const useMessageOption = () => {
     setUseOCR
   } = useStoreMessageOption()
   const currentChatModelSettings = useStoreChatModelSettings()
-  const [selectedModel, setSelectedModel] = useStorage("selectedModel")
+  const [selectedModel, setSelectedModelStorage] = useStorage("selectedModel")
   const [defaultInternetSearchOn] = useStorage("defaultInternetSearchOn", false)
   const [speechToTextLanguage, setSpeechToTextLanguage] = useStorage(
     "speechToTextLanguage",
@@ -97,6 +97,14 @@ export const useMessageOption = () => {
 
   const clearChat = () => {
     navigate("/")
+    
+    // Stop any ongoing streaming
+    if (abortController) {
+      abortController.abort()
+      setAbortController(null)
+    }
+    
+    // Reset all chat state
     setMessages([])
     setHistory([])
     setHistoryId(null)
@@ -104,11 +112,20 @@ export const useMessageOption = () => {
     setIsLoading(false)
     setIsProcessing(false)
     setStreaming(false)
+    setIsSearchingInternet(false)
+    
+    // Reset model settings
     currentChatModelSettings.reset()
+    
+    // Focus textarea
     textareaRef?.current?.focus()
+    
+    // Set default web search if enabled
     if (defaultInternetSearchOn) {
       setWebSearch(true)
     }
+    
+    console.log('Chat cleared and state reset')
   }
 
   const searchChatMode = async (
@@ -167,7 +184,36 @@ export const useMessageOption = () => {
     let generateMessageId = generateID()
 
     const modelInfo = await getModelNicknameByID(selectedModel)
-    if (!isRegenerate) {
+    
+    if (isRegenerate) {
+      // For regeneration, replace the last bot message instead of adding new one
+      newMessage = [...messages]
+      const lastBotMessageIndex = newMessage.findLastIndex(msg => msg.isBot)
+      
+      if (lastBotMessageIndex !== -1) {
+        // Update existing bot message
+        newMessage[lastBotMessageIndex] = {
+          ...newMessage[lastBotMessageIndex],
+          message: "▋",
+          sources: [],
+          id: generateMessageId,
+          modelImage: modelInfo?.model_avatar,
+          modelName: modelInfo?.model_name || selectedModel
+        }
+      } else {
+        // If no bot message exists, add one
+        newMessage.push({
+          isBot: true,
+          name: selectedModel,
+          message: "▋",
+          sources: [],
+          id: generateMessageId,
+          modelImage: modelInfo?.model_avatar,
+          modelName: modelInfo?.model_name || selectedModel
+        })
+      }
+    } else {
+      // For new conversation, add both user and bot messages
       newMessage = [
         ...messages,
         {
@@ -175,7 +221,9 @@ export const useMessageOption = () => {
           name: "You",
           message,
           sources: [],
-          images: [image]
+          images: [image],
+          modelImage: modelInfo?.model_avatar,
+          modelName: modelInfo?.model_name || selectedModel
         },
         {
           isBot: true,
@@ -187,20 +235,8 @@ export const useMessageOption = () => {
           modelName: modelInfo?.model_name || selectedModel
         }
       ]
-    } else {
-      newMessage = [
-        ...messages,
-        {
-          isBot: true,
-          name: selectedModel,
-          message: "▋",
-          sources: [],
-          id: generateMessageId,
-          modelImage: modelInfo?.model_avatar,
-          modelName: modelInfo?.model_name || selectedModel
-        }
-      ]
     }
+    
     setMessages(newMessage)
     let fullText = ""
     let contentToSave = ""
@@ -578,7 +614,35 @@ export const useMessageOption = () => {
     let generateMessageId = generateID()
     const modelInfo = await getModelNicknameByID(selectedModel)
 
-    if (!isRegenerate) {
+    if (isRegenerate) {
+      // For regeneration, replace the last bot message instead of adding new one
+      newMessage = [...messages]
+      const lastBotMessageIndex = newMessage.findLastIndex(msg => msg.isBot)
+      
+      if (lastBotMessageIndex !== -1) {
+        // Update existing bot message
+        newMessage[lastBotMessageIndex] = {
+          ...newMessage[lastBotMessageIndex],
+          message: "▋",
+          sources: [],
+          id: generateMessageId,
+          modelImage: modelInfo?.model_avatar,
+          modelName: modelInfo?.model_name || selectedModel
+        }
+      } else {
+        // If no bot message exists, add one
+        newMessage.push({
+          isBot: true,
+          name: selectedModel,
+          message: "▋",
+          sources: [],
+          id: generateMessageId,
+          modelImage: modelInfo?.model_avatar,
+          modelName: modelInfo?.model_name || selectedModel
+        })
+      }
+    } else {
+      // For new conversation, add both user and bot messages
       newMessage = [
         ...messages,
         {
@@ -590,19 +654,6 @@ export const useMessageOption = () => {
           modelImage: modelInfo?.model_avatar,
           modelName: modelInfo?.model_name || selectedModel
         },
-        {
-          isBot: true,
-          name: selectedModel,
-          message: "▋",
-          sources: [],
-          id: generateMessageId,
-          modelImage: modelInfo?.model_avatar,
-          modelName: modelInfo?.model_name || selectedModel
-        }
-      ]
-    } else {
-      newMessage = [
-        ...messages,
         {
           isBot: true,
           name: selectedModel,
@@ -888,7 +939,35 @@ export const useMessageOption = () => {
     let generateMessageId = generateID()
     const modelInfo = await getModelNicknameByID(selectedModel)
 
-    if (!isRegenerate) {
+    if (isRegenerate) {
+      // For regeneration, replace the last bot message instead of adding new one
+      newMessage = [...messages]
+      const lastBotMessageIndex = newMessage.findLastIndex(msg => msg.isBot)
+      
+      if (lastBotMessageIndex !== -1) {
+        // Update existing bot message
+        newMessage[lastBotMessageIndex] = {
+          ...newMessage[lastBotMessageIndex],
+          message: "▋",
+          sources: [],
+          id: generateMessageId,
+          modelImage: modelInfo?.model_avatar,
+          modelName: modelInfo?.model_name || selectedModel
+        }
+      } else {
+        // If no bot message exists, add one
+        newMessage.push({
+          isBot: true,
+          name: selectedModel,
+          message: "▋",
+          sources: [],
+          id: generateMessageId,
+          modelImage: modelInfo?.model_avatar,
+          modelName: modelInfo?.model_name || selectedModel
+        })
+      }
+    } else {
+      // For new conversation, add both user and bot messages
       newMessage = [
         ...messages,
         {
@@ -908,20 +987,8 @@ export const useMessageOption = () => {
           modelName: modelInfo?.model_name || selectedModel
         }
       ]
-    } else {
-      newMessage = [
-        ...messages,
-        {
-          isBot: true,
-          name: selectedModel,
-          message: "▋",
-          sources: [],
-          id: generateMessageId,
-          modelImage: modelInfo?.model_avatar,
-          modelName: modelInfo?.model_name || selectedModel
-        }
-      ]
     }
+    
     setMessages(newMessage)
     let fullText = ""
     let contentToSave = ""
@@ -1328,6 +1395,40 @@ export const useMessageOption = () => {
     newHistory[index].content = message
     setHistory(newHistory)
     await updateMessageByIndex(historyId, index, message)
+  }
+
+  // Enhanced model selection function that handles state cleanup
+  const setSelectedModel = (model: string | null) => {
+    console.log('Model changed from', selectedModel, 'to', model)
+    
+    // Only cleanup if model actually changed and we have messages
+    if (selectedModel !== model && messages.length > 0) {
+      // Stop any ongoing requests
+      if (abortController) {
+        abortController.abort()
+        setAbortController(null)
+      }
+      
+      // Clear streaming states
+      setIsProcessing(false)
+      setStreaming(false)
+      setIsSearchingInternet(false)
+      
+      // Filter out empty bot messages that might be causing display issues
+      const cleanedMessages = messages.filter(msg => {
+        // Keep all user messages
+        if (!msg.isBot) return true
+        // Keep bot messages that have meaningful content
+        return msg.message && msg.message.trim() !== '' && msg.message !== '▋'
+      })
+      
+      if (cleanedMessages.length !== messages.length) {
+        console.log('Cleaned empty messages during model switch')
+        setMessages(cleanedMessages)
+      }
+    }
+    
+    setSelectedModelStorage(model)
   }
 
   return {

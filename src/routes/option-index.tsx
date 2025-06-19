@@ -4,7 +4,7 @@ import { Playground } from "~/components/Option/Playground/Playground"
 const OptionIndex = () => {
   return (
     <OptionLayout>
-        <Playground />
+      <Playground />
     </OptionLayout>
   )
 }

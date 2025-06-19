@@ -90,8 +90,8 @@ export const PlaygroundEmpty = () => {
                   <span className="inline-block w-[2px] h-[1em] bg-current ml-1 animate-blink"></span>
                 </div>
               </div>
-              <div className="mt-2 text-base leading-relaxed text-gray-600 font-extralight dark:text-gray-400">Aurora will bring you into AI+ Web3 next-generation network!</div>
-              <div className="text-base leading-relaxed text-gray-600 dark:text-gray-400 dark:font-extralight">Aurora启蒙老师引领你迈入AI+ Web3网络时代，放飞人生的梦想!</div>
+              <div className="mt-2 text-base font-light leading-relaxed text-gray-600 dark:text-gray-400">Aurora will bring you into AI+ Web3 next-generation network!</div>
+              <div className="text-base font-light leading-relaxed text-gray-600 dark:text-gray-400 ">Aurora启蒙老师引领你迈入AI+ Web3网络时代，放飞人生的梦想!</div>
               <div className="mt-2 text-base leading-relaxed tracking-wider text-gray-600 font-extralight animate-pulse dark:text-gray-300">✨✨✨✨⭐️⭐️⭐️💫💫💫</div>
 
             </div>

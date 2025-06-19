@@ -496,54 +496,262 @@ export class CustomChatOpenAI<
             stream: true
         }
         let defaultRole
-        //@ts-ignore
-        const streamIterable = await this.completionWithRetry(params, options)
-        for await (const data of streamIterable) {
-            const choice = data?.choices[0]
-            if (!choice) {
-                continue
+        
+        try {
+            //@ts-ignore
+            const streamIterable = await this.completionWithRetry(params, options)
+            
+            // Check if this might be a MouseChat-style complete response instead of SSE
+            const isMouseChatResponse = async (iterable: any) => {
+                // Try to read first chunk to determine format
+                const iterator = iterable[Symbol.asyncIterator]()
+                const firstChunk = await iterator.next()
+                
+                if (firstChunk.done) return { isMouseChat: false, iterator: null, firstData: null }
+                
+                const data = firstChunk.value
+                // MouseChat returns complete JSON objects instead of SSE deltas
+                const hasCompleteMessage = data?.choices?.[0]?.message?.content
+                const lacksSSEDelta = !data?.choices?.[0]?.delta
+                
+                return { 
+                    isMouseChat: hasCompleteMessage && lacksSSEDelta, 
+                    iterator, 
+                    firstData: data 
+                }
             }
-            const { delta } = choice
-            if (!delta) {
-                continue
+            
+            const { isMouseChat, iterator, firstData } = await isMouseChatResponse(streamIterable)
+            
+            if (isMouseChat && firstData) {
+                console.log('🐭 MouseChat response format detected - converting to streaming chunks')
+                
+                // Convert complete MouseChat response to streaming chunks
+                const choice = firstData?.choices?.[0]
+                if (choice?.message?.content) {
+                    const content = choice.message.content
+                    const chunks = content.split(' ') // Split by words for streaming effect
+                    
+                    // Yield each word as a separate chunk
+                    for (let i = 0; i < chunks.length; i++) {
+                        const chunkContent = i === 0 ? chunks[i] : ' ' + chunks[i]
+                        
+                        const chunk = _convertDeltaToMessageChunk({
+                            role: 'assistant',
+                            content: chunkContent
+                        }, defaultRole)
+                        
+                        defaultRole = 'assistant'
+                        
+                        const newTokenIndices = {
+                            //@ts-ignore
+                            prompt: options?.promptIndex ?? 0,
+                            completion: choice.index ?? 0
+                        }
+                        
+                        const generationInfo = { ...newTokenIndices } as any
+                        if (i === chunks.length - 1) {
+                            generationInfo.finish_reason = choice.finish_reason || 'stop'
+                        }
+                        
+                        const generationChunk = new ChatGenerationChunk({
+                            message: chunk,
+                            text: chunk.content,
+                            generationInfo
+                        })
+                        
+                        yield generationChunk
+                        
+                        // eslint-disable-next-line no-void
+                        void runManager?.handleLLMNewToken(
+                            generationChunk.text ?? "",
+                            newTokenIndices,
+                            undefined,
+                            undefined,
+                            undefined,
+                            { chunk: generationChunk }
+                        )
+                        
+                        // Add small delay for streaming effect
+                        await new Promise(resolve => setTimeout(resolve, 50))
+                    }
+                }
+            } else {
+                // Standard SSE processing for OpenAI-compatible providers
+                console.log('🌊 Standard SSE streaming format detected')
+                
+                // Process first chunk if available
+                if (firstData && !isMouseChat) {
+                    const choice = firstData?.choices?.[0]
+                    if (choice) {
+                        const { delta } = choice
+                        if (delta) {
+                            const chunk = _convertDeltaToMessageChunk(delta, defaultRole)
+                            defaultRole = delta.role ?? defaultRole
+                            const newTokenIndices = {
+                                //@ts-ignore
+                                prompt: options?.promptIndex ?? 0,
+                                completion: choice.index ?? 0
+                            }
+                            
+                            if (typeof chunk.content === "string") {
+                                const generationInfo = { ...newTokenIndices } as any
+                                if (choice.finish_reason !== undefined) {
+                                    generationInfo.finish_reason = choice.finish_reason
+                                }
+                                if (this.logprobs) {
+                                    generationInfo.logprobs = choice.logprobs
+                                }
+                                const generationChunk = new ChatGenerationChunk({
+                                    message: chunk,
+                                    text: chunk.content,
+                                    generationInfo
+                                })
+                                yield generationChunk
+                                
+                                // eslint-disable-next-line no-void
+                                void runManager?.handleLLMNewToken(
+                                    generationChunk.text ?? "",
+                                    newTokenIndices,
+                                    undefined,
+                                    undefined,
+                                    undefined,
+                                    { chunk: generationChunk }
+                                )
+                            }
+                        }
+                    }
+                }
+                
+                // Continue processing remaining chunks
+                for await (const data of iterator || streamIterable) {
+                    const choice = data?.choices[0]
+                    if (!choice) {
+                        continue
+                    }
+                    const { delta } = choice
+                    if (!delta) {
+                        continue
+                    }
+                    const chunk = _convertDeltaToMessageChunk(delta, defaultRole)
+                    defaultRole = delta.role ?? defaultRole
+                    const newTokenIndices = {
+                        //@ts-ignore
+                        prompt: options?.promptIndex ?? 0,
+                        completion: choice.index ?? 0
+                    }
+                    if (typeof chunk.content !== "string") {
+                        console.log(
+                            "[WARNING]: Received non-string content from OpenAI. This is currently not supported."
+                        )
+                        continue
+                    }
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const generationInfo = { ...newTokenIndices } as any
+                    if (choice.finish_reason !== undefined) {
+                        generationInfo.finish_reason = choice.finish_reason
+                    }
+                    if (this.logprobs) {
+                        generationInfo.logprobs = choice.logprobs
+                    }
+                    const generationChunk = new ChatGenerationChunk({
+                        message: chunk,
+                        text: chunk.content,
+                        generationInfo
+                    })
+                    yield generationChunk
+                    // eslint-disable-next-line no-void
+                    void runManager?.handleLLMNewToken(
+                        generationChunk.text ?? "",
+                        newTokenIndices,
+                        undefined,
+                        undefined,
+                        undefined,
+                        { chunk: generationChunk }
+                    )
+                }
             }
-            const chunk = _convertDeltaToMessageChunk(delta, defaultRole)
-            defaultRole = delta.role ?? defaultRole
-            const newTokenIndices = {
-                //@ts-ignore
-                prompt: options?.promptIndex ?? 0,
-                completion: choice.index ?? 0
+        } catch (streamError) {
+            // Check if this is a MouseChat streaming error
+            const isMouseChatStreamError = streamError?.message?.includes('Stream interrupted') || 
+                                         streamError?.message?.includes('stream has been closed')
+            
+            if (isMouseChatStreamError) {
+                console.log('🚨 MouseChat streaming error detected, falling back to non-streaming mode')
+                
+                // Fallback to non-streaming mode for MouseChat
+                const nonStreamParams = {
+                    ...this.invocationParams(options),
+                    messages: messagesMapped,
+                    stream: false
+                }
+                
+                try {
+                    //@ts-ignore
+                    const nonStreamResponse = await this.completionWithRetry(nonStreamParams, options)
+                    
+                    console.log('✅ MouseChat non-streaming fallback successful')
+                    
+                    // Convert non-streaming response to streaming chunks
+                    const choice = (nonStreamResponse as any)?.choices?.[0]
+                    if (choice?.message?.content) {
+                        const content = choice.message.content
+                        const chunks = content.split(' ') // Split by words for streaming effect
+                        
+                        // Yield each word as a separate chunk
+                        for (let i = 0; i < chunks.length; i++) {
+                            const chunkContent = i === 0 ? chunks[i] : ' ' + chunks[i]
+                            
+                            const chunk = _convertDeltaToMessageChunk({
+                                role: 'assistant',
+                                content: chunkContent
+                            }, defaultRole)
+                            
+                            defaultRole = 'assistant'
+                            
+                            const newTokenIndices = {
+                                //@ts-ignore
+                                prompt: options?.promptIndex ?? 0,
+                                completion: choice.index ?? 0
+                            }
+                            
+                            const generationInfo = { ...newTokenIndices } as any
+                            if (i === chunks.length - 1) {
+                                generationInfo.finish_reason = choice.finish_reason || 'stop'
+                            }
+                            
+                            const generationChunk = new ChatGenerationChunk({
+                                message: chunk,
+                                text: chunk.content,
+                                generationInfo
+                            })
+                            
+                            yield generationChunk
+                            
+                            // eslint-disable-next-line no-void
+                            void runManager?.handleLLMNewToken(
+                                generationChunk.text ?? "",
+                                newTokenIndices,
+                                undefined,
+                                undefined,
+                                undefined,
+                                { chunk: generationChunk }
+                            )
+                            
+                            // Add small delay for streaming effect
+                            await new Promise(resolve => setTimeout(resolve, 50))
+                        }
+                    }
+                } catch (fallbackError) {
+                    console.error('❌ MouseChat non-streaming fallback also failed:', fallbackError)
+                    throw new Error(`MouseChat API failed: ${fallbackError.message}`)
+                }
+            } else {
+                // Re-throw non-MouseChat streaming errors
+                throw streamError
             }
-            if (typeof chunk.content !== "string") {
-                console.log(
-                    "[WARNING]: Received non-string content from OpenAI. This is currently not supported."
-                )
-                continue
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const generationInfo = { ...newTokenIndices } as any
-            if (choice.finish_reason !== undefined) {
-                generationInfo.finish_reason = choice.finish_reason
-            }
-            if (this.logprobs) {
-                generationInfo.logprobs = choice.logprobs
-            }
-            const generationChunk = new ChatGenerationChunk({
-                message: chunk,
-                text: chunk.content,
-                generationInfo
-            })
-            yield generationChunk
-            // eslint-disable-next-line no-void
-            void runManager?.handleLLMNewToken(
-                generationChunk.text ?? "",
-                newTokenIndices,
-                undefined,
-                undefined,
-                undefined,
-                { chunk: generationChunk }
-            )
         }
+        
         if (options.signal?.aborted) {
             throw new Error("AbortError")
         }
@@ -750,16 +958,62 @@ export class CustomChatOpenAI<
         options?: OpenAICoreRequestOptions
     ) {
         const requestOptions = this._getClientOptions(options)
+        
+        // Add detailed logging for API calls
+        console.log('🌐 Making API call:', {
+            modelName: this.modelName,
+            baseURL: this.clientConfig?.baseURL,
+            requestModel: request.model,
+            messageCount: request.messages?.length,
+            stream: request.stream,
+            timestamp: new Date().toISOString()
+        })
+        
+        // Add detailed authentication debugging
+        console.log('🔑 [DEBUG] Authentication details:')
+        console.log('  - openAIApiKey:', this.openAIApiKey ? `${this.openAIApiKey.substring(0, 10)}...` : 'NOT SET')
+        console.log('  - clientConfigApiKey:', this.clientConfig?.apiKey ? `${this.clientConfig.apiKey.substring(0, 10)}...` : 'NOT SET')
+        console.log('  - hasDefaultHeaders:', !!this.clientConfig?.defaultHeaders)
+        console.log('  - defaultHeaders:', this.clientConfig?.defaultHeaders)
+        console.log('  - baseURL:', this.clientConfig?.baseURL)
+        
         return this.caller.call(async () => {
             try {
+                console.log('🔄 Executing API request to:', this.clientConfig?.baseURL)
+                console.log('🛠️ [DEBUG] Request options:')
+                console.log('  - hasHeaders:', !!requestOptions?.headers)
+                console.log('  - headers keys:', requestOptions?.headers ? Object.keys(requestOptions.headers) : [])
+                console.log('  - headers values:', requestOptions?.headers)
+                console.log('  - baseURL:', requestOptions?.baseURL)
+                
                 const res = await this.client.chat.completions.create(
                     request,
                     requestOptions
                 )
+                
+                // Handle both streaming and non-streaming responses
+                if (request.stream) {
+                    console.log('✅ Streaming API response received')
+                } else {
+                    console.log('✅ API response received:', {
+                        hasChoices: !!(res as any).choices,
+                        choicesLength: (res as any).choices?.length,
+                        firstChoice: (res as any).choices?.[0] ? {
+                            role: (res as any).choices[0].message?.role,
+                            hasContent: !!(res as any).choices[0].message?.content,
+                            contentLength: (res as any).choices[0].message?.content?.length
+                        } : null
+                    })
+                }
                 return res
-            } catch (e) {
-                const error = wrapOpenAIClientError(e)
-                throw error
+            } catch (error) {
+                console.error('❌ API call failed:', {
+                    error: error.message,
+                    status: error.status,
+                    type: error.type,
+                    code: error.code
+                })
+                throw wrapOpenAIClientError(error)
             }
         })
     }
@@ -782,6 +1036,12 @@ export class CustomChatOpenAI<
             if (!params.baseURL) {
                 delete params.baseURL
             }
+            
+            console.log('🔧 [DEBUG] Creating OpenAI client with params:')
+            console.log('  - apiKey:', params.apiKey ? `${params.apiKey.substring(0, 10)}...` : 'NOT SET')
+            console.log('  - baseURL:', params.baseURL)
+            console.log('  - defaultHeaders:', params.defaultHeaders)
+            
             this.client = new OpenAIClient(params)
         }
         const requestOptions = {
@@ -913,3 +1173,4 @@ function isStructuredOutputMethodParams(
         typeof x.schema === "object"
     )
 }
+

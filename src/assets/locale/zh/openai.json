@@ -104,5 +104,7 @@
                 "help": "请输入模型头像的URL地址。此图像将显示在聊天窗口中。"
             }
         }
-    }
+    },
+    "lingyiwanwu": "零一万物",
+    "lingyiwanwu_desc": "零一万物大语言模型API服务"
 }

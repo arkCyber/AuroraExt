@@ -5,6 +5,11 @@ export const OAI_API_PROVIDERS = [
         baseUrl: ""
     },
     {
+        label: "MouseChat",
+        value: "mousechat",
+        baseUrl: "http://localhost:9000/v1"
+    },
+    {
         label: "LLaMa.cpp",
         value: "llamacpp",
         baseUrl: "http://localhost:8080/v1"
@@ -32,7 +37,7 @@ export const OAI_API_PROVIDERS = [
     {
         label: "DeepSeek",
         value: "deepseek",
-        baseUrl: "https://api.deepseek.com"
+        baseUrl: "https://api.deepseek.com/v1"
     },
     {
         label: "Fireworks",
@@ -93,5 +98,10 @@ export const OAI_API_PROVIDERS = [
         label: "AliBaBaCloud",
         value: "alibabacloud",
         baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    },
+    {
+        label: "零一万物",
+        value: "lingyiwanwu",
+        baseUrl: "https://api.lingyiwanwu.com/v1"
     },
 ]

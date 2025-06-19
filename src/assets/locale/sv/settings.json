@@ -182,7 +182,7 @@
       "copilot": "Copilot instruktion"
     },
     "columns": {
-      "title": "Titel",
+      "title": "Rolltitel",
       "prompt": "instruktion",
       "type": "Instruktionstyp",
       "actions": "Åtgärder"
@@ -385,5 +385,8 @@
   },
   "chromeAiSettings": {
     "title": "Chrome AI-inställningar"
+  },
+  "personalSettings": {
+    "title": "Personliga inställningar"
   }
 }

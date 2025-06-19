@@ -104,5 +104,7 @@
                 "help": "Please enter the URL of the model avatar. This image will be displayed in the chat window."
             }
         }
-    }
+    },
+    "lingyiwanwu": "01.AI",
+    "lingyiwanwu_desc": "01.AI Large Language Model API Service"
 }

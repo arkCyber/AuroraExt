@@ -178,7 +178,7 @@
     "option2": "RAG",
     "questionPrompt": "Question Prompt",
     "columns": {
-      "title": "Titolo",
+      "title": "Titolo del Ruolo",
       "prompt": "Prompt",
       "type": "Tipo di Prompt",
       "actions": "Azioni"
@@ -385,5 +385,8 @@
   },
   "chromeAiSettings": {
     "title": "Impostazioni IA di Chrome"
+  },
+  "personalSettings": {
+    "title": "Impostazioni personali"
   }
 }

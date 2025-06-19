@@ -1,6 +1,54 @@
 {
+  "personalSettings": {
+    "title": "个人资料设置",
+    "back": "返回",
+    "confirmLeave": {
+      "title": "确认离开",
+      "content": "您有未保存的更改，确定要离开吗？",
+      "ok": "确定",
+      "cancel": "取消"
+    },
+    "loadError": "加载用户信息失败，请重试！",
+    "uploadError": {
+      "format": "只能上传 JPG/PNG 格式的图片!",
+      "size": "图片大小不能超过 2MB!"
+    },
+    "saveSuccess": "保存成功！",
+    "saveError": "保存失败，请重试！",
+    "form": {
+      "nickname": {
+        "label": "昵称",
+        "required": "请输入昵称",
+        "placeholder": "请输入昵称"
+      },
+      "email": {
+        "label": "邮箱",
+        "invalid": "请输入有效的邮箱地址",
+        "placeholder": "邮箱（可选）"
+      },
+      "ethereum_address": {
+        "label": "以太坊地址",
+        "invalid": "请输入有效的以太坊地址",
+        "placeholder": "以太坊地址（可选）"
+      },
+      "ethereum_public_key": {
+        "label": "公钥",
+        "placeholder": "公钥（可选）"
+      },
+      "ethereum_private_key": {
+        "label": "私钥",
+        "placeholder": "私钥（可选）"
+      },
+      "bio": {
+        "label": "个人简介",
+        "placeholder": "个人简介（可选）"
+      },
+      "save": "保存",
+      "saveChanged": "保存更改"
+    }
+  },
   "generalSettings": {
-    "title": "一般设置",
+    "title": "通用设置",
     "settings": {
       "heading": "Web UI 设置",
       "speechRecognitionLang": {
@@ -320,12 +368,15 @@
   "about": {
     "title": "关于",
     "heading": "关于",
-    "chromeVersion": "Aurora版本",
-    "ollamaVersion": "Ollama版本",
-    "support": "您可以通过以下平台捐赠或赞助Aurora项目:",
-    "koFi": "在Ko-fi上支持",
-    "githubSponsor": "在GitHub上赞助",
-    "githubRepo": "GitHub仓库"
+    "chromeVersion": "Aurora 版本",
+    "ollamaVersion": "Ollama 版本",
+    "vision": "愿景",
+    "vision.en": "Aurora is the dawn's light, a guiding beacon leading everyone into the world of AI!",
+    "vision.en.description": "We hope Aurora will be like an enlightening teacher, illuminating our path towards AI and Web3 blockchain future networks! AI and Web3 blockchain core technologies will drive the fourth industrial revolution, Let's explore the infinite possibilities of the future network together!",
+    "vision.zh": "Aurora是黎明的曙光，是引领大家迈向AI世界指路明灯！",
+    "vision.zh.description": "期望Aurora如同启蒙老师一样，点亮我们走向AI、Web3区块链未来网络的道路！ AI人工智能、Web3区块链核心技术将驱动第四次工业革命的浪潮，让我们一起探索未来网络的无限可能！",
+    "twitter": "X（原Twitter）",
+    "contactEmail": "联系邮箱"
   },
   "manageKnowledge": {
     "title": "管理知识",
@@ -389,5 +440,25 @@
   },
   "chromeAiSettings": {
     "title": "Chrome AI 设置"
+  },
+  "languages": {
+    "en": "英语",
+    "es": "西班牙语",
+    "fr": "法语",
+    "it": "意大利语",
+    "uk": "乌克兰语",
+    "ru": "俄语",
+    "pt-BR": "葡萄牙语（巴西）",
+    "ml": "马拉雅拉姆语",
+    "zh-CN": "中文（简体）",
+    "zh-TW": "中文（繁体）",
+    "ja": "日语",
+    "fa": "波斯语",
+    "de": "德语",
+    "da": "丹麦语",
+    "no": "挪威语",
+    "sv": "瑞典语",
+    "ko": "韩语",
+    "ar": "阿拉伯语"
   }
 }

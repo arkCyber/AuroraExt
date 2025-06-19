@@ -2,6 +2,8 @@ import { Message } from "@/types/message"
 import { removeModelSuffix } from "@/db/models"
 import Markdown from "./Markdown"
 import { Avatar } from "antd"
+import { DatabaseService } from "../../services/database"
+import defaultAvatar from '@/assets/default_avatar0.jpg'
 
 export const ImageExportWrapper = ({ messages }: { messages: Message[] }) => {
   return (
@@ -26,9 +28,14 @@ export const ImageExportWrapper = ({ messages }: { messages: Message[] }) => {
                   />
                 )
               ) : (
-                <div className="relative size-6 p-1 rounded-sm text-white flex items-center justify-center">
-                  <div className="absolute size-6  rounded-full from-blue-400 to-blue-600 bg-gradient-to-r"></div>
-                </div>
+                <Avatar
+                  src={async () => {
+                    const db = DatabaseService.getInstance();
+                    const profile = await db.getUserProfile();
+                    return profile?.avatar_url || defaultAvatar;
+                  }}
+                  className="size-6"
+                />
               )}
             </div>
 

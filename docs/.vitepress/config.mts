@@ -11,7 +11,7 @@ export default defineConfig({
       provider: "local",
     },
     editLink: {
-      pattern: "https://github.com/n4ze3m/page-assist/edit/main/docs/:path",
+      pattern: "https://github.com/arkCyber/AuroraExt/edit/main/docs/:path",
       text: "Edit this page on GitHub"
     },
     nav: [
@@ -122,7 +122,7 @@ export default defineConfig({
     ],
     footer: {
       message: "MIT Licensed Open Source Project",
-      copyright: "Copyright © 2025 Muhammed Nazeem  & Aurora Contributors",
+      copyright: "Copyright © 2025 arkSong & Aurora Contributors",
     },
   },
   ignoreDeadLinks: true

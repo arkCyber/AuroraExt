@@ -1,3 +1,8 @@
+/**
+ * Main layout component that provides the application's base structure.
+ * Includes a sidebar, header, and model settings drawer.
+ */
+
 import React, { useState } from "react"
 
 import { Sidebar } from "../Option/Sidebar"
@@ -13,14 +18,27 @@ import { useMessageOption } from "@/hooks/useMessageOption"
 import { useQueryClient } from "@tanstack/react-query"
 import { useStoreChatModelSettings } from "@/store/model"
 
+/**
+ * OptionLayout Component
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components to be rendered within the layout
+ * @returns {JSX.Element} The layout component with sidebar, header, and content area
+ */
 export default function OptionLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+  // State for controlling sidebar visibility
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  // Translations hook for multiple namespaces
   const { t } = useTranslation(["option", "common", "settings"])
+
+  // State for controlling model settings drawer visibility
   const [openModelSettings, setOpenModelSettings] = useState(false)
+
+  // Custom hook for managing chat messages and options
   const {
     setMessages,
     setHistory,
@@ -32,26 +50,33 @@ export default function OptionLayout({
     setSelectedSystemPrompt
   } = useMessageOption()
 
+  // React Query client for cache management
   const queryClient = useQueryClient()
+
+  // Hook for managing system prompt settings
   const { setSystemPrompt } = useStoreChatModelSettings()
 
   return (
-    <div className="flex h-full w-full">
-      <main className="relative h-dvh w-full">
+    <div className="flex w-full h-full">
+      <main className="relative w-full h-dvh">
+        {/* Header section with z-index to stay on top */}
         <div className="relative z-10 w-full">
           <Header
             setSidebarOpen={setSidebarOpen}
             setOpenModelSettings={setOpenModelSettings}
           />
         </div>
-        {/* <div className="relative flex h-full flex-col items-center"> */}
+
+        {/* Main content area */}
         {children}
-        {/* </div> */}
+
+        {/* Sidebar drawer component */}
         <Drawer
           title={
             <div className="flex items-center justify-between">
               {t("sidebarTitle")}
 
+              {/* Clear chat history button with tooltip */}
               <Tooltip
                 title={t(
                   "settings:generalSettings.system.deleteChatHistory.label"
@@ -59,6 +84,7 @@ export default function OptionLayout({
                 placement="right">
                 <button
                   onClick={async () => {
+                    // Confirmation dialog before deleting chat history
                     const confirm = window.confirm(
                       t(
                         "settings:generalSettings.system.deleteChatHistory.confirm"
@@ -66,6 +92,7 @@ export default function OptionLayout({
                     )
 
                     if (confirm) {
+                      // Delete all chat history from database and update UI
                       const db = new PageAssitDatabase()
                       await db.deleteAllChatHistory()
                       await queryClient.invalidateQueries({
@@ -84,6 +111,7 @@ export default function OptionLayout({
           closeIcon={null}
           onClose={() => setSidebarOpen(false)}
           open={sidebarOpen}>
+          {/* Sidebar content with chat management props */}
           <Sidebar
             onClose={() => setSidebarOpen(false)}
             setMessages={setMessages}
@@ -99,6 +127,7 @@ export default function OptionLayout({
           />
         </Drawer>
 
+        {/* Model settings drawer component */}
         <CurrentChatModelSettings
           open={openModelSettings}
           setOpen={setOpenModelSettings}

@@ -54,6 +54,8 @@ type Prompt = {
   title: string
   content: string
   is_system: boolean
+  category?: string
+  categoryCN?: string
   createdBy?: string
   createdAt: number
 }
@@ -181,7 +183,9 @@ export class PageAssitDatabase {
     id: string,
     title: string,
     content: string,
-    is_system: boolean
+    is_system: boolean,
+    category?: string,
+    categoryCN?: string
   ) {
     const prompts = await this.getAllPrompts()
     const newPrompts = prompts.map((prompt) => {
@@ -189,6 +193,8 @@ export class PageAssitDatabase {
         prompt.title = title
         prompt.content = content
         prompt.is_system = is_system
+        prompt.category = category
+        prompt.categoryCN = categoryCN
       }
       return prompt
     })
@@ -411,16 +417,28 @@ export const deleteChatForEdit = async (history_id: string, index: number) => {
 export const savePrompt = async ({
   content,
   title,
-  is_system = false
+  is_system = false,
+  category,
+  categoryCN
 }: {
   title: string
   content: string
   is_system: boolean
+  category?: string
+  categoryCN?: string
 }) => {
   const db = new PageAssitDatabase()
   const id = generateID()
   const createdAt = Date.now()
-  const prompt = { id, title, content, is_system, createdAt }
+  const prompt: Prompt = {
+    id,
+    title,
+    content,
+    is_system,
+    category,
+    categoryCN,
+    createdAt
+  }
   await db.addPrompt(prompt)
   return prompt
 }
@@ -435,15 +453,19 @@ export const updatePrompt = async ({
   content,
   id,
   title,
-  is_system
+  is_system,
+  category,
+  categoryCN
 }: {
   id: string
   title: string
   content: string
   is_system: boolean
+  category?: string
+  categoryCN?: string
 }) => {
   const db = new PageAssitDatabase()
-  await db.updatePrompt(id, title, content, is_system)
+  await db.updatePrompt(id, title, content, is_system, category, categoryCN)
   return id
 }
 
@@ -568,4 +590,100 @@ export const getTitleById = async (id: string) => {
   const db = new PageAssitDatabase()
   const title = await db.getChatHistoryTitleById(id)
   return title
+}
+
+export const initializeDefaultPrompts = async () => {
+  const defaultPrompts = [
+    {
+      title: "Professional Writer",
+      content: "You are a professional writer with expertise in creating engaging and well-structured content. Help me write in a clear, concise, and professional manner.",
+      is_system: true
+    },
+    {
+      title: "Code Reviewer",
+      content: "You are an experienced code reviewer. Review my code for best practices, potential bugs, and suggest improvements while considering readability, maintainability, and performance.",
+      is_system: true
+    },
+    {
+      title: "Quick Summary",
+      content: "Provide a concise summary of the given text, highlighting the key points and main ideas.",
+      is_system: false
+    },
+    {
+      title: "Language Translator",
+      content: "Act as a language expert. Help me translate text while preserving context and cultural nuances. Explain any significant cultural or linguistic differences when relevant.",
+      is_system: true
+    },
+    {
+      title: "Brainstorm Ideas",
+      content: "Help me brainstorm creative ideas and solutions. Consider different perspectives and approaches, and provide innovative suggestions.",
+      is_system: false
+    },
+    {
+      title: "Technical Expert",
+      content: "You are a technical expert. Explain complex technical concepts in a clear and understandable way, using analogies and examples when helpful.",
+      is_system: true
+    },
+    {
+      title: "Interview Coach",
+      content: "Act as an experienced interview coach. Help me prepare for interviews by providing guidance on answering questions, improving communication skills, and building confidence.",
+      is_system: true
+    },
+    {
+      title: "Data Analyst",
+      content: "You are a skilled data analyst. Help me analyze data, identify patterns, and draw meaningful insights. Explain statistical concepts in an understandable way.",
+      is_system: true
+    },
+    {
+      title: "Meeting Notes",
+      content: "Help me organize and summarize meeting notes. Extract key points, action items, and decisions from the discussion.",
+      is_system: false
+    },
+    {
+      title: "Bug Fixer",
+      content: "You are an expert debugger. Help me identify and fix bugs in my code. Analyze error messages, suggest solutions, and explain the underlying issues.",
+      is_system: true
+    },
+    {
+      title: "Email Writer",
+      content: "Help me write professional and effective emails. Adjust the tone and style based on the context and recipient while maintaining clarity and professionalism.",
+      is_system: false
+    },
+    {
+      title: "UI/UX Advisor",
+      content: "You are a UI/UX design expert. Help me improve user interfaces and experiences by providing suggestions based on design principles and best practices.",
+      is_system: true
+    },
+    {
+      title: "Study Planner",
+      content: "Help me create effective study plans and learning strategies. Break down complex topics, suggest learning resources, and provide tips for better retention.",
+      is_system: false
+    },
+    {
+      title: "Git Expert",
+      content: "You are a Git version control expert. Help me understand and resolve Git-related issues, explain commands, and suggest best practices for version control workflows.",
+      is_system: true
+    },
+    {
+      title: "Document Formatter",
+      content: "Help me format and structure documents professionally. Improve layout, headings, and organization while maintaining consistency and readability.",
+      is_system: false
+    },
+    {
+      title: "Code Optimizer",
+      content: "You are a code optimization expert. Help me improve code performance, reduce complexity, and implement efficient algorithms while maintaining code quality.",
+      is_system: true
+    }
+  ]
+
+  // Clear existing prompts before adding new ones
+  const db = new PageAssitDatabase()
+  await db.db.set({ prompts: [] })
+
+  // Add each default prompt
+  for (const prompt of defaultPrompts) {
+    await savePrompt(prompt)
+  }
+
+  return defaultPrompts
 }

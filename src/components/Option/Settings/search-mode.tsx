@@ -43,14 +43,14 @@ export const SearchModeSettings = () => {
         <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
           {t("generalSettings.webSearch.heading")}
         </h2>
-        <div className="border border-b border-gray-200 dark:border-gray-600 mt-3"></div>
+        <div className="mt-3 border border-b border-gray-200 dark:border-gray-600"></div>
       </div>
       <form
         onSubmit={form.onSubmit(async (values) => {
           await setSearchSettings(values)
         })}
-        className="space-y-4">
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        className="space-y-2">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.webSearch.provider.label")}
           </span>
@@ -58,7 +58,7 @@ export const SearchModeSettings = () => {
             <Select
               placeholder={t("generalSettings.webSearch.provider.placeholder")}
               showSearch
-              className="w-full mt-4 sm:mt-0 sm:w-[200px]"
+              className="w-full mt-4 sm:mt-0 sm:w-[200px] [&_.ant-select-selection-placeholder]:text-[15px]"
               options={SUPPORTED_SERACH_PROVIDERS}
               filterOption={(input, option) =>
                 option!.label.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
@@ -70,7 +70,7 @@ export const SearchModeSettings = () => {
         </div>
         {form.values.searchProvider === "searxng" && (
           <>
-            <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
               <span className="text-gray-700 dark:text-neutral-50">
                 {t("generalSettings.webSearch.searxng.url.label")}
               </span>
@@ -87,14 +87,14 @@ export const SearchModeSettings = () => {
         )}
         {form.values.searchProvider === "google" && (
           <>
-            <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
               <span className="text-gray-700 dark:text-neutral-50">
                 {t("generalSettings.webSearch.googleDomain.label")}
               </span>
               <div>
                 <Select
                   showSearch
-                  className="w-full mt-4 sm:mt-0 sm:w-[200px]"
+                  className="w-full mt-4 sm:mt-0 sm:w-[200px] [&_.ant-select-selection-placeholder]:text-[15px]"
                   options={ALL_GOOGLE_DOMAINS.map((e) => ({
                     label: e,
                     value: e
@@ -113,7 +113,7 @@ export const SearchModeSettings = () => {
         )}
         {form.values.searchProvider === "brave-api" && (
           <>
-            <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
               <span className="text-gray-700 dark:text-neutral-50">
                 {t("generalSettings.webSearch.braveApi.label")}
               </span>
@@ -130,20 +130,21 @@ export const SearchModeSettings = () => {
             </div>
           </>
         )}
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.webSearch.searchMode.label")}
           </span>
           <div>
             <Switch
-              className="mt-4 sm:mt-0"
+              className={`mt-4 sm:mt-0 ${form.values.isSimpleInternetSearch ? '!bg-indigo-500' : '!bg-gray-600'}`}
+              size="small"
               {...form.getInputProps("isSimpleInternetSearch", {
                 type: "checkbox"
               })}
             />
           </div>
         </div>
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.webSearch.totalSearchResults.label")}
           </span>
@@ -158,13 +159,14 @@ export const SearchModeSettings = () => {
           </div>
         </div>
 
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.webSearch.visitSpecificWebsite.label")}
           </span>
           <div>
             <Switch
-              className="mt-4 sm:mt-0"
+              className={`mt-4 sm:mt-0 ${form.values.visitSpecificWebsite ? '!bg-indigo-500' : '!bg-gray-600'}`}
+              size="small"
               {...form.getInputProps("visitSpecificWebsite", {
                 type: "checkbox"
               })}
@@ -172,13 +174,14 @@ export const SearchModeSettings = () => {
           </div>
         </div>
 
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.webSearch.searchOnByDefault.label")}
           </span>
           <div>
             <Switch
-              className="mt-4 sm:mt-0"
+              className={`mt-4 sm:mt-0 ${form.values.defaultInternetSearchOn ? '!bg-indigo-500' : '!bg-gray-600'}`}
+              size="small"
               {...form.getInputProps("defaultInternetSearchOn", {
                 type: "checkbox"
               })}

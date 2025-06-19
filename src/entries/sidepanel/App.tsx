@@ -9,6 +9,8 @@ import { useDarkMode } from "~/hooks/useDarkmode"
 import "~/i18n"
 import { useTranslation } from "react-i18next"
 import { PageAssistProvider } from "@/components/Common/PageAssistProvider"
+import { EnvironmentCheckProvider } from "@/hooks/useEnvironmentCheck"
+import StartupEnvironmentCheck from "@/components/Common/StartupEnvironmentCheck"
 
 function IndexSidepanel() {
   const { mode } = useDarkMode()
@@ -41,9 +43,12 @@ function IndexSidepanel() {
         )}>
         <StyleProvider hashPriority="high">
           <QueryClientProvider client={queryClient}>
-            <PageAssistProvider>
-              <SidepanelRouting />
-            </PageAssistProvider>
+            <EnvironmentCheckProvider>
+              <PageAssistProvider>
+                <SidepanelRouting />
+                <StartupEnvironmentCheck />
+              </PageAssistProvider>
+            </EnvironmentCheckProvider>
           </QueryClientProvider>
         </StyleProvider>
       </ConfigProvider>

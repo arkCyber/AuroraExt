@@ -1,4 +1,4 @@
-import { ChromeIcon, CpuIcon } from "lucide-react"
+import { ChromeIcon, CpuIcon, MouseIcon } from "lucide-react"
 import { OllamaIcon } from "../Icons/Ollama"
 import { FireworksMonoIcon } from "../Icons/Fireworks"
 import { GroqMonoIcon } from "../Icons/Groq"
@@ -17,6 +17,7 @@ import { AliBaBaCloudIcon } from "../Icons/AliBaBaCloud"
 import { LlamaCppLogo } from "../Icons/LlamacppLogo"
 import { InfinigenceAI } from "../Icons/InfinigenceAI"
 import { NovitaIcon } from "../Icons/Novita"
+import { LingyiwanwuIcon } from "../Icons/Lingyiwanwu"
 
 export const ProviderIcons = ({
   provider,
@@ -30,6 +31,8 @@ export const ProviderIcons = ({
       return <ChromeIcon className={className} />
     case "custom":
       return <CpuIcon className={className} />
+    case "mousechat":
+      return <MouseIcon className={className} />
     case "fireworks":
       return <FireworksMonoIcon className={className} />
     case "groq":
@@ -64,6 +67,8 @@ export const ProviderIcons = ({
       return <InfinigenceAI className={className} />
     case "novita":
       return <NovitaIcon className={className} />
+    case "lingyiwanwu":
+      return <LingyiwanwuIcon className={className} />
     default:
       return <OllamaIcon className={className} />
   }

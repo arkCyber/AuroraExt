@@ -54,7 +54,7 @@ export const KnowledgeSettings = () => {
             <div className="ml-4 mt-2 flex-shrink-0">
               <button
                 onClick={() => setOpen(true)}
-                className="inline-flex items-center rounded-md border border-transparent bg-black px-2 py-2 text-md font-medium leading-4 text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 dark:focus:ring-gray-500 dark:focus:ring-offset-gray-100 disabled:opacity-50">
+                className="px-4 py-1 text-white bg-gray-800 rounded-md cursor-pointer dark:!bg-indigo-300 dark:text-gray-900">
                 {t("addBtn")}
               </button>
             </div>
@@ -97,7 +97,7 @@ export const KnowledgeSettings = () => {
                   <div className="flex gap-4">
                     <Tooltip title={t("updateKnowledge")}>
                       <button
-                        disabled={isDeleting || record.status === "processing"} 
+                        disabled={isDeleting || record.status === "processing"}
                         onClick={() => {
                           setUpdateKnowledgeId(record.id)
                           setOpenUpdate(true)

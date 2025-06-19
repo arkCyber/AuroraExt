@@ -179,7 +179,9 @@
   },
   "managePrompts": {
     "title": "提示詞管理",
-    "addBtn": "新增提示詞",
+    "defaultBtn": "預設提示詞",
+    "hubBtn": "提示詞庫",
+    "addBtn": "新增",
     "option1": "一般",
     "option2": "RAG",
     "questionPrompt": "問題提示詞",
@@ -188,10 +190,12 @@
       "copilot": "Copilot 提示詞"
     },
     "columns": {
-      "title": "標題",
+      "index": "序號",
+      "title": "角色標題",
       "prompt": "提示詞",
       "type": "提示詞類型",
-      "actions": "操作"
+      "actions": "操作",
+      "icon": "圖標"
     },
     "systemPrompt": "系統提示詞",
     "quickPrompt": "快速提示詞",
@@ -200,7 +204,11 @@
       "edit": "編輯提示詞"
     },
     "confirm": {
-      "delete": "您確實要刪除這個提示詞嗎？此操作無法撤銷。"
+      "delete": "確定要刪除這個提示詞嗎？",
+      "importTitle": "導入預設提示詞",
+      "importContent": "這將會用16個預設提示詞替換所有現有的提示詞，確定要繼續嗎？",
+      "ok": "確定",
+      "cancel": "取消"
     },
     "modal": {
       "addTitle": "新增提示詞",
@@ -211,6 +219,11 @@
         "label": "標題",
         "placeholder": "My Awesome Prompt",
         "required": "請輸入標題"
+      },
+      "roleTitle": {
+        "label": "角色標題",
+        "placeholder": "我的角色標題",
+        "required": "請輸入角色標題"
       },
       "prompt": {
         "label": "提示詞",
@@ -232,14 +245,16 @@
       }
     },
     "notification": {
-      "addSuccess": "提示詞已新增",
-      "addSuccessDesc": "提示詞已新增成功",
+      "defaultSuccess": "預設提示詞已導入",
+      "defaultSuccessDesc": "成功導入16個預設提示詞",
+      "addSuccess": "新增成功",
+      "addSuccessDesc": "提示詞已成功新增",
+      "updatedSuccess": "更新成功",
+      "updatedSuccessDesc": "提示詞已成功更新",
+      "deletedSuccess": "刪除成功",
+      "deletedSuccessDesc": "提示詞已成功刪除",
       "error": "錯誤",
-      "someError": "出了點問題，請稍後重試",
-      "updatedSuccess": "提示詞已更新",
-      "updatedSuccessDesc": "提示詞已更新成功",
-      "deletedSuccess": "提示詞已刪除",
-      "deletedSuccessDesc": "提示詞已刪除成功"
+      "someError": "發生錯誤，請重試"
     }
   },
   "manageShare": {
@@ -391,5 +406,8 @@
   },
   "chromeAiSettings": {
     "title": "Chrome AI 設定"
+  },
+  "personalSettings": {
+    "title": "個人設定"
   }
 }

@@ -14,7 +14,7 @@ import { deleteModel, getAllModels } from "~/services/ollama"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { useForm } from "@mantine/form"
-import { Pencil, RotateCcw, Trash2 } from "lucide-react"
+import { RotateCcw, Trash2, FilePenLine } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useStorage } from "@plasmohq/storage/hook"
 import { getAllModelNicknames } from "@/db/nickname"
@@ -113,17 +113,6 @@ export const OllamaModelsTable = () => {
                         />
                       )}
                       <span>{text}</span>
-                      <button
-                        onClick={() => {
-                          setModel({
-                            model_id: record.model,
-                            model_name: record.nickname,
-                            model_avatar: record.avatar
-                          })
-                          setOpenNicknameModal(true)
-                        }}>
-                        <Pencil className="size-3" />
-                      </button>
                     </div>
                   )
                 },
@@ -139,16 +128,19 @@ export const OllamaModelsTable = () => {
                   render: (text: string) => (
                     <Tooltip title={text}>
                       <Tag
-                        className="cursor-pointer"
-                        color="blue">{`${text?.slice(0, 5)}...${text?.slice(-4)}`}</Tag>
+                        className="cursor-pointer bg-indigo-500 border-indigo-500 text-white hover:!text-indigo-300"
+                      >{`${text?.slice(0, 5)}...${text?.slice(-4)}`}</Tag>
                     </Tooltip>
                   )
                 },
                 {
-                  title: t("manageModels.columns.modifiedAt"),
+                  title: "DateTime",
                   dataIndex: "modified_at",
                   key: "modified_at",
-                  render: (text: string) => dayjs(text).fromNow(true)
+                  render: (text: string) => {
+                    const days = dayjs().diff(dayjs(text), 'day');
+                    return `${days} days`;
+                  }
                 },
                 {
                   title: t("manageModels.columns.size"),
@@ -160,6 +152,20 @@ export const OllamaModelsTable = () => {
                   title: t("manageModels.columns.actions"),
                   render: (_, record) => (
                     <div className="flex gap-4">
+                      <Tooltip title={t("manageModels.tooltip.edit")}>
+                        <button
+                          onClick={() => {
+                            setModel({
+                              model_id: record.model,
+                              model_name: record.nickname,
+                              model_avatar: record.avatar
+                            })
+                            setOpenNicknameModal(true)
+                          }}
+                          className="text-indigo-500 hover:text-indigo-300">
+                          <FilePenLine className="w-5 h-5" />
+                        </button>
+                      </Tooltip>
                       <Tooltip title={t("manageModels.tooltip.delete")}>
                         <button
                           onClick={() => {
@@ -188,7 +194,7 @@ export const OllamaModelsTable = () => {
                               pullOllamaModel(record.model)
                             }
                           }}
-                          className="text-gray-700 dark:text-gray-400">
+                          className="text-indigo-500 hover:text-indigo-300">
                           <RotateCcw className="w-5 h-5" />
                         </button>
                       </Tooltip>

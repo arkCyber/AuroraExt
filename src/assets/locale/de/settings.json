@@ -182,10 +182,12 @@
       "copilot": "Copilot-Prompts"
     },
     "columns": {
-      "title": "Titel",
+      "index": "Nr.",
+      "title": "Rollenbezeichnung",
       "prompt": "Prompt",
       "type": "Prompt-Typ",
-      "actions": "Aktionen"
+      "actions": "Aktionen",
+      "icon": "Symbol"
     },
     "systemPrompt": "System-Prompt",
     "quickPrompt": "Schnell-Prompt",
@@ -205,6 +207,11 @@
         "label": "Titel",
         "placeholder": "Mein toller Prompt",
         "required": "Bitte geben Sie einen Titel ein"
+      },
+      "roleTitle": {
+        "label": "Rollenbezeichnung",
+        "placeholder": "Meine Rollenbezeichnung",
+        "required": "Bitte geben Sie eine Rollenbezeichnung ein"
       },
       "prompt": {
         "label": "Prompt",
@@ -385,5 +392,28 @@
   },
   "chromeAiSettings": {
     "title": "Chrome AI-Einstellungen"
+  },
+  "personalSettings": {
+    "title": "Persönliche Einstellungen"
+  },
+  "languages": {
+    "en": "Englisch",
+    "es": "Spanisch",
+    "fr": "Französisch",
+    "it": "Italienisch",
+    "uk": "Ukrainisch",
+    "ru": "Russisch",
+    "pt-BR": "Portugiesisch (Brasilien)",
+    "ml": "Malayalam",
+    "zh-CN": "Chinesisch (vereinfacht)",
+    "zh-TW": "Chinesisch (traditionell)",
+    "ja": "Japanisch",
+    "fa": "Persisch",
+    "de": "Deutsch",
+    "da": "Dänisch",
+    "no": "Norwegisch",
+    "sv": "Schwedisch",
+    "ko": "Koreanisch",
+    "ar": "Arabisch"
   }
 }

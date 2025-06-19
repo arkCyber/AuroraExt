@@ -56,9 +56,8 @@ export const EditMessageForm = (props: Props) => {
       />
       <div className="flex flex-wrap gap-2 mt-2">
         <div
-          className={`w-full flex ${
-            !props.isBot ? "justify-between" : "justify-end"
-          }`}>
+          className={`w-full flex ${!props.isBot ? "justify-between" : "justify-end"
+            }`}>
           {!props.isBot && (
             <button
               type="button"
@@ -67,21 +66,21 @@ export const EditMessageForm = (props: Props) => {
                 props.onClose()
               }}
               aria-label={t("save")}
-              className="border border-gray-600 px-2 py-1.5 rounded-lg text-gray-700 dark:text-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500 hover:bg-gray-100 dark:hover:bg-gray-900 text-sm">
+              className="px-4 py-1 text-white bg-gray-800 rounded-md cursor-pointer dark:!bg-indigo-300 dark:text-gray-900">
               {t("save")}
             </button>
           )}
           <div className="flex space-x-2">
             <button
               aria-label={t("save")}
-              className="bg-black px-2 py-1.5 rounded-lg text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500 hover:bg-gray-900 text-sm">
+              className="px-4 py-1 text-white bg-gray-800 rounded-md cursor-pointer dark:!bg-indigo-300 dark:text-gray-900">
               {props.isBot ? t("save") : t("saveAndSubmit")}
             </button>
 
             <button
               onClick={props.onClose}
               aria-label={t("cancel")}
-              className="border dark:border-gray-600 px-2 py-1.5 rounded-lg text-gray-700 dark:text-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500 hover:bg-gray-100 dark:hover:bg-gray-900 text-sm">
+              className="px-4 py-1 text-white bg-gray-800 rounded-md cursor-pointer dark:!bg-indigo-300 dark:text-gray-900">
               {t("cancel")}
             </button>
           </div>

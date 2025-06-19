@@ -182,7 +182,7 @@
       "copilot": "Copilot Prompts"
     },
     "columns": {
-      "title": "Tittel",
+      "title": "Rolle-tittel",
       "prompt": "Prompt",
       "type": "Prompttype",
       "actions": "Handlinger"
@@ -385,5 +385,8 @@
   },
   "chromeAiSettings": {
     "title": "Chrome AI Innstillinger"
+  },
+  "personalSettings": {
+    "title": "Personlige innstillinger"
   }
 }

@@ -61,14 +61,14 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
 
   return (
     <div>
-      <div className="mb-5">
+      <div className="mb-3">
         <h2
           className={`${!hideBorder ? "text-base font-semibold leading-7" : "text-md"
             } text-gray-900 dark:text-white`}>
           {t("generalSettings.tts.heading")}
         </h2>
         {!hideBorder && (
-          <div className="border border-b border-gray-200 dark:border-gray-600 mt-3"></div>
+          <div className="mt-2 border border-b border-gray-200 dark:border-gray-600"></div>
         )}
       </div>
       <form
@@ -76,28 +76,29 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
           await setTTSSettings(values)
           setTTSEnabled(values.ttsEnabled)
         })}
-        className="space-y-4">
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        className="space-y-3">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.tts.ttsEnabled.label")}
           </span>
           <div>
             <Switch
-              className="mt-4 sm:mt-0"
+              className={`mt-4 sm:mt-0 ${form.values.ttsEnabled ? '!bg-indigo-500' : '!bg-gray-600'}`}
+              size="small"
               {...form.getInputProps("ttsEnabled", {
                 type: "checkbox"
               })}
             />
           </div>
         </div>
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.tts.ttsProvider.label")}
           </span>
           <div>
             <Select
               placeholder={t("generalSettings.tts.ttsProvider.placeholder")}
-              className="w-full mt-4 sm:mt-0 sm:w-[200px]"
+              className="w-full mt-4 sm:mt-0 sm:w-[200px] [&_.ant-select-selection-placeholder]:text-[15px]"
               options={[
                 { label: "Browser TTS", value: "browser" },
                 {
@@ -110,14 +111,14 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
           </div>
         </div>
         {form.values.ttsProvider === "browser" && (
-          <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+          <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
             <span className="text-gray-700 dark:text-neutral-50 ">
               {t("generalSettings.tts.ttsVoice.label")}
             </span>
             <div>
               <Select
                 placeholder={t("generalSettings.tts.ttsVoice.placeholder")}
-                className="w-full mt-4 sm:mt-0 sm:w-[200px]"
+                className="w-full mt-4 sm:mt-0 sm:w-[200px] [&_.ant-select-selection-placeholder]:text-[15px]"
                 options={data?.browserTTSVoices?.map((voice) => ({
                   label: `${voice.voiceName} - ${voice.lang}`.trim(),
                   value: voice.voiceName
@@ -129,13 +130,13 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
         )}
         {form.values.ttsProvider === "elevenlabs" && (
           <>
-            <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
               <span className="text-gray-700 dark:text-neutral-50">
                 API Key
               </span>
               <Input.Password
                 placeholder="sk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                className=" mt-4 sm:mt-0 !w-[300px] sm:w-[200px]"
+                className=" mt-4 sm:mt-0 !w-[300px] sm:w-[200px] [&_.ant-input]:text-[15px]"
                 required
                 {...form.getInputProps("elevenLabsApiKey")}
               />
@@ -143,7 +144,7 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
 
             {elevenLabsData && (
               <>
-                <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+                <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
                   <span className="text-gray-700 dark:text-neutral-50">
                     TTS Voice
                   </span>
@@ -152,18 +153,18 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
                       label: v.name,
                       value: v.voice_id
                     }))}
-                    className="w-full mt-4 sm:mt-0 sm:w-[200px]"
+                    className="w-full mt-4 sm:mt-0 sm:w-[200px] [&_.ant-select-selection-placeholder]:text-[15px]"
                     placeholder="Select a voice"
                     {...form.getInputProps("elevenLabsVoiceId")}
                   />
                 </div>
 
-                <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+                <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
                   <span className="text-gray-700 dark:text-neutral-50">
                     TTS Model
                   </span>
                   <Select
-                    className="w-full mt-4 sm:mt-0 sm:w-[200px]"
+                    className="w-full mt-4 sm:mt-0 sm:w-[200px] [&_.ant-select-selection-placeholder]:text-[15px]"
                     placeholder="Select a model"
                     options={elevenLabsData.models.map((m) => ({
                       label: m.name,
@@ -172,7 +173,7 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
                     {...form.getInputProps("elevenLabsModel")}
                   />
                 </div>
-                <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+                <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
                   <span className="text-gray-700 dark:text-neutral-50 ">
                     {t("generalSettings.tts.responseSplitting.label")}
                   </span>
@@ -181,7 +182,7 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
                       placeholder={t(
                         "generalSettings.tts.responseSplitting.placeholder"
                       )}
-                      className="w-full mt-4 sm:mt-0 sm:w-[200px]"
+                      className="w-full mt-4 sm:mt-0 sm:w-[200px] [&_.ant-select-selection-placeholder]:text-[15px]"
                       options={[
                         { label: "None", value: "none" },
                         { label: "Punctuation", value: "punctuation" },
@@ -195,13 +196,14 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
             )}
           </>
         )}
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.tts.ssmlEnabled.label")}
           </span>
           <div>
             <Switch
-              className="mt-4 sm:mt-0"
+              className={`mt-4 sm:mt-0 ${form.values.ssmlEnabled ? '!bg-indigo-500' : '!bg-gray-600'}`}
+              size="small"
               {...form.getInputProps("ssmlEnabled", {
                 type: "checkbox"
               })}
@@ -209,13 +211,14 @@ export const TTSModeSettings = ({ hideBorder }: { hideBorder?: boolean }) => {
           </div>
         </div>
 
-        <div className="flex sm:flex-row flex-col space-y-4 sm:space-y-0 sm:justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between">
           <span className="text-gray-700 dark:text-neutral-50 ">
             {t("generalSettings.tts.removeReasoningTagTTS.label")}
           </span>
           <div>
             <Switch
-              className="mt-4 sm:mt-0"
+              className={`mt-4 sm:mt-0 ${form.values.removeReasoningTagTTS ? '!bg-indigo-500' : '!bg-gray-600'}`}
+              size="small"
               {...form.getInputProps("removeReasoningTagTTS", {
                 type: "checkbox"
               })}

@@ -36,23 +36,23 @@ export const GenerationInfo = ({ generationInfo }: Props) => {
     ...generationInfo,
     ...(generationInfo?.eval_count && generationInfo?.eval_duration
       ? {
-          tokens_per_second: calculateTokensPerSecond(
-            generationInfo.eval_count,
-            generationInfo.eval_duration
-          ).toFixed(2)
-        }
+        tokens_per_second: calculateTokensPerSecond(
+          generationInfo.eval_count,
+          generationInfo.eval_duration
+        ).toFixed(2)
+      }
       : {})
   }
 
   return (
-    <div className="p-2 w-full">
+    <div className="w-full p-2 pl-4 pr-4 border rounded border-stone-100 dark:border-stone-700">
       <div className="flex flex-col gap-2">
         {Object.entries(metricsToDisplay)
           .filter(([key]) => key !== "model")
           .map(([key, value]) => (
             <div key={key} className="flex flex-wrap justify-between">
-              <div className="font-medium text-xs">{key}</div>
-              <div className="font-medium text-xs break-all">
+              <div className="text-xs font-medium">{key}</div>
+              <div className="text-xs font-medium break-all">
                 {key.includes("duration")
                   ? formatDuration(value as number)
                   : String(value)}

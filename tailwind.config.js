@@ -32,12 +32,17 @@ module.exports = {
           '50%': {
             borderColor: 'transparent'
           }
+        },
+        'typing': {
+          '0%': { width: '0' },
+          '100%': { width: '100%' }
         }
       },
       animation: {
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'typewriter': 'typewriter 3.5s steps(40, end) 2s infinite',
-        'blink': 'blink .75s step-end infinite'
+        'blink': 'blink .75s step-end infinite',
+        'typing': 'typing 1s steps(20, end) infinite'
       }
     }
   },

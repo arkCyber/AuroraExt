@@ -12,6 +12,8 @@ import SidepanelSettings from "./sidepanel-settings"
 import OptionRagSettings from "./option-rag"
 import OptionChrome from "./option-settings-chrome"
 import OptionOpenAI from "./option-settings-openai"
+import OptionSettingsDatabase from "./option-settings-database"
+import OptionSettingsProfilePage from "./option-settings-profile"
 
 export const OptionRoutingChrome = () => {
   return (
@@ -27,6 +29,8 @@ export const OptionRoutingChrome = () => {
       <Route path="/settings/knowledge" element={<OptionKnowledgeBase />} />
       <Route path="/settings/rag" element={<OptionRagSettings />} />
       <Route path="/settings/about" element={<OptionAbout />} />
+      <Route path="/settings/database" element={<OptionSettingsDatabase />} />
+      <Route path="/settings/account" element={<OptionSettingsProfilePage />} />
     </Routes>
   )
 }

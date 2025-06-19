@@ -1,0 +1,76 @@
+{
+    "settings": {
+        "profile": {
+            "title": "Profile Settings",
+            "nickname": "Nickname",
+            "avatar": "Avatar URL",
+            "save": "Save Profile",
+            "saving": "Saving...",
+            "created": "Profile created successfully",
+            "saved": "Profile updated successfully",
+            "errors": {
+                "nicknameRequired": "Nickname is required",
+                "avatarRequired": "Avatar URL is required"
+            }
+        },
+        "blockchain": {
+            "title": "Blockchain Wallet",
+            "deviceId": "Device ID",
+            "mnemonic": "Mnemonic Words",
+            "address": "Wallet Address",
+            "chainType": "Chain Type"
+        },
+        "personal": {
+            "personalSettings": "Personal Settings",
+            "saveProfile": "Save",
+            "nickname": "Nickname",
+            "email": "Email",
+            "bio": "Bio",
+            "uploadAvatar": "Upload Avatar",
+            "deviceId": "Device ID",
+            "regenerateWallet": "Regenerate Wallet",
+            "showDetails": "Show Details",
+            "hideDetails": "Hide Details",
+            "blockchainInfo": "Blockchain Information",
+            "address": "Address",
+            "publicKey": "Public Key",
+            "mnemonic": "Mnemonic",
+            "aiMouse": "AI Mouse",
+            "connect": "Connect",
+            "mouseConnected": "Mouse Connected",
+            "mouseNotConnected": "Mouse Not Connected",
+            "confirmSaveTitle": "Confirm Save",
+            "confirmSaveMessage": "Are you sure you want to save these changes?",
+            "cancel": "Cancel",
+            "confirm": "Confirm",
+            "saving": "Saving...",
+            "unsavedChanges": "Unsaved Changes",
+            "autoSaveSuccess": "Changes saved successfully",
+            "autoSaveError": "Failed to save changes",
+            "deviceIdError": "Error initializing device ID",
+            "wallet": {
+                "generateSuccess": "Wallet generated successfully",
+                "generateError": "Failed to generate wallet",
+                "loadError": "Failed to load wallet information",
+                "regenerateSuccess": "Wallet regenerated successfully",
+                "regenerateError": "Failed to regenerate wallet",
+                "generating": "Generating wallet...",
+                "generatingSubtitle": "Please wait while we generate your wallet",
+                "testSuccess": "Wallet generation test successful",
+                "testError": "Wallet generation test failed"
+            }
+        }
+    },
+    "common": {
+        "copy": "Copy",
+        "copied": "Copied to clipboard",
+        "copyFailed": "Failed to copy to clipboard",
+        "settings": "Settings",
+        "notLoggedIn": "Not Logged In",
+        "logout": "Logout"
+    },
+    "auth": {
+        "auth": "Auth",
+        "login": "Login"
+    }
+}
