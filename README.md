@@ -14,7 +14,7 @@
 
 <div align="center">
 
-![AuroraExt Demo](docs/images/appdemo.png)
+<img src="docs/images/appdemo.png" alt="AuroraExt Demo" width="800" height="auto" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
 
 *AuroraExt AI Chat Interface with Space Theme*
 
