@@ -2,136 +2,104 @@
     <h1 align="center">AuroraExt</h1>
 </p>
 
-
 <p align="center">
-<a href="https://discord.gg/bu54382uBd" aria-label="Join dialoqbase #welcome"><img src="https://img.shields.io/badge/discord-join%20chat-blue.svg" alt="Join dialoqbase #welcome"></a>  <a href="https://twitter.com/arksong2018" aria-label="Follow @arksong2018 on Twitter"><img src="https://img.shields.io/twitter/follow/arksong2018?style=social" alt="Follow @arksong2018 on Twitter"></a> 
+    <strong>Enhanced Web UI for AI Models with Blockchain Integration</strong>
 </p>
 
 <p align="center">
-    <a href="https://github.com/arkCyber/AuroraExt">
-        Documentation
-    </a>
-
+<a href="https://discord.gg/bu54382uBd" aria-label="Join dialoqbase #welcome"><img src="https://img.shields.io/badge/discord-join%20chat-blue.svg" alt="Join dialoqbase #welcome"></a>  <a href="https://twitter.com/arksong2018" aria-label="Follow @arksong2018 on Twitter"><img src="https://img.shields.io/twitter/follow/arksong2018?style=social" alt="Follow @arksong2018 on Twitter"></a> <a href="https://github.com/arkCyber/AuroraExt"><img src="https://img.shields.io/github/stars/arkCyber/AuroraExt?style=social" alt="GitHub stars"></a>
 </p>
 
+## 🚀 Demo
 
-**AuroraExt** is an enhanced open-source browser extension based on Aurora that provides a sidebar and web UI for your local AI model with additional blockchain features. It allows you to interact with your model from any webpage while providing secure blockchain wallet functionality.
+<div align="center">
 
-## Features
+![AuroraExt Demo](docs/images/appdemo.png)
 
-- **Enhanced AI Sidebar**: A sidebar that can be opened on any webpage with improved UI/UX
-- **Web UI**: A web UI that allows you to interact with your model like a ChatGPT Website
-- **Chat With Webpage**: You can chat with the webpage and ask questions about the content
-- **Blockchain Integration**: Built-in blockchain wallet functionality with secure key management
-- **Multi-language Support**: Comprehensive internationalization support
-- **Advanced Settings**: Enhanced configuration options and environment checks
+*AuroraExt AI Chat Interface with Space Theme*
 
-## Installation
+</div>
 
-AuroraExt supports Chromium-based browsers like Chrome, Brave, and Edge, as well as Firefox.
+## ✨ Features
+
+**AuroraExt** is an enhanced open-source browser extension that provides a sidebar and web UI for your local AI model with additional blockchain features. It allows you to interact with your model from any webpage while providing secure blockchain wallet functionality.
+
+### Core Features
+- 🤖 **Enhanced AI Sidebar**: Interact with AI models directly from any webpage
+- 🌐 **Web UI**: ChatGPT-like interface for AI conversations
+- 📄 **Chat With Webpage**: Ask questions about webpage content
+- 🔗 **Blockchain Integration**: Built-in wallet functionality with secure key management
+- 🌍 **Multi-language Support**: Comprehensive internationalization
+- ⚙️ **Advanced Settings**: Enhanced configuration and environment checks
+
+### AI Provider Support
+- [Ollama](https://github.com/ollama/ollama) - Local AI models
+- Chrome AI (Gemini Nano) - Built-in browser AI
+- OpenAI API Compatible endpoints (LM Studio, llamafile, etc.)
+
+## 📦 Installation
+
+### Quick Install
+AuroraExt supports all major browsers:
 
 [![Chrome Web Store](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/page-assist/jfgfiigpkhlkbnfnbobbkinehhfdhndo)
 [![Firefox Add-on](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/get-the-addon.png)](https://addons.mozilla.org/en-US/firefox/addon/page-assist/)
 [![Edge Add-on](https://pub-35424b4473484be483c0afa08c69e7da.r2.dev/edge-addon.png)](https://microsoftedge.microsoft.com/addons/detail/page-assist-a-web-ui-fo/ogkogooadflifpmmidmhjedogicnhooa)
 
-Checkout the Demo (v1.0.0):
-
-<div align="center">
-
-[![Aurora Demo](https://img.youtube.com/vi/8VTjlLGXA4s/0.jpg)](https://www.youtube.com/watch?v=8VTjlLGXA4s)
-
-</div>
-
-## Features
-
-- **Sidebar**: A sidebar that can be opened on any webpage. It allows you to interact with your model and see the results.
-
-- **Web UI**: A web UI that allows you to interact with your model like a ChatGPT Website.
-
-- **Chat With Webpage**: You can chat with the webpage and ask questions about the content.
-
-want more features? Create an issue and let me know.
-
 ### Manual Installation
 
-#### Pre-requisites
+#### Prerequisites
+- [Bun](https://bun.sh/) - Package manager and runtime
+- [Ollama](https://ollama.com) - Local AI provider (optional)
+- Any OpenAI API Compatible endpoint (optional)
 
-- Bun - [Installation Guide](https://bun.sh/)
-- Ollama (Local AI Provider) - [Installation Guide](https://ollama.com)
-- Any OpenAI API Compatible Endpoint (like LM Studio, llamafile etc.)
+#### Build Steps
 
-1. Clone the repository
-
+1. **Clone and install**
 ```bash
 git clone https://github.com/arkCyber/AuroraExt.git
 cd AuroraExt
-```
-
-2. Install the dependencies
-
-```bash
 bun install
 ```
 
-3. Build the extension (by default it will build for Chrome)
-
+2. **Build the extension**
 ```bash
+# For Chrome/Edge
 bun run build
+
+# For Firefox
+bun run build:firefox
 ```
 
-or you can build for Firefox
+3. **Load in browser**
 
-```bash
-bun build:firefox
-```
+**Chrome/Edge:**
+- Navigate to `chrome://extensions` or `edge://extensions`
+- Enable Developer Mode
+- Click "Load unpacked" and select the `build` directory
 
-_Note: If you face any issues with Bun, use `npm` instead of `bun`._
+**Firefox:**
+- Navigate to `about:addons`
+- Click "Extensions" → "Manage Your Extensions" 
+- Click "Load Temporary Add-on" and select `manifest.json` from `build` directory
 
-4. Load the extension (chrome)
+## 🎮 Usage
 
-- Open the Extension Management page by navigating to `chrome://extensions`.
+### Quick Start
+- **Sidebar**: `Ctrl+Shift+2` (customizable)
+- **Web UI**: `Ctrl+1` (customizable)
+- **Context Menu**: Right-click on any webpage
 
-- Enable Developer Mode by clicking the toggle switch next to Developer mode.
-
-- Click the `Load unpacked` button and select the `build` directory.
-
-5. Load the extension (firefox)
-
-- Open the Add-ons page by navigating to `about:addons`.
-- Click the `Extensions` tab.
-- Click the `Manage Your Extensions` button.
-- Click the `Load Temporary Add-on` button and select the `manifest.json` file from the `build` directory.
-
-## Usage
-
-### Sidebar
-
-Once the extension is installed, you can open the sidebar via context menu or keyboard shortcut.
-
-Default Keyboard Shortcut: `Ctrl+Shift+2`
-
-### Web UI
-
-You can open the Web UI by clicking on the extension icon which will open a new tab with the Web UI.
-
-Default Keyboard Shortcut: `Ctrl+1`
-
-Note: You can change the keyboard shortcuts from the extension settings on the Chrome Extension Management page.
-
-## Development
-
-You can run the extension in development mode to make changes and test them.
-
+### Development Mode
 ```bash
 bun dev
 ```
+This starts a development server with hot reload for real-time testing.
 
-This will start a development server and watch for changes in the source files. You can load the extension in your browser and test the changes.
-
-## Browser Support
+## 🌐 Browser Support
 
 | Browser     | Sidebar | Chat With Webpage | Web UI | Blockchain |
-| ----------- | ------- | ----------------- | ------ | ---------- |
+|-------------|---------|-------------------|--------|------------|
 | Chrome      | ✅       | ✅                 | ✅      | ✅          |
 | Brave       | ✅       | ✅                 | ✅      | ✅          |
 | Firefox     | ✅       | ✅                 | ✅      | ✅          |
@@ -140,54 +108,54 @@ This will start a development server and watch for changes in the source files. 
 | LibreWolf   | ✅       | ✅                 | ✅      | ✅          |
 | Zen Browser | ✅       | ✅                 | ✅      | ✅          |
 
-## Local AI Provider
-
-- [Ollama](https://github.com/ollama/ollama)
-
-- Chrome AI (Gemini Nano)
-
-- OpenAI API Compatible endpoints (like LM Studio, llamafile etc.)
-
-## Roadmap
+## 🛣️ Roadmap
 
 - [x] Firefox Support
-- [x] More Local AI Providers
-- [ ] More Customization Options
-- [ ] Better UI/UX
+- [x] Multiple AI Providers
+- [x] Blockchain Integration
+- [ ] Enhanced UI/UX
+- [ ] Advanced Customization
+- [ ] Mobile Support
 
-## Privacy
+## 🔐 Privacy
 
-AuroraExt does not collect any personal data. All blockchain keys and AI conversations are stored locally in the browser storage. You can view the source code and verify it yourself.
+AuroraExt prioritizes your privacy:
+- **No data collection**: All conversations stay local
+- **Secure storage**: Blockchain keys stored locally in browser
+- **Open source**: Verify the code yourself
+- **No telemetry**: No tracking or analytics
 
-You learn more about the privacy policy [here](PRIVACY.md).
+Read our full [Privacy Policy](PRIVACY.md).
 
-## Contributing
+## 🤝 Contributing
 
-Contributions are welcome. If you have any feature requests, bug reports, or questions, feel free to create an issue.
+We welcome contributions! Please feel free to:
+- 🐛 Report bugs
+- 💡 Suggest features  
+- 🔧 Submit pull requests
+- ⭐ Star the repository
 
-## Support
-
-If you like the project and want to support it, you can:
-
-- Star this repository ⭐
-- Report bugs and suggest features
-- Contribute to the codebase
-- Share with others
-
-## Contact
+## 📞 Contact & Support
 
 - **Author**: arkSong
 - **Email**: arksong2018@gmail.com
 - **GitHub**: [@arkCyber](https://github.com/arkCyber)
+- **Issues**: [GitHub Issues](https://github.com/arkCyber/AuroraExt/issues)
 
-## License
+## 📄 License
 
 MIT License - see [LICENSE](LICENCE) for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 This project is based on [Aurora](https://github.com/n4ze3m/page-assist) with significant enhancements and additional features.
 
 ---
 
-Made with ❤️ by arkSong
+<div align="center">
+
+**Made with ❤️ by arkSong**
+
+[⭐ Star this repo](https://github.com/arkCyber/AuroraExt) • [🐛 Report Bug](https://github.com/arkCyber/AuroraExt/issues) • [💡 Request Feature](https://github.com/arkCyber/AuroraExt/issues)
+
+</div>
