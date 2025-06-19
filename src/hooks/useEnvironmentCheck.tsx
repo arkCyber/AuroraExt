@@ -2,15 +2,14 @@
  * Environment Check Hook
  * 
  * Provides environment checking functionality throughout the application.
- * Automatically runs environment checks on startup and provides methods
- * to check environment status and trigger manual checks.
+ * Automatically runs environment checks on startup and logs results to console.
+ * No popup notifications - all status information is logged.
  * 
  * @author Aurora Team
  * @version 1.0.0
  */
 
 import { useState, useEffect, useCallback, createContext, useContext } from 'react'
-import { message } from 'antd'
 import { runEnvironmentCheck, getLastEnvironmentCheck, EnvironmentReport } from '@/services/environment-check'
 
 interface EnvironmentCheckContextType {
@@ -39,36 +38,34 @@ export const EnvironmentCheckProvider: React.FC<{ children: React.ReactNode }> =
     if (loading) return
 
     setLoading(true)
+    const timestamp = new Date().toISOString()
     
     try {
-      console.log('🔍 [ENV-CHECK] Starting environment check...')
+      console.log(`🔍 [${timestamp}] [ENV-CHECK] Starting environment check...`)
       const envReport = await runEnvironmentCheck()
       setReport(envReport)
       
-      // Show notifications based on status
+      // Log results to console instead of showing popups
+      const statusTimestamp = new Date().toISOString()
       if (envReport.overallStatus === 'critical') {
-        message.error({
-          content: `Environment issues detected: ${envReport.summary.errors} error(s)`,
-          duration: 5,
-          key: 'env-check'
+        console.error(`❌ [${statusTimestamp}] [ENV-CHECK] Environment issues detected: ${envReport.summary.errors} error(s), ${envReport.summary.warnings} warning(s)`)
+        envReport.checks.filter(check => !check.passed && check.severity === 'error').forEach(check => {
+          console.error(`❌ [${statusTimestamp}] [ENV-CHECK] ERROR - ${check.category}: ${check.message}`)
         })
       } else if (envReport.overallStatus === 'warning') {
-        message.warning({
-          content: `Environment warnings: ${envReport.summary.warnings} warning(s)`,
-          duration: 3,
-          key: 'env-check'
+        console.warn(`⚠️ [${statusTimestamp}] [ENV-CHECK] Environment warnings: ${envReport.summary.warnings} warning(s)`)
+        envReport.checks.filter(check => !check.passed && check.severity === 'warning').forEach(check => {
+          console.warn(`⚠️ [${statusTimestamp}] [ENV-CHECK] WARNING - ${check.category}: ${check.message}`)
         })
+      } else {
+        console.log(`✅ [${statusTimestamp}] [ENV-CHECK] Environment healthy: All ${envReport.summary.passed} checks passed`)
       }
       
-      console.log('✅ [ENV-CHECK] Environment check completed:', envReport.overallStatus)
+      console.log(`✅ [${statusTimestamp}] [ENV-CHECK] Environment check completed with status: ${envReport.overallStatus}`)
       
     } catch (error) {
-      console.error('❌ [ENV-CHECK] Environment check failed:', error)
-      message.error({
-        content: 'Environment check failed. Please check console for details.',
-        duration: 5,
-        key: 'env-check'
-      })
+      const errorTimestamp = new Date().toISOString()
+      console.error(`❌ [${errorTimestamp}] [ENV-CHECK] Environment check failed:`, error)
     } finally {
       setLoading(false)
     }
@@ -82,10 +79,12 @@ export const EnvironmentCheckProvider: React.FC<{ children: React.ReactNode }> =
       const fiveMinutesAgo = Date.now() - 5 * 60 * 1000
       
       if (lastCheck && lastCheck.timestamp > fiveMinutesAgo) {
-        console.log('📋 [ENV-CHECK] Using cached environment check result')
+        const cacheTimestamp = new Date().toISOString()
+        console.log(`📋 [${cacheTimestamp}] [ENV-CHECK] Using cached environment check result from ${new Date(lastCheck.timestamp).toISOString()}`)
         setReport(lastCheck)
       } else {
-        console.log('🚀 [ENV-CHECK] Running initial environment check...')
+        const startTimestamp = new Date().toISOString()
+        console.log(`🚀 [${startTimestamp}] [ENV-CHECK] Running initial environment check...`)
         runCheck()
       }
       

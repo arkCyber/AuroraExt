@@ -75,22 +75,23 @@ for (const provider of providers) {
 }
 ```
 
-### 3. User Interface
+### 3. Logging and Monitoring
 
-#### Settings Integration
-The environment status is displayed in the Settings page:
+#### Console Logging
+All environment check results are logged to the browser console with timestamps:
 ```typescript
-// In GeneralSettings component
-<EnvironmentStatus />
+// Example console output:
+// ✅ [2024-01-15T10:30:00.000Z] [ENV-CHECK] Environment healthy: All 7 checks passed
+// ⚠️ [2024-01-15T10:30:00.000Z] [ENV-CHECK] WARNING - providers: Missing API key for OpenAI
+// ❌ [2024-01-15T10:30:00.000Z] [ENV-CHECK] ERROR - chrome-api: Missing permissions: storage, tabs
 ```
 
-#### Startup Warnings
-Critical issues automatically show a modal on startup:
+#### Startup Environment Check
+The system automatically runs environment checks on startup and logs all results:
 ```typescript
-// Shows only for critical errors
-if (hasErrors) {
-  setShowStartupModal(true)
-}
+// Logs on application startup:
+// 🚀 [2024-01-15T10:30:00.000Z] [ENV-CHECK] Running initial environment check...
+// 📋 [2024-01-15T10:30:00.000Z] [ENV-CHECK] Using cached environment check result from 2024-01-15T10:25:00.000Z
 ```
 
 ## Usage Examples
@@ -149,13 +150,14 @@ try {
   const envReport = await runEnvironmentCheck()
   setReport(envReport)
 } catch (error) {
-  console.error('Environment check failed:', error)
+  const errorTimestamp = new Date().toISOString()
+  console.error(`❌ [${errorTimestamp}] [ENV-CHECK] Environment check failed:`, error)
   // App continues to function
 }
 ```
 
 ### User Guidance
-The system provides specific guidance for each issue:
+The system logs specific guidance for each issue:
 ```typescript
 // Example error with actionable advice
 {
@@ -163,7 +165,7 @@ The system provides specific guidance for each issue:
   message: 'Missing permissions: storage, tabs',
   severity: 'error',
   category: 'permissions',
-  // User sees: "Check Chrome extension permissions"
+  // Logged as: "❌ [timestamp] [ENV-CHECK] ERROR - permissions: Missing permissions: storage, tabs"
 }
 ```
 
@@ -206,17 +208,17 @@ class CustomEnvironmentCheck extends EnvironmentCheckService {
 ## Benefits
 
 ### For Users
-- **Early Problem Detection**: Issues are identified before they cause failures
-- **Clear Guidance**: Specific instructions on how to resolve problems
+- **Silent Monitoring**: Environment checks run in the background without interruption
+- **Console Diagnostics**: Detailed logs available in browser console for troubleshooting
 - **Improved Reliability**: Reduces unexpected errors during use
 
 ### For Developers
-- **Debugging Support**: Detailed logs and error information
-- **Health Monitoring**: Real-time system status visibility
-- **Proactive Maintenance**: Issues caught before user reports
+- **Debugging Support**: Detailed timestamped logs and error information
+- **Health Monitoring**: Real-time system status visibility in console
+- **Proactive Maintenance**: Issues logged before they cause failures
 
 ### For Support
-- **Diagnostic Information**: Comprehensive system status reports
+- **Diagnostic Information**: Comprehensive system status reports in console logs
 - **Issue Reproduction**: Consistent environment state tracking
 - **Resolution Guidance**: Automated troubleshooting suggestions
 
@@ -229,18 +231,12 @@ src/
 │   └── environment-check.ts      # Core diagnostic service
 ├── hooks/
 │   └── useEnvironmentCheck.tsx   # React hooks for state management
-├── components/
-│   ├── Common/
-│   │   ├── EnvironmentCheck.tsx           # Detailed diagnostic modal
-│   │   └── StartupEnvironmentCheck.tsx    # Startup warning modal
-│   └── Option/Settings/
-│       └── environment-status.tsx         # Settings page status display
 ```
 
 ### Integration Points
 1. **App Initialization**: `EnvironmentCheckProvider` wraps main app
-2. **Settings Page**: Status display in general settings
-3. **Startup Flow**: Automatic critical issue detection
-4. **Error Handling**: Graceful degradation when checks fail
+2. **Background Monitoring**: Automatic silent checks with console logging
+3. **Error Handling**: Graceful degradation when checks fail
+4. **Developer Tools**: Console-based diagnostics and monitoring
 
-This system ensures Aurora users have a smooth, reliable experience by catching and addressing potential issues before they impact functionality. 
+This system ensures AuroraExt users have a smooth, reliable experience by silently monitoring and logging potential issues without interrupting the user workflow. 

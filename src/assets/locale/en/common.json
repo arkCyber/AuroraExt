@@ -158,7 +158,7 @@
         "thought": "Thought for {{time}}"
     },
     "mermaid": "Mermaid",
-    "chooseApplication": "Choose an Application",
+    "chooseApplication": "Choose an AI Role",
     "chatWithSoul": "Chat with the Soul behind the Mask",
     "searchPrompts": "Search prompts by title or content...",
     "noPromptsFound": "No prompts found matching your search",

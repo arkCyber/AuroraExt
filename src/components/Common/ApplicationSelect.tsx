@@ -37,6 +37,7 @@ import { getAllPrompts } from "@/db";
 import { ZapIcon, ComputerIcon, SearchIcon } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { PROMPT_CATEGORIES } from "@/services/prompt-initialization";
+import { TextSearch } from 'lucide-react';
 
 type Props = {
   open: boolean;
@@ -114,10 +115,10 @@ export const ApplicationSelect: React.FC<Props> = ({
     if (!prompts) return [];
 
     return PROMPT_CATEGORIES.map(category => {
-      const count = category.key === "all" 
-        ? prompts.length 
+      const count = category.key === "all"
+        ? prompts.length
         : prompts.filter(p => p.category === category.key).length;
-      
+
       return {
         key: category.key,
         label: `${category.label} (${count})`,
@@ -125,14 +126,13 @@ export const ApplicationSelect: React.FC<Props> = ({
       };
     });
   }, [prompts]);
-
   return (
     <Modal
       open={open}
       onCancel={onClose}
       footer={null}
       width={1200}
-      height={800}
+      height={580} // Reduced from 600 to 580
       className="border border-indigo-800 shadow-2xl application-select-modal"
       title={
         <div className="flex justify-between items-center">
@@ -140,18 +140,21 @@ export const ApplicationSelect: React.FC<Props> = ({
           <div className="flex-shrink-0">
             <button
               onClick={onJustStart}
-              className="px-5 py-1.5 bg-indigo-500 text-white rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors whitespace-nowrap"
+              className="px-4 py-1.5 bg-indigo-500 text-white rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors whitespace-nowrap"
             >
               <ZapIcon className="w-4 h-4" />
               <span className="text-sm">Just Chat</span>
             </button>
           </div>
-          
+
           <div className="text-center flex-1">
-            <h2 className="mb-2 text-2xl font-semibold">{t("common:chooseApplication")}</h2>
-            <p className="text-gray-400">{t("common:chatWithSoul")}</p>
+            <div className="flex items-center justify-center gap-2">
+              <TextSearch className="w-6 h-6 text-gray-600 dark:text-rose-100" />
+              <h2 className="mb-0.5 text-xl font-semibold">{t("common:chooseApplication")}</h2>
+            </div>
+            <p className="text-gray-400 dark:text-rose-100 text-sm">{t("common:chatWithSoul")}</p>
           </div>
-          <div className="ml-4 w-80">
+          <div className="-ml-30 w-48 mt-8.5">
             <Input.Search
               placeholder={selectedCategory === "all" ? t("common:searchPrompts") : `在${categoryTabs.find(t => t.key === selectedCategory)?.label?.split(' (')[0]}中搜索...`}
               allowClear
@@ -164,7 +167,7 @@ export const ApplicationSelect: React.FC<Props> = ({
       }
       centered
     >
-      <div className="flex flex-col gap-3 mt-4">
+      <div className="flex flex-col gap-2 mt-2"> {/* Reduced gap and margin */}
         {/* Category Tabs */}
         <Tabs
           activeKey={selectedCategory}
@@ -178,9 +181,9 @@ export const ApplicationSelect: React.FC<Props> = ({
               </span>
             ),
             children: (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2"> {/* Reduced gap */}
                 {/* Prompts Grid */}
-                <div className="grid grid-cols-4 gap-2 mt-2">
+                <div className="grid grid-cols-4 gap-3 mt-1"> {/* Reduced margin */}
                   {!isLoading && currentPrompts?.map((prompt) => (
                     <button
                       key={prompt.id}
@@ -195,7 +198,7 @@ export const ApplicationSelect: React.FC<Props> = ({
                         )}
                       </div>
                       <div className="flex-1 min-w-0 ml-2 text-left">
-                        <h3 className="text-xs font-medium text-gray-900 dark:text-gray-100 mb-0.5 truncate">
+                        <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-0.5 truncate">
                           {prompt.title}
                         </h3>
                         <p className="text-xs leading-tight text-gray-500 dark:text-gray-400 line-clamp-2">
@@ -205,28 +208,27 @@ export const ApplicationSelect: React.FC<Props> = ({
                     </button>
                   ))}
                 </div>
-
                 {/* Empty State */}
                 {!isLoading && totalPrompts === 0 && (
-                  <div className="py-6 text-center">
-                    <SearchIcon className="w-10 h-10 mx-auto mb-2 text-gray-400" />
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className="py-4 text-center mt-7">
+                    <SearchIcon className="w-8 h-8 mx-auto mb-1 text-gray-400" />
+                    <p className="text-xs text-gray-400">
                       {searchQuery ? "没有找到匹配的提示词" : `${categoryTabs.find(t => t.key === selectedCategory)?.label?.split(' (')[0]}分类暂无提示词`}
                     </p>
                   </div>
                 )}
                 {/* Pagination */}
                 {!isLoading && totalPrompts > pageSize && (
-                  <div className="flex justify-center mt-2">
+                  <div className="flex justify-center mt-1"> {/* Reduced margin */}
                     <Pagination
                       current={currentPage}
                       total={totalPrompts}
                       pageSize={pageSize}
                       onChange={handlePageChange}
                       showSizeChanger={false}
-                      size="small" 
-                      className="custom-pagination text-xs" // Added text-xs for smaller font
-                      style={{ gap: '0px' }} // Minimized spacing between pagination items
+                      size="small"
+                      className="custom-pagination text-xs"
+                      style={{ gap: '0px' }}
                       showTotal={(total, range) => <span className="text-xs">{`${range[0]}-${range[1]} of ${total} items`}</span>}
                     />
                   </div>
@@ -242,8 +244,8 @@ export const ApplicationSelect: React.FC<Props> = ({
           .application-select-modal .ant-modal-content {
             background: white;
             border-radius: 16px;
-            padding: 16px;
-            height: 800px;
+            padding: 12px 12px 4px 12px; /* Reduced bottom padding to 30% (12px -> 4px) */
+            height: 600px; /* Reduced height */
             display: flex;
             flex-direction: column;
           }
@@ -264,12 +266,12 @@ export const ApplicationSelect: React.FC<Props> = ({
           .application-select-modal .ant-modal-header {
             background: transparent;
             border-bottom: none;
-            padding-bottom: 12px;
+            padding-bottom: 8px; /* Reduced padding */
             padding-top: 0;
           }
           
           .application-select-modal .ant-modal-body {
-            padding: 8px 0 0 0;
+            padding: 4px 0 0 0; /* Reduced padding */
             flex: 1;
             overflow: hidden;
             display: flex;
@@ -295,11 +297,11 @@ export const ApplicationSelect: React.FC<Props> = ({
 
           /* Category Tabs Styles */
           .category-tabs .ant-tabs-nav {
-            margin-bottom: 8px;
+            margin-bottom: 6px; /* Reduced margin */
           }
 
           .category-tabs .ant-tabs-tab {
-            padding: 8px 16px;
+            padding: 6px 12px; /* Reduced padding */
             font-size: 12px;
             border-radius: 0;
             margin-right: 0;
@@ -309,7 +311,7 @@ export const ApplicationSelect: React.FC<Props> = ({
             transition: all 0.3s ease;
             min-width: auto;
             flex: none;
-            line-height: 1.4;
+            line-height: 0.28; /* Reduced to 50% of 0.56 */
             color: #9ca3af;
           }
 
@@ -371,12 +373,12 @@ export const ApplicationSelect: React.FC<Props> = ({
 
           /* Search Input Styles */
           .ant-input-search .ant-input {
-            background-color: white;
+            background-color: transparent; /* Remove background */
             border-color: #e5e7eb;
           }
 
           .dark .ant-input-search .ant-input {
-            background-color: #374151;
+            background-color: transparent; /* Remove background */
             border-color: #4b5563;
             color: #e5e7eb;
           }
@@ -393,7 +395,7 @@ export const ApplicationSelect: React.FC<Props> = ({
 
           /* Pagination Styles */
           .custom-pagination {
-            margin-top: 0.5rem;
+            margin-top: 0.25rem; /* Reduced margin */
             font-size: 12px;
           }
 

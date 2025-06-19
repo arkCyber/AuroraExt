@@ -10,7 +10,6 @@ import "~/i18n"
 import { useTranslation } from "react-i18next"
 import { PageAssistProvider } from "@/components/Common/PageAssistProvider"
 import { EnvironmentCheckProvider } from "@/hooks/useEnvironmentCheck"
-import StartupEnvironmentCheck from "@/components/Common/StartupEnvironmentCheck"
 
 function IndexOption() {
   const { mode } = useDarkMode()
@@ -49,7 +48,6 @@ function IndexOption() {
             <EnvironmentCheckProvider>
               <PageAssistProvider>
                 <OptionRouting />
-                <StartupEnvironmentCheck />
               </PageAssistProvider>
             </EnvironmentCheckProvider>
           </QueryClientProvider>

@@ -23,7 +23,6 @@ import {
 } from "@/libs/export-import"
 import { useStorage } from "@plasmohq/storage/hook"
 import { useNavigate } from "react-router-dom"
-import EnvironmentStatus from "./environment-status"
 
 export const GeneralSettings = () => {
   // Initialize hooks for various settings using persistent storage
@@ -76,11 +75,6 @@ export const GeneralSettings = () => {
 
   return (
     <dl className="flex flex-col space-y-2 text-sm">
-      {/* Environment Status Section */}
-      <div className="mb-6">
-        <EnvironmentStatus />
-      </div>
-
       {/* General Settings Header */}
       <div>
         <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
